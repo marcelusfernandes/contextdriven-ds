@@ -730,13 +730,340 @@ export const tokens = {
     },
   },
 
+  /**
+   * RADIOBUTTON
+   * Componente de radio button (seleção única) com border radius circular
+   * Reutiliza as mesmas cores do Checkbox
+   */
+  radioButton: {
+    size: {
+      small: {
+        input: {
+          height: 36,
+          paddingVertical: ref(primitive.space[8]),
+          paddingHorizontal: ref(primitive.space[8]),
+          borderRadius: ref(primitive.radius[8]),
+          gap: ref(primitive.space[8]),
+          fontSize: ref(primitive.typography.fontSize.small),
+          lineHeight: ref(primitive.typography.lineHeight.regular.small),
+          iconPlateSize: ref(primitive.size[20]),
+          iconPlateBorderRadius: ref(primitive.radius[16]), // CIRCULAR!
+        },
+        single: {
+          size: ref(primitive.size[20]),
+          borderRadius: ref(primitive.radius[16]), // CIRCULAR!
+        },
+      },
+      medium: {
+        input: {
+          height: 48,
+          paddingVertical: ref(primitive.space[12]),
+          paddingHorizontal: ref(primitive.space[12]),
+          borderRadius: ref(primitive.radius[12]),
+          gap: ref(primitive.space[8]),
+          fontSize: ref(primitive.typography.fontSize.medium),
+          lineHeight: ref(primitive.typography.lineHeight.regular.medium),
+          iconPlateSize: ref(primitive.size[24]),
+          iconPlateBorderRadius: ref(primitive.radius[16]), // CIRCULAR!
+        },
+        single: {
+          size: ref(primitive.size[24]),
+          borderRadius: ref(primitive.radius[16]), // CIRCULAR!
+        },
+      },
+    },
+    
+    // Reutiliza 100% os estados do checkbox (cores idênticas)
+    state: {
+      normal: {
+        enabled: {
+          iconPlateBorderColor: ref(primitive.color.transparent),
+          iconPlateIconColor: ref(primitive.color.gray800),
+          iconPlateBorderWidth: 0,
+          textColor: ref(primitive.color.gray800),
+          bgColor: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        hover: {
+          iconPlateBorderColor: ref(primitive.color.gray300),
+          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.gray850),
+          bgColor: ref(primitive.color.gray100),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        focus: {
+          iconPlateBorderColor: ref(primitive.color.gray650),
+          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.gray850),
+          bgColor: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.gray650),
+          borderWidth: 2,
+        },
+        active: {
+          iconPlateBorderColor: ref(primitive.color.gray500),
+          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.gray850),
+          bgColor: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconPlateBorderColor: ref(primitive.color.transparent),
+          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderWidth: 0,
+          textColor: ref(primitive.color.gray500),
+          bgColor: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+      },
+      error: {
+        enabled: {
+          iconPlateBorderColor: ref(primitive.color.transparent),
+          iconPlateIconColor: ref(primitive.color.redDark),
+          iconPlateBorderWidth: 0,
+          textColor: ref(primitive.color.redDark),
+          bgColor: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        hover: {
+          iconPlateBorderColor: ref(primitive.color.redLightest),
+          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.black),
+          bgColor: ref(primitive.color.redLightest),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        focus: {
+          iconPlateBorderColor: ref(primitive.color.redDarkest),
+          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.black),
+          bgColor: ref(primitive.color.redLightest),
+          borderColor: ref(primitive.color.redDarkest),
+          borderWidth: 2,
+        },
+        active: {
+          iconPlateBorderColor: ref(primitive.color.redLight),
+          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderWidth: 2,
+          textColor: ref(primitive.color.black),
+          bgColor: ref(primitive.color.redLightest),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconPlateBorderColor: ref(primitive.color.transparent),
+          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderWidth: 0,
+          textColor: ref(primitive.color.gray500),
+          bgColor: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.transparent),
+          borderWidth: 0,
+        },
+      },
+    },
+  },
+
+  /**
+   * BUTTON ICON
+   * Botão apenas com ícone (sem texto)
+   * Reutiliza as mesmas cores do componente Button
+   */
+  buttonIcon: {
+    size: {
+      small: {
+        width: 36,
+        height: 36,
+        iconSize: ref(primitive.size[20]),
+        padding: ref(primitive.space[8]),
+        borderRadius: ref(primitive.radius[12]),
+      },
+      medium: {
+        width: 48,
+        height: 48,
+        iconSize: ref(primitive.size[24]),
+        padding: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[16]),
+      },
+    },
+    
+    variant: {
+      primary: {
+        normal: {
+          iconColor: ref(primitive.color.black),
+          bg: ref(primitive.color.zeYellow),
+          borderColor: ref(primitive.color.zeYellow),
+          borderWidth: 0,
+        },
+        hover: {
+          iconColor: ref(primitive.color.black),
+          bg: ref(primitive.color.zeYellowDark),
+          borderColor: ref(primitive.color.zeYellowDark),
+          borderWidth: 0,
+        },
+        focus: {
+          iconColor: ref(primitive.color.black),
+          bg: ref(primitive.color.zeYellowDark),
+          borderColor: ref(primitive.color.zeYellowDark),
+          borderWidth: 2,
+        },
+        active: {
+          iconColor: ref(primitive.color.black),
+          bg: ref(primitive.color.zeYellowLight),
+          borderColor: ref(primitive.color.zeYellowLight),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconColor: ref(primitive.color.gray500),
+          bg: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.gray200),
+          borderWidth: 0,
+        },
+        loading: {
+          iconColor: ref(primitive.color.black),
+          spinnerColor: ref(primitive.color.black),
+          bg: ref(primitive.color.zeYellow),
+          borderColor: ref(primitive.color.zeYellow),
+          borderWidth: 0,
+        },
+      },
+      
+      secondary: {
+        normal: {
+          iconColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.gray900),
+          borderWidth: 1,
+        },
+        hover: {
+          iconColor: ref(primitive.color.white),
+          bg: ref(primitive.color.gray700),
+          borderColor: ref(primitive.color.gray700),
+          borderWidth: 0,
+        },
+        focus: {
+          iconColor: ref(primitive.color.white),
+          bg: ref(primitive.color.gray700),
+          borderColor: ref(primitive.color.gray400),
+          borderWidth: 2,
+        },
+        active: {
+          iconColor: ref(primitive.color.black),
+          bg: ref(primitive.color.gray400),
+          borderColor: ref(primitive.color.gray400),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconColor: ref(primitive.color.gray500),
+          bg: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.gray200),
+          borderWidth: 0,
+        },
+        loading: {
+          iconColor: ref(primitive.color.white),
+          spinnerColor: ref(primitive.color.black),
+          bg: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.gray600),
+          borderWidth: 1,
+        },
+      },
+      
+      tertiary: {
+        normal: {
+          iconColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.gray600),
+          borderWidth: 0,
+        },
+        hover: {
+          iconColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.gray800Alpha20),
+          borderColor: ref(primitive.color.gray700),
+          borderWidth: 0,
+        },
+        focus: {
+          iconColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.gray800Alpha20),
+          borderColor: ref(primitive.color.gray800Alpha50),
+          borderWidth: 2,
+        },
+        active: {
+          iconColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.gray800Alpha20),
+          borderColor: ref(primitive.color.gray400),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconColor: ref(primitive.color.gray500),
+          bg: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.gray200),
+          borderWidth: 0,
+        },
+        loading: {
+          iconColor: ref(primitive.color.gray800),
+          spinnerColor: ref(primitive.color.gray800),
+          bg: ref(primitive.color.gray800Alpha10),
+          borderColor: ref(primitive.color.gray800Alpha10),
+          borderWidth: 2,
+        },
+      },
+      
+      destructive: {
+        normal: {
+          iconColor: ref(primitive.color.redDark),
+          bg: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.red),
+          borderWidth: 1,
+        },
+        hover: {
+          iconColor: ref(primitive.color.white),
+          bg: ref(primitive.color.redDark),
+          borderColor: ref(primitive.color.redDark),
+          borderWidth: 0,
+        },
+        focus: {
+          iconColor: ref(primitive.color.white),
+          bg: ref(primitive.color.red),
+          borderColor: ref(primitive.color.redLight),
+          borderWidth: 2,
+        },
+        active: {
+          iconColor: ref(primitive.color.white),
+          bg: ref(primitive.color.red),
+          borderColor: ref(primitive.color.redDark),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconColor: ref(primitive.color.gray500),
+          bg: ref(primitive.color.gray200),
+          borderColor: ref(primitive.color.gray200),
+          borderWidth: 0,
+        },
+        loading: {
+          iconColor: ref(primitive.color.redDark),
+          spinnerColor: ref(primitive.color.redDark),
+          bg: ref(primitive.color.transparent),
+          borderColor: ref(primitive.color.red),
+          borderWidth: 1,
+        },
+      },
+    },
+  },
+
   // 📝 TODO: Adicionar outros componentes seguindo o mesmo padrão
   // - dismissButton
   // - inputSingle / inputTextarea / inputSelect / inputField
-  // - buttonIcon
   // - linkAction
   // - dropdownButton
-  // - radioButton / toggle
+  // - toggle
   // - listMenuItem
   // - tag / compoundTag
   // - text

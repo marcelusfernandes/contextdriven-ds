@@ -1,0 +1,287 @@
+---
+description: Design System Architecture - Applies to all component files for maintaining consistent project organization and structure
+alwaysApply: true
+---
+# Design System Architecture
+
+Este documento define a arquitetura e organização do Design System com Tamagui + Storybook.
+
+## Princípios Fundamentais
+
+1. **Componentes como unidade fundamental**: Cada componente é independente e reutilizável
+2. **Token-driven design**: Todos os estilos devem usar tokens do sistema (cores, espaçamentos, tipografia)
+3. **Multiplataforma**: Componentes devem funcionar em Web e React Native via Tamagui
+4. **Documentação visual**: Todo componente tem Storybook stories demonstrando suas variantes
+
+## Estrutura de Diretórios
+
+```
+storybook-tamagui/
+├── components/              # Todos os componentes do Design System
+│   ├── Button/
+│   │   ├── Button.tsx       # Implementação do componente
+│   │   ├── Button.stories.tsx  # Stories do Storybook
+│   │   ├── index.ts         # Export público
+│   │   ├── README.md        # Documentação de uso
+│   │   └── QUICK_START.md   # Guia rápido (opcional)
+│   ├── ButtonIcon/
+│   ├── Checkbox/
+│   └── ...
+├── tokens.ts                # Design tokens (cores, espaçamentos, etc)
+├── tamagui.config.ts        # Configuração do Tamagui
+└── assets/
+    ├── icons/               # Ícones SVG
+    └── fonts/               # Fontes customizadas
+```
+
+## Estrutura de Componente
+
+Cada componente deve seguir este padrão:
+
+### 1. Arquivo do Componente (`ComponentName.tsx`)
+
+```typescript
+import { styled, Stack } from '@tamagui/core'
+import type { StackProps } from '@tamagui/core'
+
+/**
+ * Props do componente Button
+ */
+export type ButtonProps = StackProps & {
+  /** Variante visual do botão */
+  variant?: 'primary' | 'secondary' | 'ghost'
+  /** Tamanho do botão */
+  size?: 'small' | 'medium' | 'large'
+  /** Se o botão está desabilitado */
+  disabled?: boolean
+  /** Conteúdo do botão */
+  children: React.ReactNode
+}
+
+/**
+ * Botão do Design System
+ * 
+ * @example
+ * ```tsx
+ * <Button variant="primary" size="medium">
+ *   Click me
+ * </Button>
+ * ```
+ */
+export const Button = styled(Stack, {
+  name: 'Button',
+  // ... implementação
+})
+```
+
+### 2. Stories do Storybook (`ComponentName.stories.tsx`)
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from './Button'
+
+const meta: Meta<typeof Button> = {
+  title: 'Components/Button',
+  component: Button,
+  tags: ['autodocs'],
+}
+
+export default meta
+type Story = StoryObj<typeof Button>
+
+export const Primary: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Button',
+  },
+}
+```
+
+### 3. Export Público (`index.ts`)
+
+```typescript
+export { Button } from './Button'
+export type { ButtonProps } from './Button'
+```
+
+### 4. Documentação (`README.md`)
+
+Deve conter:
+- Descrição do componente
+- Props e suas descrições
+- Variantes disponíveis
+- Exemplos de uso
+- Estados especiais (hover, disabled, loading, etc)
+- Acessibilidade
+- Notas de implementação
+
+## Regras de Organização
+
+### Arquivos por Componente
+
+**Obrigatórios:**
+- `ComponentName.tsx` - Implementação
+- `ComponentName.stories.tsx` - Stories
+- `index.ts` - Exports
+- `README.md` - Documentação
+
+**Opcionais:**
+- `QUICK_START.md` - Guia rápido
+- `CHANGELOG.md` - Histórico de mudanças
+- `Loading.tsx` - Sub-componentes (se necessário)
+
+### Naming Conventions
+
+- Diretórios de componentes: `PascalCase` (ex: `Button/`, `ButtonIcon/`)
+- Arquivos de componentes: `PascalCase.tsx` (ex: `Button.tsx`)
+- Arquivos de stories: `PascalCase.stories.tsx` (ex: `Button.stories.tsx`)
+- Arquivos de tipos: `PascalCase.ts` (ex: `ButtonTypes.ts`)
+- Utilitários: `camelCase.ts` (ex: `formatColor.ts`)
+
+### Barrel Files
+
+**✅ PERMITIDO para componentes:**
+```typescript
+// components/Button/index.ts
+export { Button } from './Button'
+export type { ButtonProps } from './Button'
+```
+
+**Razão:** Facilita imports limpos: `import { Button } from '@/components/Button'`
+
+## Dependências entre Componentes
+
+### Imports Relativos
+
+Use imports relativos dentro do mesmo componente:
+
+```typescript
+// ✅ DO
+import { ButtonLoading } from './Loading'
+import type { ButtonVariant } from './types'
+
+// ❌ DON'T
+import { ButtonLoading } from '@/components/Button/Loading'
+```
+
+### Imports entre Componentes
+
+Use path aliases para importar outros componentes:
+
+```typescript
+// ✅ DO
+import { Icon } from '@/components/icons'
+import type { IconProps } from '@/components/icons'
+
+// ❌ DON'T
+import { Icon } from '../icons'
+```
+
+### Imports de Tokens
+
+Sempre importe tokens de forma explícita:
+
+```typescript
+// ✅ DO
+import { tokens } from '@/tokens'
+const color = tokens.color.primary
+
+// ❌ DON'T - Hardcode valores
+const color = '#007AFF'
+```
+
+## Hierarquia de Componentes
+
+### Componentes Base (Atoms)
+
+Componentes mais básicos e independentes:
+- `Text`
+- `Icon`
+- `Button`
+- `ButtonIcon`
+- `Tag`
+
+### Componentes Compostos (Molecules)
+
+Combinam componentes base:
+- `InputField` (usa `Text`, `Icon`)
+- `Checkbox` (usa `Icon`)
+- `CompoundTag` (usa `Tag`, `Icon`)
+
+### Componentes Complexos (Organisms)
+
+Combinam múltiplos componentes:
+- `ListMenu` (usa `ListMenuItem`, `Icon`, `Text`)
+- `DropdownButton` (usa `Button`, `ListMenu`)
+
+### Regras de Dependência
+
+1. **Atoms** não dependem de outros componentes do DS
+2. **Molecules** podem depender de Atoms
+3. **Organisms** podem depender de Atoms e Molecules
+4. **Sem dependências circulares**: Se A importa B, B não pode importar A
+
+## Ícones
+
+Ícones têm estrutura especial:
+
+```
+components/
+└── icons/
+    ├── index.ts              # Re-export todos os ícones
+    ├── Icon.tsx              # Componente base Icon
+    ├── IconAdd.tsx           # Ícone específico
+    ├── IconClose.tsx
+    └── ...
+```
+
+**Uso:**
+```typescript
+import { Icon } from '@/components/icons'
+import { IconAdd } from '@/components/icons/IconAdd'
+
+// Ou via props
+<Icon name="add" />
+```
+
+## Estrutura de Tokens
+
+Tokens devem ser organizados por categoria:
+
+```typescript
+// tokens.ts
+export const tokens = {
+  color: {
+    primary: '#007AFF',
+    secondary: '#5856D6',
+    // ...
+  },
+  space: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    // ...
+  },
+  fontSize: {
+    xs: 12,
+    sm: 14,
+    md: 16,
+    // ...
+  },
+  // ...
+}
+```
+
+## Testes
+
+(Reservado para futuras guidelines de testes)
+
+## Enforcement
+
+- Todo componente novo deve seguir esta estrutura
+- Code reviews devem verificar:
+  - Presença de stories
+  - Documentação README.md
+  - Uso de tokens (não hardcode)
+  - Export via index.ts
+  - Tipagem completa

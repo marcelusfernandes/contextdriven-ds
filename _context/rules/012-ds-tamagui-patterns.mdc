@@ -1,0 +1,664 @@
+---
+description: Design System Tamagui Patterns - Applies to all Tamagui component files for consistent usage of Tamagui APIs, tokens, and styling patterns
+alwaysApply: true
+---
+# Design System Tamagui Patterns
+
+Este documento define padrões e best practices para uso do Tamagui no Design System.
+
+## Imports do Tamagui
+
+### Core Imports
+
+```typescript
+// ✅ DO - Import do @tamagui/core
+import { styled, Stack, YStack, XStack } from '@tamagui/core'
+import type { StackProps, GetProps } from '@tamagui/core'
+
+// ❌ DON'T - Import do tamagui (pacote genérico)
+import { styled } from 'tamagui'
+```
+
+### Componentes Base
+
+Use os componentes primitivos corretos:
+
+```typescript
+import {
+  Stack,      // Container genérico (flex)
+  YStack,     // Stack vertical (flexDirection: 'column')
+  XStack,     // Stack horizontal (flexDirection: 'row')
+  Text,       // Texto
+  Image,      // Imagens
+  ScrollView, // Área scrollável
+} from '@tamagui/core'
+```
+
+## Uso de Tokens
+
+### Sempre Use Tokens
+
+```typescript
+// ✅ DO - Usar tokens
+export const Button = styled(Stack, {
+  backgroundColor: '$primary',      // Color token
+  padding: '$3',                    // Space token
+  borderRadius: '$2',               // Radius token
+  fontSize: '$md',                  // Font size token
+  fontFamily: '$body',              // Font family token
+})
+
+// ❌ DON'T - Hardcode valores
+export const Button = styled(Stack, {
+  backgroundColor: '#007AFF',       // ❌ Magic color
+  padding: 12,                      // ❌ Magic number
+  borderRadius: 8,                  // ❌ Magic number
+  fontSize: 16,                     // ❌ Magic number
+})
+```
+
+### Tokens Disponíveis
+
+Referência rápida dos tokens do sistema:
+
+```typescript
+// Cores
+'$primary'        // Cor primária
+'$secondary'      // Cor secundária
+'$background'     // Background padrão
+'$foreground'     // Texto padrão
+'$gray'           // Cinza
+'$red'            // Erro/danger
+'$green'          // Sucesso
+'$blue'           // Info
+'$yellow'         // Warning
+
+// Espaçamento (space)
+'$0'   // 0
+'$1'   // 4px
+'$2'   // 8px
+'$3'   // 12px
+'$4'   // 16px
+'$5'   // 20px
+'$6'   // 24px
+
+// Font sizes
+'$xs'   // 12px
+'$sm'   // 14px
+'$md'   // 16px
+'$lg'   // 18px
+'$xl'   // 20px
+
+// Border radius
+'$1'   // 4px
+'$2'   // 8px
+'$3'   // 12px
+'$4'   // 16px
+
+// Ver tokens.ts para lista completa
+```
+
+### Tokens Customizados
+
+Se precisar de valores não disponíveis, adicione ao `tokens.ts`:
+
+```typescript
+// tokens.ts
+export const tokens = {
+  color: {
+    // ... cores existentes
+    brandPurple: '#5856D6',  // Novo token
+  },
+  space: {
+    // ... espaçamentos existentes
+    hero: 64,  // Novo token
+  },
+}
+
+// Depois use como
+backgroundColor: '$brandPurple'
+padding: '$hero'
+```
+
+## Styled Components
+
+### Sintaxe Básica
+
+```typescript
+export const ComponentName = styled(Stack, {
+  // Name - obrigatório para debug
+  name: 'ComponentName',
+  
+  // Tag HTML (apenas web)
+  tag: 'button',
+  
+  // Estilos base
+  backgroundColor: '$primary',
+  padding: '$3',
+  
+  // Variants
+  variants: {
+    // ... ver seção de variants
+  },
+  
+  // Default variants
+  defaultVariants: {
+    size: 'medium',
+  },
+})
+```
+
+### Name Property
+
+Sempre defina `name` para melhor debugging:
+
+```typescript
+// ✅ DO
+export const Button = styled(Stack, {
+  name: 'Button',  // Aparece no React DevTools
+  // ...
+})
+
+// ❌ DON'T
+export const Button = styled(Stack, {
+  // ... sem name
+})
+```
+
+## Variants
+
+### Definindo Variants
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  
+  variants: {
+    // Variant por tipo/aparência
+    variant: {
+      primary: {
+        backgroundColor: '$primary',
+        color: '$white',
+      },
+      secondary: {
+        backgroundColor: '$secondary',
+        color: '$white',
+      },
+      ghost: {
+        backgroundColor: 'transparent',
+        color: '$primary',
+      },
+    },
+    
+    // Variant por tamanho
+    size: {
+      small: {
+        padding: '$2',
+        fontSize: '$sm',
+      },
+      medium: {
+        padding: '$3',
+        fontSize: '$md',
+      },
+      large: {
+        padding: '$4',
+        fontSize: '$lg',
+      },
+    },
+    
+    // Variant boolean
+    disabled: {
+      true: {
+        opacity: 0.5,
+        pointerEvents: 'none',
+      },
+    },
+    
+    fullWidth: {
+      true: {
+        width: '100%',
+      },
+    },
+  },
+  
+  // Defaults
+  defaultVariants: {
+    variant: 'primary',
+    size: 'medium',
+  },
+})
+```
+
+### Compound Variants
+
+Para estilos que dependem de múltiplas variants:
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  
+  variants: {
+    variant: {
+      primary: { backgroundColor: '$blue' },
+      secondary: { backgroundColor: '$gray' },
+    },
+    size: {
+      small: { padding: '$2' },
+      large: { padding: '$4' },
+    },
+  },
+  
+  // Estilos específicos para combinações
+  compoundVariants: [
+    {
+      variant: 'primary',
+      size: 'large',
+      style: {
+        fontSize: '$xl',
+        fontWeight: 'bold',
+      },
+    },
+  ],
+})
+```
+
+## Pseudo States
+
+### Estados de Interação
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  
+  // Base
+  backgroundColor: '$primary',
+  
+  // Hover (web e mobile suportado)
+  hoverStyle: {
+    backgroundColor: '$primaryDark',
+  },
+  
+  // Press/Active
+  pressStyle: {
+    scale: 0.95,
+    backgroundColor: '$primaryDarker',
+  },
+  
+  // Focus (importante para acessibilidade)
+  focusStyle: {
+    outlineColor: '$primary',
+    outlineWidth: 2,
+    outlineStyle: 'solid',
+  },
+  
+  // Focus visible (apenas teclado)
+  focusVisibleStyle: {
+    outlineColor: '$primary',
+  },
+})
+```
+
+### Pseudo States Condicionais
+
+```typescript
+export const Input = styled(Stack, {
+  name: 'Input',
+  
+  borderColor: '$gray',
+  
+  // Focus apenas se não estiver disabled
+  variants: {
+    disabled: {
+      true: {
+        focusStyle: {
+          borderColor: '$gray',  // Não muda no focus
+        },
+      },
+      false: {
+        focusStyle: {
+          borderColor: '$primary',  // Muda no focus
+        },
+      },
+    },
+  },
+})
+```
+
+## Layout Stacks
+
+### YStack (Vertical)
+
+```typescript
+export const Card = styled(YStack, {
+  name: 'Card',
+  
+  // Vertical stack
+  gap: '$3',           // Espaço entre children
+  padding: '$4',
+  backgroundColor: '$background',
+  
+  // Alignment
+  alignItems: 'stretch',      // Horizontal alignment
+  justifyContent: 'flex-start', // Vertical alignment
+})
+```
+
+### XStack (Horizontal)
+
+```typescript
+export const ButtonGroup = styled(XStack, {
+  name: 'ButtonGroup',
+  
+  // Horizontal stack
+  gap: '$2',           // Espaço entre children
+  
+  // Alignment
+  alignItems: 'center',        // Vertical alignment
+  justifyContent: 'flex-start', // Horizontal alignment
+})
+```
+
+### Stack Genérico
+
+```typescript
+export const Container = styled(Stack, {
+  name: 'Container',
+  
+  // Você controla direction
+  flexDirection: 'row',  // ou 'column'
+  gap: '$3',
+})
+```
+
+## Responsive Design
+
+### Media Queries
+
+```typescript
+export const Container = styled(Stack, {
+  name: 'Container',
+  
+  // Mobile first
+  padding: '$3',
+  flexDirection: 'column',
+  
+  // Tablet e acima
+  $gtSm: {
+    padding: '$4',
+    flexDirection: 'row',
+  },
+  
+  // Desktop e acima
+  $gtMd: {
+    padding: '$6',
+    maxWidth: 1200,
+  },
+})
+```
+
+### Breakpoints Disponíveis
+
+```typescript
+// Configuração padrão
+$gtXs   // > 480px
+$gtSm   // > 768px
+$gtMd   // > 1024px
+$gtLg   // > 1280px
+$gtXl   // > 1536px
+```
+
+### Conditional Props
+
+```typescript
+import { useMedia } from '@tamagui/core'
+
+export const ResponsiveComponent = () => {
+  const media = useMedia()
+  
+  return (
+    <Stack
+      padding={media.gtSm ? '$6' : '$3'}
+      flexDirection={media.gtMd ? 'row' : 'column'}
+    >
+      {/* ... */}
+    </Stack>
+  )
+}
+```
+
+## Animações
+
+### Animações Básicas
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  
+  // Animação padrão
+  animation: 'quick',
+  
+  // States animados
+  hoverStyle: {
+    scale: 1.05,
+  },
+  
+  pressStyle: {
+    scale: 0.95,
+  },
+})
+```
+
+### Animações Customizadas
+
+```typescript
+export const Modal = styled(Stack, {
+  name: 'Modal',
+  
+  // Fade in
+  opacity: 0,
+  animation: 'fadeIn',
+  
+  variants: {
+    visible: {
+      true: {
+        opacity: 1,
+      },
+    },
+  },
+})
+```
+
+### Configurar Animações
+
+Em `tamagui.config.ts`:
+
+```typescript
+import { createTamagui } from '@tamagui/core'
+
+export default createTamagui({
+  // ...
+  animations: {
+    quick: {
+      type: 'spring',
+      damping: 20,
+      mass: 1.2,
+      stiffness: 250,
+    },
+    fadeIn: {
+      type: 'timing',
+      duration: 200,
+    },
+  },
+})
+```
+
+## Themes
+
+### Usar Theme Atual
+
+```typescript
+export const Card = styled(Stack, {
+  name: 'Card',
+  
+  // Usa token que muda com theme
+  backgroundColor: '$background',
+  color: '$foreground',
+  borderColor: '$border',
+})
+```
+
+### Theme Provider
+
+```typescript
+import { Theme } from '@tamagui/core'
+
+// Aplicar theme específico
+<Theme name="dark">
+  <Card />
+</Theme>
+
+// Inverter theme atual
+<Theme inverse>
+  <Card />
+</Theme>
+```
+
+## Props Shorthands
+
+### Espaçamento
+
+```typescript
+// Tamagui aceita shorthands
+<Stack
+  p="$3"           // padding
+  px="$4"          // paddingHorizontal
+  py="$2"          // paddingVertical
+  pt="$1"          // paddingTop
+  pr="$2"          // paddingRight
+  pb="$1"          // paddingBottom
+  pl="$2"          // paddingLeft
+  
+  m="$3"           // margin
+  mx="$4"          // marginHorizontal
+  my="$2"          // marginVertical
+  // ... mesmos sufixos de padding
+/>
+```
+
+### Dimensões
+
+```typescript
+<Stack
+  w="100%"         // width
+  h={200}          // height
+  mw={400}         // maxWidth
+  mh={300}         // maxHeight
+  miw={200}        // minWidth
+  mih={100}        // minHeight
+/>
+```
+
+### Flexbox
+
+```typescript
+<Stack
+  f={1}            // flex: 1
+  fd="row"         // flexDirection
+  ai="center"      // alignItems
+  jc="space-between" // justifyContent
+/>
+```
+
+## Performance
+
+### Static Props
+
+Para props que nunca mudam, use `staticConfig`:
+
+```typescript
+export const Icon = styled(Stack, {
+  name: 'Icon',
+  
+  staticConfig: {
+    // Estas props não serão reativas
+    width: 24,
+    height: 24,
+  },
+})
+```
+
+### Avoid Inline Styles
+
+```typescript
+// ❌ DON'T - Cria novo objeto a cada render
+<Stack style={{ padding: 10 }}>
+
+// ✅ DO - Usa props do Tamagui
+<Stack padding="$3">
+```
+
+## TypeScript
+
+### Inferir Props
+
+```typescript
+// Componente styled
+const ButtonFrame = styled(Stack, { /* ... */ })
+
+// Inferir props
+export type ButtonProps = GetProps<typeof ButtonFrame> & {
+  loading?: boolean
+}
+```
+
+### Type Safety em Variants
+
+```typescript
+// TypeScript infere os tipos automaticamente
+export const Button = styled(Stack, {
+  variants: {
+    variant: {
+      primary: { /* ... */ },
+      secondary: { /* ... */ },
+    },
+  },
+})
+
+// Uso
+<Button variant="primary" />  // ✅ OK
+<Button variant="tertiary" /> // ❌ Type error
+```
+
+## Debugging
+
+### React DevTools
+
+Com `name` definido, componentes aparecem claramente:
+
+```typescript
+// Aparece como "Button" no DevTools
+export const Button = styled(Stack, {
+  name: 'Button',
+  // ...
+})
+```
+
+### Debug Props
+
+```typescript
+// Ver quais props são aplicadas
+<Stack debug="verbose">
+  {/* ... */}
+</Stack>
+```
+
+## Enforcement
+
+Code reviews devem verificar:
+- Todos os valores usam tokens (sem hardcode)
+- `name` definido em todos os styled components
+- Variants usadas corretamente
+- Pseudo states para interatividade
+- Props shorthands para clareza
+- Performance considerada (static props)
+- TypeScript types usando GetProps

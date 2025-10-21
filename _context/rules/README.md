@@ -1,232 +1,175 @@
-# Regras do Design System Agent
+# Design System Rules
 
-Este diretório contém as regras e diretrizes para implementação de componentes no Design System usando Tamagui e React Native.
+Regras e guidelines para o Design System com Tamagui + Storybook.
 
-## 📁 Estrutura
+## 📋 Índice de Regras
 
-### 1. `design-system-agent.md`
-**Propósito:** Documento principal com visão geral do papel do agente e padrões gerais.
+### 🎯 TypeScript Core (001-005)
+Regras fundamentais de TypeScript aplicáveis a todo código.
 
-**Conteúdo:**
-- Papel do agente especialista
-- Padrão de documentação de componentes
-- Arquitetura de componentes (estrutura de pastas)
-- Uso de tokens (sem hardcoding!)
-- Storybook Stories
-- Acessibilidade
-- Responsividade
-- Checklist de implementação
-- Anti-patterns e Best Practices
+- **001-aibd-ts.mdc** - Naming conventions e organização de arquivos
+- **002-aibd-ts-types.mdc** - Declaração de tipos, type aliases
+- **003-aibd-ts-function.mdc** - Padrões de funções e parâmetros
+- ~~004-aibd-ts-errors.mdc~~ - (Opcional) Error handling com union types
+- ~~005-aibd-ts-zod.mdc~~ - (Opcional) Validação com Zod
 
-**Use quando:** 
-- Começar um novo componente
-- Revisar padrões gerais
-- Entender a arquitetura do projeto
+### 🏗️ Design System Architecture (010-014)
+Regras específicas para o Design System.
 
----
+- **010-ds-architecture.mdc** ⭐ - Estrutura de diretórios e organização
+- **011-ds-component-structure.mdc** ⭐ - Como estruturar componentes
+- **012-ds-tamagui-patterns.mdc** ⭐ - Padrões de uso do Tamagui
+- **013-ds-storybook.mdc** ⭐ - Como criar stories no Storybook
+- **014-ds-tokens.mdc** ⭐ - Como trabalhar com design tokens
 
-### 2. `figma-to-code.md`
-**Propósito:** Guia específico de como ler especificações do Figma e implementar componentes.
+### ❌ Arquivadas (não aplicáveis)
+Regras removidas por não se aplicarem ao contexto de Design System:
 
-**Conteúdo:**
-- Estrutura das specs em `_context/component_data/`
-- Como extrair tokens de specs
-- Mapeamento de variantes para props
-- Processo completo de implementação (7 passos)
-- Checklist detalhado
-- Erros comuns ao traduzir design para código
+- ~~000-aibd-architecture.mdc~~ - Feature-based (apps)
+- ~~020-aibd-doc-prd.mdc~~ - PRDs (features de produto)
+- ~~100-aibd-ts-react-shadcn.mdc~~ - shadcn/ui específico
+- ~~101-aibd-blueprint-react-component.mdc~~ - Smart/UI separation (apps)
 
-**Use quando:** 
-- Implementar um novo componente a partir de uma spec
-- Entender como mapear variantes do Figma
-- Adicionar tokens ao tokens.ts
+## 🎯 Regras por Contexto
 
----
+### Ao criar um novo componente:
+1. **010-ds-architecture** - Estrutura de diretórios
+2. **011-ds-component-structure** - Como estruturar o componente
+3. **012-ds-tamagui-patterns** - Como usar Tamagui
+4. **014-ds-tokens** - Usar tokens, não hardcode
+5. **013-ds-storybook** - Criar stories
 
-### 3. `tamagui-patterns.md`
-**Propósito:** Referência técnica de padrões Tamagui e exemplos de código.
+### Ao escrever TypeScript:
+1. **001-aibd-ts** - Naming e organização
+2. **002-aibd-ts-types** - Tipagem explícita, type aliases
+3. **003-aibd-ts-function** - Padrão de props object
 
-**Conteúdo:**
-- Sintaxe de componentes styled
-- Variants e compound variants
-- Componentes base (Stack, XStack, YStack, Text)
-- Sistema de tokens ($prefix)
-- Estados interativos (hover, press, focus, disabled)
-- Responsividade e media queries
-- Animações
-- Padrões específicos do projeto (estruturas completas)
-- Performance (memoização, lazy loading)
-- Testing e acessibilidade
-- Referência rápida de props
+### Ao trabalhar com tokens:
+1. **014-ds-tokens** - Nomenclatura e uso de tokens
+2. **012-ds-tamagui-patterns** - Como aplicar tokens no Tamagui
 
-**Use quando:** 
-- Implementar lógica específica do Tamagui
-- Dúvidas sobre sintaxe
-- Precisar de exemplos de código
-- Otimizar performance
-
----
-
-## 🎯 Workflow Completo
-
-### Para Implementar um Novo Componente:
-
-```
-1. Ler spec → _context/component_data/ComponentName.md
-   📖 Use: design-system-agent.md (seção "Padrão de Documentação")
-
-2. Analisar variantes e tokens
-   📖 Use: figma-to-code.md (seção "Entendendo Specs")
-
-3. Verificar/adicionar tokens em tokens.ts
-   📖 Use: figma-to-code.md (seção "Extraindo Tokens")
-
-4. Criar estrutura de arquivos
-   📖 Use: design-system-agent.md (seção "Arquitetura")
-
-5. Implementar componente
-   📖 Use: tamagui-patterns.md (seção "Estrutura de Componente")
-
-6. Adicionar estados interativos
-   📖 Use: tamagui-patterns.md (seção "Estados Interativos")
-
-7. Criar Stories
-   📖 Use: design-system-agent.md (seção "Storybook Stories")
-
-8. Documentar (README + QUICK_START)
-   📖 Use: design-system-agent.md (seção "Checklist")
-
-9. Validar acessibilidade
-   📖 Use: design-system-agent.md (seção "Acessibilidade")
-   📖 Use: tamagui-patterns.md (seção "Testing")
-```
-
----
-
-## 🔍 Referência Rápida
-
-### Dúvidas Comuns
-
-**Como extrair tokens de uma spec?**
-→ `figma-to-code.md` → "Extraindo Tokens"
-
-**Como usar variants no Tamagui?**
-→ `tamagui-patterns.md` → "Componentes Styled" → "Com Variants"
-
-**Como implementar estados hover/press/focus?**
-→ `tamagui-patterns.md` → "Estados Interativos"
-
-**Qual a estrutura de pastas de um componente?**
-→ `design-system-agent.md` → "Arquitetura de Componentes"
-
-**Como criar Stories no Storybook?**
-→ `design-system-agent.md` → "Storybook Stories"
-
-**Como mapear variantes do Figma para props?**
-→ `figma-to-code.md` → "Passo 4: Interface TypeScript"
-
-**Quais props usar para acessibilidade?**
-→ `design-system-agent.md` → "Acessibilidade"
-→ `tamagui-patterns.md` → "Testing" → "Acessibilidade"
-
-**Como organizar tokens no tokens.ts?**
-→ `figma-to-code.md` → "Passo 3: Adicionar Tokens Faltantes"
-
-**Como fazer componente responsivo?**
-→ `tamagui-patterns.md` → "Responsividade"
-
----
-
-## 📊 Hierarquia de Documentos
-
-```
-┌─────────────────────────────────────────┐
-│   design-system-agent.md                │
-│   (Visão geral e princípios)            │
-└───────────────┬─────────────────────────┘
-                │
-        ┌───────┴────────┐
-        ▼                ▼
-┌─────────────┐  ┌──────────────────┐
-│ figma-to-   │  │ tamagui-         │
-│ code.md     │  │ patterns.md      │
-│ (Processo)  │  │ (Código)         │
-└─────────────┘  └──────────────────┘
-```
-
-**Leia nesta ordem se for primeira vez:**
-1. `design-system-agent.md` (entenda o contexto)
-2. `figma-to-code.md` (aprenda o processo)
-3. `tamagui-patterns.md` (veja exemplos práticos)
-
----
-
-## ✅ Princípios Fundamentais
-
-### 1. **Tokens First**
-Nunca hardcode valores. Se não existe token, crie primeiro.
-
-### 2. **Spec is Truth**
-A especificação do Figma é a fonte da verdade. Dúvidas? Valide com Design.
-
-### 3. **Accessibility First**
-Acessibilidade não é opcional. Todo componente deve ser acessível.
-
-### 4. **Composition > Complexity**
-Prefira múltiplos componentes simples a um componente complexo.
-
-### 5. **Type-Safe**
-TypeScript não é decoração. Types completos e corretos.
-
-### 6. **Document Everything**
-Stories, README, QUICK_START. Se você não documentar, ninguém vai usar direito.
-
----
+### Ao documentar no Storybook:
+1. **013-ds-storybook** - Estrutura de stories
+2. **011-ds-component-structure** - Props e variantes
 
 ## 🚀 Quick Start
 
-**Estou implementando meu primeiro componente:**
+### Checklist para novo componente:
 
-```bash
-# 1. Leia a spec
-cat _context/component_data/Button.md
+```typescript
+// 1. Criar estrutura [010]
+components/
+  MyComponent/
+    MyComponent.tsx
+    MyComponent.stories.tsx
+    index.ts
+    README.md
 
-# 2. Verifique tokens necessários
-code tokens.ts
+// 2. Implementar componente [011, 012]
+import { styled, Stack } from '@tamagui/core'
 
-# 3. Crie estrutura
-mkdir -p components/Button
-touch components/Button/Button.tsx
-touch components/Button/Button.stories.tsx
-touch components/Button/index.ts
-touch components/Button/README.md
-touch components/Button/QUICK_START.md
+export type MyComponentProps = StackProps & {
+  variant?: 'primary' | 'secondary'
+}
 
-# 4. Siga o template em tamagui-patterns.md
-# 5. Use checklist em design-system-agent.md
+export const MyComponent = styled(Stack, {
+  name: 'MyComponent',
+  backgroundColor: '$primary',  // [014] Usar tokens
+  variants: {
+    variant: {
+      primary: { /* ... */ },
+      secondary: { /* ... */ },
+    },
+  },
+})
+
+// 3. Criar stories [013]
+import type { Meta, StoryObj } from '@storybook/react'
+
+const meta: Meta<typeof MyComponent> = {
+  title: 'Components/MyComponent',
+  component: MyComponent,
+  tags: ['autodocs'],
+}
+
+// 4. Documentar no README.md
 ```
 
+## 🎨 Filosofia do Design System
+
+1. **Token-driven** - Sempre use tokens, nunca hardcode
+2. **Componentes puros** - Controlados por props, sem lógica de negócio
+3. **Documentação visual** - Storybook como fonte da verdade
+4. **TypeScript strict** - Tipagem explícita em tudo
+5. **Multiplataforma** - Web + React Native via Tamagui
+
+## 📝 Como Usar as Regras
+
+### Formato dos Arquivos
+
+Todos os arquivos `.mdc` seguem este formato:
+
+```markdown
 ---
-
-## 💡 Dicas
-
-- **Sempre consulte:** As regras existem para garantir qualidade e consistência
-- **Não reinvente:** Siga os padrões estabelecidos
-- **Quando em dúvida:** Pergunte ou valide com a equipe
-- **Atualize as regras:** Se descobrir algo novo que deve ser padrão, adicione aqui
-
+description: Breve descrição da regra
+alwaysApply: true/false
 ---
+# Título da Regra
 
-## 📞 Suporte
+## Seção
+Conteúdo...
+```
 
-**Dúvidas sobre:**
-- **Design/Tokens:** Consulte equipe de Design
-- **Tamagui/Código:** Revise `tamagui-patterns.md` ou documentação oficial
-- **Processo:** Siga `figma-to-code.md` passo a passo
-- **Padrões:** Consulte `design-system-agent.md`
+### AlwaysApply
 
----
+- `true` - Regra se aplica automaticamente a arquivos relevantes
+- `false` - Regra deve ser consultada manualmente quando necessário
 
-**Última atualização:** Outubro 2025
-**Mantido por:** Time de Design System
+### Prioridade
+
+1. **Regras Always Apply** são verificadas automaticamente
+2. **Regras específicas de DS (010-014)** têm prioridade sobre genéricas
+3. **Regras TypeScript (001-003)** são base para todas
+
+## 🔍 Enforcement
+
+### Code Review Checklist
+
+- [ ] Componente segue estrutura de 010-ds-architecture
+- [ ] Usa Tamagui patterns de 012-ds-tamagui-patterns
+- [ ] Todos os valores usam tokens (014-ds-tokens)
+- [ ] Stories completas (013-ds-storybook)
+- [ ] TypeScript strict (001, 002, 003)
+- [ ] Documentação README.md presente
+- [ ] Props tipadas e documentadas
+
+## 🛠️ Manutenção
+
+### Adicionar nova regra
+
+1. Criar arquivo `0XX-ds-nome.mdc` seguindo formato
+2. Atualizar este README com link
+3. Adicionar à seção apropriada do índice
+4. Testar com componentes existentes
+
+### Atualizar regra existente
+
+1. Editar arquivo `.mdc`
+2. Atualizar data de modificação
+3. Comunicar mudanças ao time
+4. Revisar componentes afetados
+
+## 📚 Recursos Adicionais
+
+- [Tamagui Documentation](https://tamagui.dev)
+- [Storybook Documentation](https://storybook.js.org)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+
+## 🤝 Contribuindo
+
+Encontrou algo que pode melhorar? 
+1. Propor mudança na regra
+2. Discutir com o time
+3. Atualizar documentação
+4. Testar com componentes existentes
 

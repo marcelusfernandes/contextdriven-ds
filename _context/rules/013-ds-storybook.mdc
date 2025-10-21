@@ -1,0 +1,609 @@
+---
+description: Design System Storybook Patterns - Applies to all .stories.tsx files for consistent story structure and documentation
+alwaysApply: false
+---
+# Design System Storybook Patterns
+
+Este documento define como criar stories no Storybook para documentar componentes.
+
+## Objetivo do Storybook
+
+Stories servem para:
+1. **Documentação visual** - Mostrar todas as variantes do componente
+2. **Playground** - Testar componente interativamente
+3. **Desenvolvimento isolado** - Trabalhar no componente sem app completo
+4. **Testes visuais** - Base para regression testing
+5. **Handoff para design** - Validar implementação vs design
+
+## Estrutura Básica
+
+### Template de Story File
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from './Button'
+
+/**
+ * Meta - Configuração global das stories deste componente
+ */
+const meta: Meta<typeof Button> = {
+  // Localização no sidebar
+  title: 'Components/Button',
+  
+  // Componente sendo documentado
+  component: Button,
+  
+  // Tags especiais
+  tags: ['autodocs'],
+  
+  // Args padrão para todas as stories
+  args: {
+    children: 'Button',
+  },
+  
+  // Descrição do componente
+  parameters: {
+    docs: {
+      description: {
+        component: 'Botão do Design System com suporte a múltiplas variantes e estados.',
+      },
+    },
+  },
+  
+  // Controls customizados
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'ghost'],
+      description: 'Variante visual do botão',
+    },
+    size: {
+      control: 'select',
+      options: ['small', 'medium', 'large'],
+      description: 'Tamanho do botão',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Se o botão está desabilitado',
+    },
+  },
+}
+
+export default meta
+
+/**
+ * Type helper para stories
+ */
+type Story = StoryObj<typeof Button>
+
+/**
+ * Story padrão - primeira variante que aparece
+ */
+export const Default: Story = {
+  args: {
+    variant: 'primary',
+    size: 'medium',
+  },
+}
+
+/**
+ * Outras stories demonstrando variantes
+ */
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+  },
+}
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
+}
+```
+
+## Organização de Stories
+
+### Hierarquia no Sidebar
+
+Use a propriedade `title` para organizar:
+
+```typescript
+// Atoms (componentes base)
+title: 'Atoms/Button'
+title: 'Atoms/Text'
+title: 'Atoms/Icon'
+
+// Molecules (componentes compostos)
+title: 'Molecules/InputField'
+title: 'Molecules/Checkbox'
+
+// Organisms (componentes complexos)
+title: 'Organisms/ListMenu'
+title: 'Organisms/DropdownButton'
+
+// Foundations (tokens, cores, etc)
+title: 'Foundations/Colors'
+title: 'Foundations/Typography'
+title: 'Foundations/Spacing'
+```
+
+### Nomenclatura de Stories
+
+```typescript
+// ✅ DO - Nomes descritivos em PascalCase
+export const Default: Story = { /* ... */ }
+export const Primary: Story = { /* ... */ }
+export const WithIcon: Story = { /* ... */ }
+export const LongContent: Story = { /* ... */ }
+export const Loading: Story = { /* ... */ }
+
+// ❌ DON'T - Nomes genéricos ou confusos
+export const Story1: Story = { /* ... */ }
+export const test: Story = { /* ... */ }
+export const AAA: Story = { /* ... */ }
+```
+
+## Documentação Automática
+
+### Tags do Meta
+
+```typescript
+const meta: Meta<typeof Button> = {
+  tags: [
+    'autodocs',      // Gera documentação automática
+    '!dev',          // Esconde em modo desenvolvimento
+  ],
+}
+```
+
+### Descrições
+
+```typescript
+const meta: Meta<typeof Button> = {
+  parameters: {
+    docs: {
+      // Descrição do componente
+      description: {
+        component: `
+          Botão do Design System.
+          
+          Suporta múltiplas variantes (primary, secondary, ghost),
+          tamanhos (small, medium, large) e estados (loading, disabled).
+          
+          Acessível via teclado e screen readers.
+        `,
+      },
+    },
+  },
+}
+
+// Descrição de uma story específica
+export const WithIcon: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Botão com ícone à esquerda do texto.',
+      },
+    },
+  },
+}
+```
+
+### ArgTypes
+
+Documente cada prop:
+
+```typescript
+const meta: Meta<typeof Button> = {
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'ghost'],
+      description: 'Variante visual do botão',
+      table: {
+        type: { summary: 'primary | secondary | ghost' },
+        defaultValue: { summary: 'primary' },
+      },
+    },
+    
+    size: {
+      control: 'radio',  // ou 'select'
+      options: ['small', 'medium', 'large'],
+      description: 'Tamanho do botão',
+      table: {
+        type: { summary: 'small | medium | large' },
+        defaultValue: { summary: 'medium' },
+      },
+    },
+    
+    disabled: {
+      control: 'boolean',
+      description: 'Se o botão está desabilitado',
+    },
+    
+    loading: {
+      control: 'boolean',
+      description: 'Mostra spinner e desabilita interação',
+    },
+    
+    children: {
+      control: 'text',
+      description: 'Conteúdo do botão (texto ou elementos)',
+    },
+    
+    onPress: {
+      action: 'pressed',  // Mostra evento no Actions panel
+      description: 'Callback quando botão é pressionado',
+    },
+  },
+}
+```
+
+## Demonstrando Variantes
+
+### Story por Variante
+
+```typescript
+// Demonstrar cada variante
+export const Primary: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Primary Button',
+  },
+}
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+    children: 'Secondary Button',
+  },
+}
+
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+    children: 'Ghost Button',
+  },
+}
+```
+
+### Múltiplas Variantes em Uma Story
+
+```typescript
+import { XStack, YStack } from '@tamagui/core'
+
+export const AllVariants: Story = {
+  render: () => (
+    <YStack gap="$3">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+    </YStack>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Todas as variantes disponíveis do botão.',
+      },
+    },
+  },
+}
+
+export const AllSizes: Story = {
+  render: () => (
+    <XStack gap="$3" alignItems="center">
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
+      <Button size="large">Large</Button>
+    </XStack>
+  ),
+}
+```
+
+### Matriz de Variantes
+
+```typescript
+export const VariantMatrix: Story = {
+  render: () => (
+    <YStack gap="$4">
+      {['primary', 'secondary', 'ghost'].map((variant) => (
+        <XStack key={variant} gap="$3" alignItems="center">
+          <Button variant={variant as any} size="small">
+            Small
+          </Button>
+          <Button variant={variant as any} size="medium">
+            Medium
+          </Button>
+          <Button variant={variant as any} size="large">
+            Large
+          </Button>
+        </XStack>
+      ))}
+    </YStack>
+  ),
+}
+```
+
+## Estados do Componente
+
+### Estados Interativos
+
+```typescript
+export const Hover: Story = {
+  args: {
+    children: 'Hover me',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Passe o mouse para ver o estado hover.',
+      },
+    },
+  },
+}
+
+export const Pressed: Story = {
+  args: {
+    children: 'Press me',
+  },
+  parameters: {
+    pseudo: { active: true },  // Simula estado pressed
+  },
+}
+
+export const Focused: Story = {
+  args: {
+    children: 'Focused',
+  },
+  parameters: {
+    pseudo: { focus: true },  // Simula estado focus
+  },
+}
+```
+
+### Estados de Loading
+
+```typescript
+export const Loading: Story = {
+  args: {
+    loading: true,
+    children: 'Loading...',
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled',
+  },
+}
+```
+
+## Casos de Uso
+
+### Com Ícones
+
+```typescript
+import { IconAdd } from '@/components/icons'
+
+export const WithIcon: Story = {
+  args: {
+    icon: <IconAdd />,
+    children: 'Add Item',
+  },
+}
+
+export const IconOnly: Story = {
+  args: {
+    icon: <IconAdd />,
+    'aria-label': 'Add',
+  },
+}
+```
+
+### Conteúdo Longo
+
+```typescript
+export const LongText: Story = {
+  args: {
+    children: 'This is a very long button text that might wrap',
+  },
+}
+
+export const Truncated: Story = {
+  args: {
+    children: 'This is a very long button text that will be truncated',
+    maxWidth: 200,
+  },
+}
+```
+
+### Responsivo
+
+```typescript
+export const Responsive: Story = {
+  render: () => (
+    <Button
+      width="100%"
+      $gtSm={{ width: 'auto' }}
+    >
+      Full width on mobile, auto on desktop
+    </Button>
+  ),
+}
+```
+
+## Play Functions
+
+Para demonstrar interações:
+
+```typescript
+import { expect, userEvent, within } from '@storybook/test'
+
+export const Interactive: Story = {
+  args: {
+    children: 'Click me',
+  },
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    const button = canvas.getByRole('button')
+    
+    await step('Hover over button', async () => {
+      await userEvent.hover(button)
+      // Verificar estado hover
+    })
+    
+    await step('Click button', async () => {
+      await userEvent.click(button)
+      // Verificar que foi clicado
+    })
+    
+    await step('Focus button with keyboard', async () => {
+      await userEvent.tab()
+      await expect(button).toHaveFocus()
+    })
+  },
+}
+```
+
+## Decorators
+
+### Wrapper para Layout
+
+```typescript
+const meta: Meta<typeof Button> = {
+  decorators: [
+    (Story) => (
+      <YStack padding="$4" backgroundColor="$background">
+        <Story />
+      </YStack>
+    ),
+  ],
+}
+```
+
+### Múltiplos Themes
+
+```typescript
+import { Theme } from '@tamagui/core'
+
+export const InDarkTheme: Story = {
+  decorators: [
+    (Story) => (
+      <Theme name="dark">
+        <YStack padding="$4" backgroundColor="$background">
+          <Story />
+        </YStack>
+      </Theme>
+    ),
+  ],
+}
+
+export const ThemeComparison: Story = {
+  render: () => (
+    <XStack gap="$4">
+      <Theme name="light">
+        <YStack padding="$4" backgroundColor="$background">
+          <Button>Light Theme</Button>
+        </YStack>
+      </Theme>
+      <Theme name="dark">
+        <YStack padding="$4" backgroundColor="$background">
+          <Button>Dark Theme</Button>
+        </YStack>
+      </Theme>
+    </XStack>
+  ),
+}
+```
+
+## Acessibilidade
+
+### Testar Keyboard Navigation
+
+```typescript
+export const KeyboardNavigation: Story = {
+  render: () => (
+    <YStack gap="$3">
+      <Button>First</Button>
+      <Button>Second</Button>
+      <Button>Third</Button>
+    </YStack>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use Tab para navegar entre os botões.',
+      },
+    },
+  },
+}
+```
+
+### A11y Tests
+
+```typescript
+const meta: Meta<typeof Button> = {
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            enabled: true,
+          },
+        ],
+      },
+    },
+  },
+}
+```
+
+## Organização Recomendada
+
+### Ordem das Stories
+
+```typescript
+// 1. Default/Primary
+export const Default: Story = { /* ... */ }
+
+// 2. Variantes principais
+export const Primary: Story = { /* ... */ }
+export const Secondary: Story = { /* ... */ }
+export const Ghost: Story = { /* ... */ }
+
+// 3. Tamanhos
+export const Small: Story = { /* ... */ }
+export const Medium: Story = { /* ... */ }
+export const Large: Story = { /* ... */ }
+
+// 4. Estados
+export const Loading: Story = { /* ... */ }
+export const Disabled: Story = { /* ... */ }
+
+// 5. Casos de uso
+export const WithIcon: Story = { /* ... */ }
+export const LongText: Story = { /* ... */ }
+
+// 6. Variações complexas
+export const AllVariants: Story = { /* ... */ }
+export const VariantMatrix: Story = { /* ... */ }
+```
+
+## Enforcement
+
+Code reviews devem verificar:
+- Toda nova funcionalidade tem story
+- Stories cobrem todas as variantes
+- Stories cobrem todos os estados
+- Documentação (descriptions) está completa
+- ArgTypes configurados corretamente
+- Casos de uso principais demonstrados
+- Acessibilidade considerada

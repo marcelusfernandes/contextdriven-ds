@@ -1,0 +1,65 @@
+---
+description: Design System TypeScript Coding Guidelines - File Naming and Organization - Applies to all TypeScript files for consistent naming conventions, proper file organization, and TSDoc documentation standards
+alwaysApply: true
+---
+# Design System TypeScript Coding Guidelines
+
+## File Naming and Organization
+
+Consistent file naming makes code easier to find and understand. Clear organization within files helps developers quickly comprehend code structure.
+
+### File Naming Conventions
+
+Files should follow these naming rules:
+
+- One declaration per file (exception: component + props type)
+- File name matches the declaration name exactly
+- Use `.tsx` for React components, `.ts` for everything else
+- Use appropriate casing:
+  - PascalCase for:
+    - Types representing objects
+    - React Components
+    - Component props types
+  - camelCase for:
+    - Function types
+    - Variable declarations
+    - Function declarations
+    - Utility functions and hooks
+  - lowercase for:
+    - Configuration files
+
+Examples:
+
+```
+Button.tsx            // Contains Button component and ButtonProps
+Icon.tsx              // Contains Icon component
+formatColor.ts        // Contains function formatColor
+tokens.ts             // Contains design tokens
+tamagui.config.ts     // Configuration file
+```
+
+### Variable Documentation
+
+Use TSDoc to document variables. For multiple declarations, always split them into separate declarations to enable proper documentation:
+
+```typescript
+// ❌ DON'T use inline documentation for multiple declarations
+/** First counter */ let count1, /** Second counter */ count2;
+
+// ✅ DO split declarations for proper documentation
+/** First counter used for tracking primary iterations */
+let count1: number;
+
+/** Second counter used for nested loop iterations */
+let count2: number;
+```
+
+Common TSDoc tags for variables:
+
+- `@defaultValue` - Documents default value
+- `@deprecated` - Marks as deprecated
+- `@remarks` - Adds additional details
+- `@see` - References related code
+- `@since` - Version when introduced
+
+

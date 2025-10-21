@@ -1,0 +1,560 @@
+---
+description: Design System Component Structure - Applies when creating or editing React components with Tamagui
+alwaysApply: false
+---
+# Design System Component Structure
+
+Este documento define como estruturar componentes React usando Tamagui.
+
+## Componentes são Puros e Controlados
+
+Componentes de Design System devem ser:
+- **Puros**: Mesmo input sempre produz mesmo output
+- **Controlados por props**: Todo comportamento vem de props
+- **Sem lógica de negócio**: Apenas lógica de UI
+- **Sem side effects**: Não fazem fetching, não gerenciam estado global
+
+```typescript
+// ✅ DO - Componente puro controlado por props
+export const Button = ({ variant, size, disabled, onPress, children }: ButtonProps) => {
+  return (
+    <ButtonFrame
+      variant={variant}
+      size={size}
+      disabled={disabled}
+      onPress={onPress}
+    >
+      {children}
+    </ButtonFrame>
+  )
+}
+
+// ❌ DON'T - Componente com lógica de negócio
+export const Button = ({ userId }: { userId: string }) => {
+  const [user, setUser] = useState(null)
+  
+  useEffect(() => {
+    fetchUser(userId).then(setUser)  // ❌ Side effect
+  }, [userId])
+  
+  return <button>{user?.name}</button>
+}
+```
+
+## Estrutura de Arquivo do Componente
+
+### Template Base
+
+```typescript
+import { styled, Stack } from '@tamagui/core'
+import type { StackProps, GetProps } from '@tamagui/core'
+
+/**
+ * Props do componente ComponentName
+ */
+export type ComponentNameProps = StackProps & {
+  /**
+   * Variante visual do componente
+   * @defaultValue 'default'
+   */
+  variant?: 'default' | 'primary' | 'secondary'
+  
+  /**
+   * Tamanho do componente
+   * @defaultValue 'medium'
+   */
+  size?: 'small' | 'medium' | 'large'
+  
+  /**
+   * Se o componente está desabilitado
+   * @defaultValue false
+   */
+  disabled?: boolean
+  
+  /** Conteúdo do componente */
+  children: React.ReactNode
+}
+
+/**
+ * ComponentName do Design System
+ * 
+ * @remarks
+ * Descrição detalhada do componente, quando usar, casos de uso.
+ * 
+ * @example
+ * Uso básico:
+ * ```tsx
+ * <ComponentName variant="primary" size="medium">
+ *   Content
+ * </ComponentName>
+ * ```
+ * 
+ * @example
+ * Com custom styling:
+ * ```tsx
+ * <ComponentName
+ *   variant="primary"
+ *   backgroundColor="$blue"
+ *   padding="$4"
+ * >
+ *   Content
+ * </ComponentName>
+ * ```
+ */
+export const ComponentName = styled(Stack, {
+  name: 'ComponentName',
+  
+  // Base styles
+  backgroundColor: '$background',
+  padding: '$2',
+  borderRadius: '$2',
+  
+  variants: {
+    variant: {
+      default: {
+        backgroundColor: '$gray',
+      },
+      primary: {
+        backgroundColor: '$blue',
+      },
+      secondary: {
+        backgroundColor: '$green',
+      },
+    },
+    
+    size: {
+      small: {
+        padding: '$1',
+        fontSize: '$sm',
+      },
+      medium: {
+        padding: '$2',
+        fontSize: '$md',
+      },
+      large: {
+        padding: '$3',
+        fontSize: '$lg',
+      },
+    },
+    
+    disabled: {
+      true: {
+        opacity: 0.5,
+        pointerEvents: 'none',
+      },
+    },
+  },
+  
+  defaultVariants: {
+    variant: 'default',
+    size: 'medium',
+  },
+})
+```
+
+## Padrões de Componentes Tamagui
+
+### 1. Usando `styled()`
+
+Para componentes estáticos com variantes:
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  tag: 'button',
+  
+  // Base styles
+  backgroundColor: '$blue',
+  padding: '$3 $4',
+  borderRadius: '$2',
+  cursor: 'pointer',
+  
+  // Pseudo-states
+  hoverStyle: {
+    backgroundColor: '$blueDark',
+  },
+  
+  pressStyle: {
+    scale: 0.95,
+  },
+  
+  focusStyle: {
+    outlineColor: '$blue',
+    outlineWidth: 2,
+  },
+  
+  // Variants
+  variants: {
+    variant: {
+      primary: {
+        backgroundColor: '$blue',
+      },
+      secondary: {
+        backgroundColor: '$gray',
+      },
+    },
+  },
+})
+```
+
+### 2. Componente Funcional com Styled
+
+Para componentes que precisam de lógica condicional:
+
+```typescript
+// Styled frame
+const ButtonFrame = styled(Stack, {
+  name: 'ButtonFrame',
+  // ... styles
+})
+
+// Functional component
+export type ButtonProps = GetProps<typeof ButtonFrame> & {
+  loading?: boolean
+  icon?: React.ReactNode
+}
+
+export const Button = ({
+  loading,
+  icon,
+  children,
+  disabled,
+  ...props
+}: ButtonProps) => {
+  return (
+    <ButtonFrame disabled={disabled || loading} {...props}>
+      {loading && <Spinner />}
+      {icon && <IconWrapper>{icon}</IconWrapper>}
+      {children}
+    </ButtonFrame>
+  )
+}
+```
+
+### 3. Componentes Compostos
+
+Para componentes com sub-partes:
+
+```typescript
+// Frame principal
+const InputFieldFrame = styled(YStack, {
+  name: 'InputFieldFrame',
+  gap: '$2',
+})
+
+// Label
+const InputFieldLabel = styled(Text, {
+  name: 'InputFieldLabel',
+  fontSize: '$sm',
+  color: '$gray',
+})
+
+// Input
+const InputFieldInput = styled(Input, {
+  name: 'InputFieldInput',
+  // ... styles
+})
+
+// Error message
+const InputFieldError = styled(Text, {
+  name: 'InputFieldError',
+  fontSize: '$xs',
+  color: '$red',
+})
+
+// Componente principal
+export type InputFieldProps = {
+  label: string
+  error?: string
+  value: string
+  onChangeText: (text: string) => void
+}
+
+export const InputField = ({
+  label,
+  error,
+  value,
+  onChangeText,
+}: InputFieldProps) => {
+  return (
+    <InputFieldFrame>
+      <InputFieldLabel>{label}</InputFieldLabel>
+      <InputFieldInput
+        value={value}
+        onChangeText={onChangeText}
+        hasError={!!error}
+      />
+      {error && <InputFieldError>{error}</InputFieldError>}
+    </InputFieldFrame>
+  )
+}
+
+// Exportar sub-componentes se necessário
+InputField.Frame = InputFieldFrame
+InputField.Label = InputFieldLabel
+InputField.Input = InputFieldInput
+InputField.Error = InputFieldError
+```
+
+## Tipagem de Props
+
+### Extender Props do Tamagui
+
+```typescript
+import type { StackProps, GetProps } from '@tamagui/core'
+
+// ✅ DO - Extender StackProps
+export type ButtonProps = StackProps & {
+  variant?: 'primary' | 'secondary'
+  loading?: boolean
+}
+
+// ✅ DO - Usar GetProps para componentes styled
+const ButtonFrame = styled(Stack, { /* ... */ })
+export type ButtonProps = GetProps<typeof ButtonFrame> & {
+  loading?: boolean
+}
+
+// ❌ DON'T - Definir props do zero
+export type ButtonProps = {
+  onPress?: () => void  // ❌ Perde todas as props do Stack
+  children: ReactNode
+}
+```
+
+### Props Opcionais vs Obrigatórias
+
+```typescript
+export type ComponentProps = StackProps & {
+  // Obrigatórias
+  label: string
+  value: string
+  
+  // Opcionais com default
+  /**
+   * Variante visual
+   * @defaultValue 'default'
+   */
+  variant?: 'default' | 'primary'
+  
+  /**
+   * Se está desabilitado
+   * @defaultValue false
+   */
+  disabled?: boolean
+  
+  // Opcionais sem default
+  /** Mensagem de erro opcional */
+  error?: string
+  
+  /** Ícone opcional */
+  icon?: React.ReactNode
+}
+```
+
+## Estados do Componente
+
+### Estados Visuais
+
+Use variantes e pseudo-states:
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  
+  // Normal state
+  backgroundColor: '$blue',
+  
+  // Hover
+  hoverStyle: {
+    backgroundColor: '$blueDark',
+  },
+  
+  // Press/Active
+  pressStyle: {
+    scale: 0.95,
+    backgroundColor: '$blueDarker',
+  },
+  
+  // Focus
+  focusStyle: {
+    outlineColor: '$blue',
+    outlineWidth: 2,
+    outlineStyle: 'solid',
+  },
+  
+  // Disabled via variant
+  variants: {
+    disabled: {
+      true: {
+        opacity: 0.5,
+        cursor: 'not-allowed',
+        pointerEvents: 'none',
+        hoverStyle: {
+          backgroundColor: '$gray',  // Override hover
+        },
+      },
+    },
+  },
+})
+```
+
+### Estados Compostos
+
+Quando precisar combinar múltiplos estados:
+
+```typescript
+export type ButtonProps = StackProps & {
+  loading?: boolean
+  disabled?: boolean
+}
+
+export const Button = ({ loading, disabled, children, ...props }: ButtonProps) => {
+  const isDisabled = disabled || loading
+  
+  return (
+    <ButtonFrame disabled={isDisabled} {...props}>
+      {loading && <Spinner />}
+      {!loading && children}
+    </ButtonFrame>
+  )
+}
+```
+
+## Acessibilidade
+
+### ARIA Labels
+
+```typescript
+export const Button = styled(Stack, {
+  name: 'Button',
+  tag: 'button',
+  role: 'button',
+  
+  // Garantir acessibilidade via keyboard
+  focusable: true,
+  
+  variants: {
+    disabled: {
+      true: {
+        'aria-disabled': true,
+        accessibilityState: { disabled: true },
+      },
+    },
+  },
+})
+```
+
+### Props de Acessibilidade
+
+```typescript
+export type ButtonProps = StackProps & {
+  /** Label acessível para screen readers */
+  accessibilityLabel?: string
+  
+  /** Hint para screen readers */
+  accessibilityHint?: string
+  
+  /** Role ARIA */
+  role?: string
+}
+
+export const Button = ({
+  accessibilityLabel,
+  accessibilityHint,
+  children,
+  ...props
+}: ButtonProps) => {
+  return (
+    <ButtonFrame
+      accessibilityLabel={accessibilityLabel || (typeof children === 'string' ? children : undefined)}
+      accessibilityHint={accessibilityHint}
+      {...props}
+    >
+      {children}
+    </ButtonFrame>
+  )
+}
+```
+
+## Performance
+
+### Memoização
+
+```typescript
+import { memo } from 'react'
+
+// Para componentes que renderizam frequentemente
+export const Icon = memo(({ name, size, color }: IconProps) => {
+  return (
+    <IconFrame size={size} color={color}>
+      {/* ... */}
+    </IconFrame>
+  )
+})
+```
+
+### Evitar Criação de Objetos em Render
+
+```typescript
+// ❌ DON'T - Cria novo objeto a cada render
+export const Button = ({ children }: ButtonProps) => {
+  return (
+    <ButtonFrame style={{ padding: 10, margin: 5 }}>
+      {children}
+    </ButtonFrame>
+  )
+}
+
+// ✅ DO - Use variants ou props do Tamagui
+export const Button = ({ children }: ButtonProps) => {
+  return (
+    <ButtonFrame padding="$2" margin="$1">
+      {children}
+    </ButtonFrame>
+  )
+}
+```
+
+## Exports
+
+### Export do Componente
+
+```typescript
+// ComponentName.tsx
+
+// Export o componente
+export const ComponentName = styled(Stack, { /* ... */ })
+
+// Export tipos
+export type ComponentNameProps = /* ... */
+
+// Export sub-componentes se houver
+export const ComponentNamePart = styled(Stack, { /* ... */ })
+```
+
+### Barrel Export
+
+```typescript
+// index.ts
+
+// Export principal
+export { ComponentName } from './ComponentName'
+
+// Export tipos
+export type { ComponentNameProps } from './ComponentName'
+
+// Export sub-componentes se necessário
+export { ComponentNamePart } from './ComponentName'
+```
+
+## Enforcement
+
+Code reviews devem verificar:
+- Componente é puro e controlado por props
+- Usa `styled()` ou padrão funcional correto
+- Props extendem tipos do Tamagui
+- Variantes definidas para estados visuais
+- Acessibilidade implementada
+- Performance considerada (memo quando necessário)
+- Documentação TSDoc completa
