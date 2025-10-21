@@ -28,6 +28,27 @@ export interface ButtonProps extends Omit<GetProps<typeof ButtonContainer>, 'siz
   testID?: string
 }
 
+// Helper para renderizar ícones com props corretas
+const renderIconWithProps = (icon: React.ReactNode, color: string, size: number) => {
+  if (!icon) return null
+  
+  // Se o ícone é um elemento React válido, clone-o com as props corretas
+  if (React.isValidElement(icon)) {
+    return React.cloneElement(icon as React.ReactElement<any>, {
+      color,
+      width: size,
+      height: size,
+    })
+  }
+  
+  // Se não for um elemento válido, apenas envolve em um container
+  return (
+    <Stack width={size} height={size} color={color}>
+      {icon}
+    </Stack>
+  )
+}
+
 // Container principal do botão
 const ButtonContainer = styled(Stack, {
   name: 'Button',
@@ -220,18 +241,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <Loading size={size} />
         ) : (
           <ContentContainer gap={tokens.button.size[size].gap}>
-            {leadingIcon && (
-              <Stack width={tokens.button.size[size].iconSize} height={tokens.button.size[size].iconSize}>
-                {leadingIcon}
-              </Stack>
+            {leadingIcon && renderIconWithProps(
+              leadingIcon,
+              styles.iconColor,
+              tokens.button.size[size].iconSize
             )}
             <ButtonText size={size} color={styles.color}>
               {children}
             </ButtonText>
-            {trailingIcon && (
-              <Stack width={tokens.button.size[size].iconSize} height={tokens.button.size[size].iconSize}>
-                {trailingIcon}
-              </Stack>
+            {trailingIcon && renderIconWithProps(
+              trailingIcon,
+              styles.iconColor,
+              tokens.button.size[size].iconSize
             )}
           </ContentContainer>
         )}

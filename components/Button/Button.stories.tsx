@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack } from '@tamagui/core'
 import { Button } from './Button'
+import { Checkmarkfilled, Arrowsfilledright, Trashfilled, Addfilled } from '../icons'
 
 const meta = {
   title: 'Components/Button',
@@ -107,39 +108,42 @@ export const Disabled: Story = {
   },
 }
 
-// Com ícones (placeholder - você pode adicionar ícones reais depois)
-
-const PlaceholderIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-    <circle cx="12" cy="12" r="8" />
-  </svg>
-)
+// Com ícones
 
 export const WithLeadingIcon: Story = {
   args: {
-    children: 'Button',
+    children: 'Confirmar',
     variant: 'primary',
     size: 'medium',
-    leadingIcon: <PlaceholderIcon />,
+    leadingIcon: <Checkmarkfilled />,
   },
 }
 
 export const WithTrailingIcon: Story = {
   args: {
-    children: 'Button',
+    children: 'Continuar',
     variant: 'primary',
     size: 'medium',
-    trailingIcon: <PlaceholderIcon />,
+    trailingIcon: <Arrowsfilledright />,
   },
 }
 
 export const WithBothIcons: Story = {
   args: {
-    children: 'Button',
+    children: 'Adicionar',
     variant: 'primary',
     size: 'medium',
-    leadingIcon: <PlaceholderIcon />,
-    trailingIcon: <PlaceholderIcon />,
+    leadingIcon: <Addfilled />,
+    trailingIcon: <Arrowsfilledright />,
+  },
+}
+
+export const DestructiveWithIcon: Story = {
+  args: {
+    children: 'Excluir',
+    variant: 'destructive',
+    size: 'medium',
+    leadingIcon: <Trashfilled />,
   },
 }
 
@@ -233,6 +237,105 @@ export const InteractiveStates: Story = {
           <Button variant="secondary" size="medium">Click me</Button>
           <Button variant="tertiary" size="medium">Focus me</Button>
           <Button variant="destructive" size="medium">Press me</Button>
+        </Stack>
+      </Stack>
+    </Stack>
+  ),
+}
+
+// Showcase de ícones com diferentes estados
+
+export const IconsShowcase: Story = {
+  render: () => (
+    <Stack gap={24} padding={24}>
+      <h2 style={{ margin: 0 }}>Botões com Ícones - Todas as Variantes</h2>
+      
+      {/* Primary com ícones */}
+      <Stack gap={12}>
+        <h3 style={{ margin: 0 }}>Primary</h3>
+        <Stack flexDirection="row" gap={12} flexWrap="wrap">
+          <Button variant="primary" size="medium" leadingIcon={<Checkmarkfilled />}>
+            Confirmar
+          </Button>
+          <Button variant="primary" size="medium" trailingIcon={<Arrowsfilledright />}>
+            Continuar
+          </Button>
+          <Button variant="primary" size="medium" leadingIcon={<Addfilled />}>
+            Adicionar
+          </Button>
+          <Button variant="primary" size="medium" leadingIcon={<Checkmarkfilled />} disabled>
+            Disabled
+          </Button>
+        </Stack>
+      </Stack>
+
+      {/* Secondary com ícones */}
+      <Stack gap={12}>
+        <h3 style={{ margin: 0 }}>Secondary</h3>
+        <Stack flexDirection="row" gap={12} flexWrap="wrap">
+          <Button variant="secondary" size="medium" leadingIcon={<Checkmarkfilled />}>
+            Confirmar
+          </Button>
+          <Button variant="secondary" size="medium" trailingIcon={<Arrowsfilledright />}>
+            Continuar
+          </Button>
+          <Button variant="secondary" size="medium" leadingIcon={<Addfilled />}>
+            Adicionar
+          </Button>
+          <Button variant="secondary" size="medium" leadingIcon={<Checkmarkfilled />} disabled>
+            Disabled
+          </Button>
+        </Stack>
+      </Stack>
+
+      {/* Tertiary com ícones */}
+      <Stack gap={12}>
+        <h3 style={{ margin: 0 }}>Tertiary</h3>
+        <Stack flexDirection="row" gap={12} flexWrap="wrap">
+          <Button variant="tertiary" size="medium" leadingIcon={<Checkmarkfilled />}>
+            Confirmar
+          </Button>
+          <Button variant="tertiary" size="medium" trailingIcon={<Arrowsfilledright />}>
+            Continuar
+          </Button>
+          <Button variant="tertiary" size="medium" leadingIcon={<Addfilled />}>
+            Adicionar
+          </Button>
+          <Button variant="tertiary" size="medium" leadingIcon={<Checkmarkfilled />} disabled>
+            Disabled
+          </Button>
+        </Stack>
+      </Stack>
+
+      {/* Destructive com ícones */}
+      <Stack gap={12}>
+        <h3 style={{ margin: 0 }}>Destructive</h3>
+        <Stack flexDirection="row" gap={12} flexWrap="wrap">
+          <Button variant="destructive" size="medium" leadingIcon={<Trashfilled />}>
+            Excluir
+          </Button>
+          <Button variant="destructive" size="medium" trailingIcon={<Arrowsfilledright />}>
+            Remover
+          </Button>
+          <Button variant="destructive" size="medium" leadingIcon={<Trashfilled />}>
+            Deletar
+          </Button>
+          <Button variant="destructive" size="medium" leadingIcon={<Trashfilled />} disabled>
+            Disabled
+          </Button>
+        </Stack>
+      </Stack>
+
+      {/* Tamanhos com ícones */}
+      <Stack gap={12}>
+        <h3 style={{ margin: 0 }}>Diferentes Tamanhos</h3>
+        <Stack flexDirection="row" gap={12} flexWrap="wrap" alignItems="center">
+          <Button variant="primary" size="small" leadingIcon={<Checkmarkfilled />}>
+            Small
+          </Button>
+          <Button variant="primary" size="medium" leadingIcon={<Checkmarkfilled />}>
+            Medium
+          </Button>
         </Stack>
       </Stack>
     </Stack>
