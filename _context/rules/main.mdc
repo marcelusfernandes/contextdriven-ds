@@ -1,0 +1,287 @@
+---
+description: Design System Main Rules - Regras gerais de implementação, workflow e organização de arquivos - Applies to all component development
+alwaysApply: true
+---
+# Design System - Regras Principais de Implementação
+
+> **Este é o ponto de entrada** para as regras do Design System. Leia este arquivo primeiro para entender o workflow geral, depois consulte as regras específicas para detalhes de implementação.
+
+## 📖 Sobre Este Documento
+
+**O que é:** Guideline geral e workflow de implementação  
+**O que NÃO é:** Especificações detalhadas de implementação
+
+Este documento define:
+- ✅ Workflow completo de implementação
+- ✅ Quando usar cada regra específica
+- ✅ Checklist geral
+- ✅ Organização de arquivos
+- ✅ Princípios fundamentais
+
+Para **especificações detalhadas**, consulte:
+- `001-aibd-ts.mdc` → Naming e organização TypeScript
+- `002-aibd-ts-types.mdc` → Tipagem TypeScript
+- `003-aibd-ts-function.mdc` → Padrões de funções
+- `010-ds-architecture.mdc` → Arquitetura e diretórios
+- `011-ds-component-structure.mdc` → Como estruturar componentes
+- `012-ds-tamagui-patterns.mdc` → Como usar Tamagui
+- `013-ds-storybook.mdc` → Como criar stories
+- `014-ds-tokens.mdc` → Como trabalhar com tokens
+
+## 🎯 Filosofia Central
+
+Estamos construindo um **Design System completo** extraído do Figma, onde cada componente:
+- ✅ É especificado primeiro (arquivo `.md` com dados do Figma)
+- ✅ Usa tokens centralizados (sem hardcode)
+- ✅ Reutiliza tokens quando possível (ex: RadioButton reutiliza cores do Checkbox)
+- ✅ Implementa todas as variantes (sizes, states, variants, error modes)
+- ✅ Tem stories completas no Storybook
+- ✅ Possui documentação detalhada
+
+## 📋 Workflow de Implementação
+
+### Fluxo Padrão
+
+```
+1. Especificação (.md)
+   ↓
+2. Tokens (tokens.ts)
+   ↓
+3. Componente (.tsx)
+   ↓
+4. Stories (.stories.tsx)
+   ↓
+5. Documentação (README.md + QUICK_START.md)
+   ↓
+6. Export (index.ts)
+```
+
+### Passo a Passo Detalhado
+
+#### 1. Especificação (Input)
+
+- **Origem:** Arquivo `.md` em `_context/component_data/` com dados extraídos do Figma
+- **Contém:**
+  - Node ID e URL do Figma
+  - Todas as variantes identificadas
+  - Tokens extraídos (tamanhos, cores, estados)
+  - Mapeamento para tokens.ts
+  - Props esperadas
+  - Notas de implementação
+
+**Exemplo:** `_context/component_data/RadioButton-clean.md`
+
+#### 2. Adicionar Tokens
+
+- **Arquivo:** `/tokens.ts`
+- **Como fazer:** Ver estrutura detalhada em `014-ds-tokens.mdc`
+- **Regra especial deste projeto:** SEMPRE verificar se pode reutilizar tokens existentes
+  - Ex: RadioButton reutiliza 100% das cores do Checkbox
+  - Ver seção "Princípios de Tokens" abaixo
+
+#### 3. Implementar Componente
+
+- **Arquivo:** `/components/ComponentName/ComponentName.tsx`
+- **Como fazer:** Ver detalhes em `011-ds-component-structure.mdc` e `012-ds-tamagui-patterns.mdc`
+- **Pontos principais:**
+  - Use `styled()` do Tamagui com variants
+  - Estados internos gerenciados localmente
+  - ARIA completo para acessibilidade
+  - Navegação por teclado funcional
+  - Ref forwarding quando necessário
+
+#### 4. Criar Stories
+
+- **Arquivo:** `/components/ComponentName/ComponentName.stories.tsx`
+- **Como fazer:** Ver detalhes em `013-ds-storybook.mdc`
+- **O que incluir:**
+  - Story interativa padrão
+  - Todas as variantes (sizes, variants, states)
+  - Casos de uso práticos
+  - Matriz completa quando aplicável
+
+#### 5. Documentação
+
+- **README.md** - Documentação completa (800-1000 linhas)
+  - Visão geral, API, casos de uso, acessibilidade
+- **QUICK_START.md** - Guia rápido (100-200 linhas)
+  - Uso básico e exemplos principais
+- **Ver:** Componentes Button/Checkbox/RadioButton como referência
+
+#### 6. Export
+
+- **Arquivo:** `/components/ComponentName/index.ts`
+- **O que exportar:** Componente + todos os tipos
+- **Ver:** `010-ds-architecture.mdc` para padrão de barrel exports
+
+## 📁 Estrutura de Diretórios
+
+### Design System Core
+
+```
+storybook-tamagui/
+├── components/              # Todos os componentes
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.stories.tsx
+│   │   ├── index.ts
+│   │   ├── README.md
+│   │   └── QUICK_START.md
+│   ├── RadioButton/
+│   ├── Checkbox/
+│   └── ...
+├── tokens.ts               # Design tokens centralizados
+├── tamagui.config.ts       # Configuração Tamagui
+└── assets/
+    ├── icons/              # Ícones SVG
+    └── fonts/              # Fontes customizadas
+```
+
+### Context & Documentation
+
+```
+_context/
+├── component_data/         # Especificações extraídas do Figma
+│   ├── Button.md
+│   ├── RadioButton-clean.md
+│   └── ...
+├── rules/                  # Regras de implementação (este arquivo)
+│   ├── main.mdc           # ← VOCÊ ESTÁ AQUI
+│   ├── 010-ds-architecture.mdc
+│   ├── 012-ds-tamagui-patterns.mdc
+│   └── ...
+├── support-docs/           # 📝 DOCUMENTAÇÃO ADICIONAL VAI AQUI
+│   └── [arquivos gerados pela AI se necessário]
+├── icons/                  # Ícones SVG originais
+└── font-files/             # Fontes originais
+```
+
+## 📝 Regras de Documentação
+
+### Quando Criar Documentação Adicional
+
+A AI pode criar documentação adicional **SOMENTE** quando:
+1. O usuário solicitar explicitamente
+2. For necessário documentar patterns complexos que não cabem nos READMEs
+3. For necessário criar guias de migração ou troubleshooting
+
+### Onde Colocar Documentação
+
+- ✅ **Documentação de componentes:** `/components/ComponentName/README.md` e `QUICK_START.md`
+- ✅ **Documentação adicional/support:** `/_context/support-docs/`
+- ✅ **Regras de implementação:** `/_context/rules/`
+- ❌ **NÃO criar na raiz** (evitar poluir)
+- ❌ **NÃO criar em components/** (apenas README.md e QUICK_START.md)
+
+### Formato de Documentação Adicional
+
+Se criar em `_context/support-docs/`:
+- Use markdown (.md)
+- Nome descritivo: `nome-do-topico.md`
+- Inclua data no topo
+- Referencie componentes/regras relevantes
+
+## 🎨 Princípios de Tokens
+
+**Ver detalhes em:** `014-ds-tokens.mdc`
+
+### Regras Fundamentais
+
+1. **NUNCA hardcode valores** - Sempre use tokens
+2. **SEMPRE reutilize** - Antes de criar, verifique se já existe
+3. **Use ref() para rastreabilidade** - Mantém conexão com primitivos
+
+### Checklist de Tokens
+
+Antes de adicionar novos tokens, pergunte:
+- [ ] Essas cores já existem em outro componente?
+- [ ] Esses tamanhos já existem em outro componente?
+- [ ] Esses estados já existem em outro componente?
+- [ ] Posso reutilizar tokens primitivos?
+
+**Exemplo:** RadioButton reutiliza 100% das cores do Checkbox por serem idênticas.
+
+## 🎯 Checklist de Implementação
+
+### Antes de Começar
+- [ ] Especificação `.md` existe em `_context/component_data/`
+- [ ] Ícones necessários existem em `components/icons/`
+- [ ] Entendi todas as variantes e estados
+
+### Durante Implementação
+- [ ] Tokens adicionados em `tokens.ts`
+- [ ] Reutilizei tokens quando possível
+- [ ] Componente `.tsx` criado com todos os estados
+- [ ] Stories `.stories.tsx` com todas as variantes
+- [ ] README.md completo
+- [ ] QUICK_START.md conciso
+- [ ] index.ts com exports
+
+### Após Implementação
+- [ ] Sem erros de lint
+- [ ] Storybook renderiza corretamente
+- [ ] Todas as variantes funcionam
+- [ ] Acessibilidade testada (Tab, Space, Enter)
+- [ ] Estados interativos funcionam (hover, focus, active)
+
+## 🚫 Anti-Patterns (O Que NÃO Fazer)
+
+1. **❌ Hardcode de valores** - Ver `014-ds-tokens.mdc`
+2. **❌ Duplicação de tokens** - Ver `014-ds-tokens.mdc`
+3. **❌ Documentação em lugares errados** - Use apenas locais especificados acima
+4. **❌ Pular etapas do workflow** - Sempre seguir: Spec → Tokens → Component → Stories → Docs → Export
+5. **❌ Criar arquivos desnecessários** - Apenas os especificados no workflow
+6. **❌ Ignorar especificação Figma** - Sempre implementar conforme especificado
+7. **❌ Esquecer acessibilidade** - ARIA e navegação por teclado são obrigatórios
+
+## 🔗 Quando Consultar Cada Regra
+
+Use este guia para saber qual regra consultar em cada etapa:
+
+### Durante Planejamento
+- **main.mdc** (este arquivo) → Overview do workflow
+
+### Adicionando Tokens
+- **014-ds-tokens.mdc** → Como estruturar, nomear e usar tokens
+
+### Implementando Componente
+1. **010-ds-architecture.mdc** → Onde criar arquivos
+2. **011-ds-component-structure.mdc** → Como estruturar o componente
+3. **012-ds-tamagui-patterns.mdc** → Como usar Tamagui styled()
+4. **001-003-aibd-ts** → Padrões TypeScript (naming, types, functions)
+
+### Criando Stories
+- **013-ds-storybook.mdc** → Estrutura, variantes, documentação
+
+### Escrevendo Código
+- **001-aibd-ts.mdc** → File naming, organização
+- **002-aibd-ts-types.mdc** → Tipos, interfaces
+- **003-aibd-ts-function.mdc** → Padrões de funções
+
+## 📊 Métricas de Sucesso
+
+Um componente bem implementado tem:
+- ✅ 82-108+ variantes funcionando (conforme especificação)
+- ✅ 0 valores hardcoded
+- ✅ 100% dos tokens reutilizados quando possível
+- ✅ 8-12 stories no Storybook
+- ✅ README.md com 800-1000+ linhas
+- ✅ QUICK_START.md com 100-200 linhas
+- ✅ 0 erros de lint
+- ✅ ARIA completo
+- ✅ Navegação por teclado funcional
+
+## 🎓 Exemplos de Referência
+
+Componentes já implementados que seguem estas regras:
+- **Button** - Componente base com loading state
+- **Checkbox** - 108 variantes, 3 estados (unchecked, checked, indeterminate)
+- **RadioButton** - 82 variantes, reutiliza 100% cores do Checkbox
+
+Consulte estes componentes como referência para novas implementações.
+
+---
+
+**Última atualização:** 21/10/2025
+**Versão:** 1.0
+**Autor:** Design System Team - Zé Delivery
