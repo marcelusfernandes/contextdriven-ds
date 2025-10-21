@@ -17,6 +17,15 @@ module.exports = function (api) {
           include: ["TAMAGUI_TARGET", "EXPO_ROUTER_APP_ROOT"],
         },
       ],
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@icons": "./components/icons",
+          },
+        },
+      ],
       "react-native-reanimated/plugin",
     ].filter(Boolean),
   };

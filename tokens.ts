@@ -106,7 +106,7 @@ const primitive = {
     gray800Alpha50: '#33333380',
     gray800Alpha80: '#333333cc',
   },
-  
+
   /**
    * ESPAÇAMENTOS PRIMITIVOS
    */
@@ -124,7 +124,7 @@ const primitive = {
     48: 48,
     64: 64,
   },
-  
+
   /**
    * TAMANHOS PRIMITIVOS
    */
@@ -150,7 +150,7 @@ const primitive = {
     136: 136,
     328: 328,
   },
-  
+
   /**
    * BORDER RADIUS PRIMITIVOS
    */
@@ -164,7 +164,7 @@ const primitive = {
     24: 24,
     round: 1000,
   },
-  
+
   /**
    * TIPOGRAFIA PRIMITIVA
    */
@@ -218,7 +218,7 @@ const primitive = {
       regular: 0,
     },
   },
-  
+
   /**
    * OPACIDADE PRIMITIVA
    */
@@ -235,7 +235,7 @@ const primitive = {
     90: 0.9,
     100: 1,
   },
-  
+
   /**
    * Z-INDEX PRIMITIVO
    */
@@ -250,7 +250,7 @@ const primitive = {
     tooltip: 1600,
     toast: 1700,
   },
-  
+
   /**
    * TRANSIÇÕES PRIMITIVAS
    */
@@ -270,7 +270,7 @@ const primitive = {
       easeInOut: 'ease-in-out',
     },
   },
-  
+
   /**
    * BREAKPOINTS PRIMITIVOS
    */
@@ -288,15 +288,15 @@ const primitive = {
 // HELPER FUNCTION (Resolve referências para valores finais)
 // ================================================================================
 
-/**
+  /**
  * Helper que resolve referências mantendo rastreabilidade
  * Tamagui recebe o valor final, mas o código mantém a referência clara
- */
+   */
 const ref = <T>(value: T): T => value
 
-// ================================================================================
+  // ================================================================================
 // COMPONENT TOKENS (Compatível com Tamagui)
-// ================================================================================
+  // ================================================================================
 
 /**
  * Tokens de componentes usando helper ref()
@@ -317,7 +317,7 @@ export const tokens = {
   zIndex: primitive.zIndex,
   transition: primitive.transition,
   breakpoint: primitive.breakpoint,
-  
+
   /**
    * BUTTON
    */
@@ -554,7 +554,7 @@ export const tokens = {
       normal: ref(primitive.color.gray800),
     },
   },
-  
+
   /**
    * LOADING
    */
@@ -590,7 +590,7 @@ export const tokens = {
       easing: ref(primitive.transition.easing.linear),
     },
   },
-  
+
   /**
    * CHECKBOX
    */
@@ -729,7 +729,7 @@ export const tokens = {
       },
     },
   },
-  
+
   // 📝 TODO: Adicionar outros componentes seguindo o mesmo padrão
   // - dismissButton
   // - inputSingle / inputTextarea / inputSelect / inputField

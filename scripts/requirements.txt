@@ -1,0 +1,19 @@
+# Requisitos Python para Scripts de Normalização de SVG
+# 
+# Este projeto usa apenas bibliotecas padrão do Python 3.10+
+# Não é necessário instalar dependências externas.
+#
+# Bibliotecas utilizadas (todas incluídas no Python):
+# - pathlib
+# - xml.etree.ElementTree
+# - re
+# - os
+# - sys
+# - argparse
+# - logging
+#
+# Para verificar se você tem a versão correta do Python:
+#   python3 --version
+#
+# Deve retornar 3.10 ou superior.
+
