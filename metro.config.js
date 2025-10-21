@@ -1,23 +1,26 @@
 const { getDefaultConfig } = require("expo/metro-config");
+const path = require("path");
 
 const defaultConfig = getDefaultConfig(__dirname, { isCSSEnabled: true });
 
+// Configuração do Storybook
 if (process.env.STORYBOOK_ENABLED) {
-  const path = require("path");
-  const { writeRequires } = require("@storybook/react-native/scripts/loader");
-
-  writeRequires({
+  // MUDANÇA: Storybook 8 usa novo sistema de loader
+  const { generate } = require("@storybook/react-native/scripts/loader");
+  
+  generate({
     configPath: path.resolve(__dirname, "./.ondevice"),
-    unstable_useRequireContext: true,
   });
 
   defaultConfig.resolver.resolverMainFields = [
     "sbmodern",
-    ...defaultConfig.resolver.resolverMainFields,
+    "react-native",
+    "browser",
+    "main",
   ];
 }
 
-// Configuração para suportar SVG
+// Configuração para SVG
 const { transformer, resolver } = defaultConfig;
 
 defaultConfig.transformer = {
@@ -29,7 +32,12 @@ defaultConfig.transformer = {
 defaultConfig.resolver = {
   ...resolver,
   assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
-  sourceExts: [...resolver.sourceExts, "svg", "mjs"],
+  sourceExts: [...resolver.sourceExts, "svg", "mjs", "cjs"],
 };
+
+// Watchman config para performance
+defaultConfig.watchFolders = [
+  path.resolve(__dirname, "./"),
+];
 
 module.exports = defaultConfig;

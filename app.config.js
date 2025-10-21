@@ -1,13 +1,16 @@
-export default ({ config }) => ({
-  ...config,
-  name: "MealDropTamagui",
-  slug: "expo-template-blank-typescript",
-  version: "1.0.0",
-  orientation: "portrait",
-  icon: "./assets/icon.png",
-  extra: {
-    storybookEnabled: process.env.STORYBOOK_ENABLED,
-  },
+module.exports = ({ config }) => {
+  const storybookEnabled = process.env.STORYBOOK_ENABLED === 'true'
+  
+  return {
+    ...config,
+    name: "MealDropTamagui",
+    slug: "expo-template-blank-typescript",
+    version: "1.0.0",
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    extra: {
+      storybookEnabled: storybookEnabled ? 'true' : 'false',
+    },
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
@@ -29,4 +32,5 @@ export default ({ config }) => ({
   web: {
     favicon: "./assets/favicon.png",
   },
-});
+  }
+};
