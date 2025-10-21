@@ -4,13 +4,20 @@ module.exports = {
     "../components/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
+  staticDirs: ['./public'],
   viteFinal: async (config, { configType }) => {
     const { tamaguiPlugin } = require("@tamagui/vite-plugin");
+    const svgr = require("vite-plugin-svgr");
 
     config.plugins.push(
       tamaguiPlugin({
         config: "../tamagui.config.ts",
         components: ["tamagui"],
+      }),
+      svgr.default({
+        svgrOptions: {
+          native: true,
+        },
       }),
     );
 

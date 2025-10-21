@@ -17,8 +17,19 @@ if (process.env.STORYBOOK_ENABLED) {
   ];
 }
 
-defaultConfig.resolver.sourceExts.push("mjs");
+// Configuração para suportar SVG
+const { transformer, resolver } = defaultConfig;
 
-defaultConfig.transformer.unstable_allowRequireContext = true;
+defaultConfig.transformer = {
+  ...transformer,
+  babelTransformerPath: require.resolve("react-native-svg-transformer"),
+  unstable_allowRequireContext: true,
+};
+
+defaultConfig.resolver = {
+  ...resolver,
+  assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
+  sourceExts: [...resolver.sourceExts, "svg", "mjs"],
+};
 
 module.exports = defaultConfig;

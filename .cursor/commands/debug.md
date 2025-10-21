@@ -1,0 +1,1 @@
+Faça uma investigação para identificar as possíveis causas, apenas responda. Não implemente.

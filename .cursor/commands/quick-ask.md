@@ -1,0 +1,1 @@
+Responda de forma direta e objetiva sem verbosidade desnecessária, não implemente.
