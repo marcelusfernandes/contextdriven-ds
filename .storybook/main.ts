@@ -1,28 +1,24 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { mergeConfig } from 'vite'
-import { tamaguiPlugin } from '@tamagui/vite-plugin'
 import path from 'path'
+import svgr from 'vite-plugin-svgr'
 
 const config: StorybookConfig = {
   // Localização das stories
-  stories: [
-    '../components/**/*.stories.@(ts|tsx|js|jsx)',
-    '../components/**/*.stories.mdx',
-  ],
+  stories: ['../components/**/*.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
 
   // Addons essenciais
   addons: [
-    '@storybook/addon-essentials',    // Controls, Actions, Docs, etc
-    '@storybook/addon-interactions',  // Testes de interação
-    '@storybook/addon-links',         // Links entre stories
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-links',
+    '@chromatic-com/storybook'
   ],
 
   // Framework e builder
   framework: {
     name: '@storybook/react-vite',
-    options: {
-      strictMode: true,
-    },
+    options: {},
   },
 
   // Core settings
@@ -36,10 +32,14 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       // Plugins
       plugins: [
-        tamaguiPlugin({
-          components: ['tamagui'],
-          config: './tamagui.config.ts',
-          useReactNativeWebLite: false,
+        svgr({
+          svgrOptions: {
+            exportType: 'default',
+            ref: true,
+            svgo: false,
+            titleProp: true,
+          },
+          include: '**/*.svg',
         }),
       ],
 
@@ -68,8 +68,15 @@ const config: StorybookConfig = {
           'react-dom',
         ],
         exclude: [
-          '@tamagui/vite-plugin',
+          'react-native',
+          '@react-native/assets-registry',
         ],
+        esbuildOptions: {
+          resolveExtensions: ['.web.js', '.web.ts', '.web.tsx', '.js', '.ts', '.tsx', '.json'],
+          loader: {
+            '.js': 'jsx',
+          },
+        },
       },
 
       // Server config
@@ -100,11 +107,14 @@ const config: StorybookConfig = {
 
   // Docs configuration
   docs: {
-    autodocs: 'tag', // Gerar docs automaticamente para stories com tag 'autodocs'
+    autodocs: true, // Gerar docs automaticamente para stories com tag 'autodocs'
   },
 
   // Static directories
-  staticDirs: ['../assets'],
+  staticDirs: [
+    '../assets',
+    './public'
+  ],
 }
 
 export default config

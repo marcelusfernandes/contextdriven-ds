@@ -1,26 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import type { Preview } from '@storybook/react'
 import { TamaguiProvider } from '@tamagui/core'
-import { useFonts } from 'expo-font'
 import config from '../tamagui.config'
+
+// Carregar fontes via CSS para web
+const loadFonts = () => {
+  const style = document.createElement('style')
+  style.textContent = `
+    @font-face {
+      font-family: 'Gelada RC3 Black';
+      src: url('/fonts/GeladaRC3-Black.otf') format('opentype');
+      font-weight: 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Roboto Flex';
+      src: url('/fonts/RobotoFlex.ttf') format('truetype');
+      font-weight: 100 1000;
+      font-style: normal;
+    }
+  `
+  document.head.appendChild(style)
+}
 
 // Decorator para adicionar TamaguiProvider em todas as stories
 const TamaguiDecorator = (Story) => {
-  const [fontsLoaded] = useFonts({
-    'Gelada RC3 Black': require('../assets/fonts/GeladaRC3-Black.otf'),
-    'Roboto Flex': require('../assets/fonts/RobotoFlex.ttf'),
-  })
+  const [fontsLoaded, setFontsLoaded] = useState(false)
 
-  // Não renderizar até fonts carregarem
+  useEffect(() => {
+    loadFonts()
+    // Dar tempo para as fontes carregarem
+    const timeout = setTimeout(() => setFontsLoaded(true), 100)
+    return () => clearTimeout(timeout)
+  }, [])
+
   if (!fontsLoaded) {
     return <div>Loading fonts...</div>
   }
 
   return (
     <TamaguiProvider config={config}>
-      <div style={{ padding: '1rem', minHeight: '100vh' }}>
-        <Story />
-      </div>
+      <Story />
     </TamaguiProvider>
   )
 }
@@ -80,7 +100,8 @@ const preview: Preview = {
     docs: {
       toc: true, // Table of contents
       source: {
-        type: 'dynamic',
+        type: 'code', // Mostrar código das stories
+        excludeDecorators: true,
       },
     },
   },
