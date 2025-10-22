@@ -65,13 +65,13 @@ Este arquivo serve como índice rápido das regras aplicáveis ao Design System.
 ## 📁 Estrutura de Documentação
 
 ```
+.cursor/
+└── rules/                  # ← VOCÊ ESTÁ AQUI
+    ├── main.mdc           # Regras principais ⭐⭐⭐
+    ├── INDEX.md           # Este arquivo
+    └── 0XX-*.mdc          # Regras específicas
+
 _context/
-├── rules/                  # ← VOCÊ ESTÁ AQUI
-│   ├── main.mdc           # Regras principais ⭐⭐⭐
-│   ├── README.md          # Documentação completa
-│   ├── INDEX.md           # Este arquivo
-│   └── 0XX-*.mdc          # Regras específicas
-│
 ├── component_data/         # Especificações extraídas do Figma
 │   └── ComponentName.md
 │
@@ -115,8 +115,6 @@ _context/
 
 ## 🔄 Última Atualização
 
-**Data:** 21/10/2025  
-**Versão:** 1.0
-
-Para documentação completa, veja [README.md](./README.md)
+**Data:** 22/10/2025  
+**Versão:** 1.1
 

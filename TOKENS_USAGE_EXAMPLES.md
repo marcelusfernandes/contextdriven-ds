@@ -500,3 +500,5 @@ Prioridade de uso:
 **Dúvidas?** Consulte `TOKENS_3_CAMADAS.md` para entender a arquitetura!
 
 
+
+
