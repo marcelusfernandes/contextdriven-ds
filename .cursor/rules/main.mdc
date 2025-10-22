@@ -140,15 +140,17 @@ storybook-tamagui/
 ### Context & Documentation
 
 ```
+.cursor/
+└── rules/                  # Regras de implementação
+    ├── main.mdc           # ← VOCÊ ESTÁ AQUI
+    ├── 010-ds-architecture.mdc
+    ├── 012-ds-tamagui-patterns.mdc
+    └── ...
+
 _context/
 ├── component_data/         # Especificações extraídas do Figma
 │   ├── Button.md
 │   ├── RadioButton-clean.md
-│   └── ...
-├── rules/                  # Regras de implementação (este arquivo)
-│   ├── main.mdc           # ← VOCÊ ESTÁ AQUI
-│   ├── 010-ds-architecture.mdc
-│   ├── 012-ds-tamagui-patterns.mdc
 │   └── ...
 ├── support-docs/           # 📝 DOCUMENTAÇÃO ADICIONAL VAI AQUI
 │   └── [arquivos gerados pela AI se necessário]
@@ -169,7 +171,7 @@ A AI pode criar documentação adicional **SOMENTE** quando:
 
 - ✅ **Documentação de componentes:** `/components/ComponentName/README.md` e `QUICK_START.md`
 - ✅ **Documentação adicional/support:** `/_context/support-docs/`
-- ✅ **Regras de implementação:** `/_context/rules/`
+- ✅ **Regras de implementação:** `/.cursor/rules/`
 - ❌ **NÃO criar na raiz** (evitar poluir)
 - ❌ **NÃO criar em components/** (apenas README.md e QUICK_START.md)
 
@@ -282,6 +284,6 @@ Consulte estes componentes como referência para novas implementações.
 
 ---
 
-**Última atualização:** 21/10/2025
-**Versão:** 1.0
+**Última atualização:** 22/10/2025  
+**Versão:** 1.1  
 **Autor:** Design System Team - Zé Delivery
