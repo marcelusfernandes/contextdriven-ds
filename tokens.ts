@@ -1,19 +1,23 @@
 /**
  * Design Tokens - DSZé (Compatível com Tamagui)
  * 
- * ✨ Solução Híbrida: Boas Práticas + Compatibilidade Tamagui
+ * ✨ Arquitetura em 3 Camadas - Boas Práticas de Design Systems
  * 
  * Estrutura:
- * 1. Primitive Tokens - Valores raw definidos UMA ÚNICA VEZ
- * 2. Component Tokens - Referenciam primitivos mas resolvem para valores finais
- * 3. Tamagui recebe valores finais (não referências JS)
+ * 1. Primitive Tokens - Valores raw, paleta completa (ex: gray800, zeYellow)
+ * 2. Semantic Tokens - Intenção e contexto de uso (ex: text.primary, brand.primary)
+ * 3. Component Tokens - Aplicação específica por componente (ex: button.primary.normal)
+ * 
+ * Fluxo:
+ * Primitive → Semantic → Component → Tamagui recebe valores finais
  * 
  * Benefícios:
  * ✅ Funciona perfeitamente com Tamagui
  * ✅ Fonte única de verdade (zero duplicação)
  * ✅ Type-safe com TypeScript
- * ✅ Fácil manutenção
+ * ✅ Fácil manutenção e mudanças de tema
  * ✅ Segue boas práticas de Design Systems
+ * ✅ Decisões de design centralizadas (camada semântica)
  */
 
 // ================================================================================
@@ -149,6 +153,11 @@ const primitive = {
     124: 124,
     136: 136,
     328: 328,
+    
+    // Aliases semânticos para ícones (compatibilidade tokens-df)
+    iconSmall: 20,
+    iconMedium: 24,
+    iconLarge: 32,
   },
 
   /**
@@ -177,6 +186,7 @@ const primitive = {
       mono: 'Monaco, Courier, monospace',
     },
     fontSize: {
+      // Nomenclatura do Figma (semântica)
       peta: 48,
       giga: 36,
       mega: 28,
@@ -186,13 +196,56 @@ const primitive = {
       small: 14,
       extraSmall: 12,
       micro: 10,
+      
+      // Legacy (compatibilidade tokens-df)
+      xs: 10,
+      sm: 12,
+      md: 14,
+      lg: 16,
+      xl: 18,
+      xxl: 20,
+      xxxl: 24,
+      h1: 32,
+      h2: 28,
+      h3: 24,
+      h4: 20,
+      h5: 18,
+      h6: 16,
     },
     fontWeight: {
+      // Estrutura semântica (numbers)
       regular: 400,
       medium: 500,
       semibold: 600,
       bold: 700,
       black: 900,
+      
+      // Estrutura Display (Gelada RC3)
+      display: {
+        stronger: {
+          normal: 900,
+        },
+      },
+      
+      // Estrutura Main (Roboto Flex - Titles e Highlights)
+      main: {
+        bold: {
+          normal: 700,
+        },
+        semibold: {
+          normal: 600,
+        },
+      },
+      
+      // Estrutura Content (Roboto Flex - Body)
+      content: {
+        regular: {
+          normal: 400,
+        },
+        semibold: {
+          normal: 600,
+        },
+      },
     },
     lineHeight: {
       close: {
@@ -213,9 +266,25 @@ const primitive = {
         small: 16,
         extraSmall: 12,
       },
+      
+      // Legacy (compatibilidade tokens-df)
+      xs: 16,
+      sm: 18,
+      md: 20,
+      lg: 24,
+      xl: 28,
+      xxl: 32,
+      xxxl: 40,
     },
     letterSpacing: {
       regular: 0,
+      
+      // Legacy (compatibilidade tokens-df)
+      tighter: -0.05,
+      tight: -0.025,
+      normal: 0,
+      wide: 0.025,
+      wider: 0.05,
     },
   },
 
@@ -288,25 +357,200 @@ const primitive = {
 // HELPER FUNCTION (Resolve referências para valores finais)
 // ================================================================================
 
-  /**
+/**
  * Helper que resolve referências mantendo rastreabilidade
  * Tamagui recebe o valor final, mas o código mantém a referência clara
-   */
+ */
 const ref = <T>(value: T): T => value
 
-  // ================================================================================
-// COMPONENT TOKENS (Compatível com Tamagui)
-  // ================================================================================
+// ================================================================================
+// SEMANTIC TOKENS (Camada de Decisão)
+// ================================================================================
 
 /**
- * Tokens de componentes usando helper ref()
- * - Código mantém rastreabilidade (ref(primitive.color.zeYellow))
- * - Tamagui recebe valor final ('#ffcc00')
- * - Melhor dos dois mundos!
+ * Tokens semânticos - definem INTENÇÃO e CONTEXTO de uso
+ * Esta é a camada intermediária que:
+ * - Referencia tokens primitivos
+ * - Define significado e propósito (brand, feedback, text, etc)
+ * - Facilita mudanças de tema
+ * - Centraliza decisões de design
+ */
+const semantic = {
+  /**
+   * CORES SEMÂNTICAS - Por Intenção de Uso
+   */
+  color: {
+    // Brand Identity
+    brand: {
+      primary: ref(primitive.color.zeYellow),
+      primaryHover: ref(primitive.color.zeYellowDark),
+      primaryActive: ref(primitive.color.zeYellowLight),
+      primaryDisabled: ref(primitive.color.gray200),
+      
+      secondary: ref(primitive.color.zeCompensaPurple),
+      secondaryLight: ref(primitive.color.zeCompensaPurpleLight),
+      secondaryDark: ref(primitive.color.zeCompensaPurpleDark),
+    },
+    
+    // Feedback/Status Colors
+    feedback: {
+      // Error
+      error: ref(primitive.color.red),
+      errorStrong: ref(primitive.color.redDark),
+      errorStronger: ref(primitive.color.redDarker),
+      errorSoft: ref(primitive.color.redLight),
+      errorBg: ref(primitive.color.redLightest),
+      errorBorder: ref(primitive.color.red),
+      
+      // Success
+      success: ref(primitive.color.successGreen),
+      successStrong: ref(primitive.color.successGreenDark),
+      successStronger: ref(primitive.color.successGreenDarker),
+      successBg: ref(primitive.color.successGreenLight),
+      successText: ref(primitive.color.successGreenText),
+      
+      // Warning
+      warning: ref(primitive.color.warningOrange),
+      warningStrong: ref(primitive.color.warningOrangeDark),
+      warningBg: ref(primitive.color.warningOrangeLight),
+      warningText: ref(primitive.color.warningOrangeText),
+      
+      // Info
+      info: ref(primitive.color.infoCyan),
+      infoStrong: ref(primitive.color.infoTeal),
+      infoDark: ref(primitive.color.infoCyanDark),
+      infoBg: ref(primitive.color.coldBlueLight),
+    },
+    
+    // Text Hierarchy
+    text: {
+      primary: ref(primitive.color.gray800),
+      primaryStrong: ref(primitive.color.gray850),
+      secondary: ref(primitive.color.gray500),
+      tertiary: ref(primitive.color.gray400),
+      disabled: ref(primitive.color.gray500),
+      inverse: ref(primitive.color.white),
+      onBrand: ref(primitive.color.black),
+    },
+    
+    // Surface/Background
+    surface: {
+      primary: ref(primitive.color.white),
+      secondary: ref(primitive.color.gray100),
+      tertiary: ref(primitive.color.gray200),
+      overlay: ref(primitive.color.blackAlpha50),
+      overlayStrong: ref(primitive.color.blackAlpha80),
+      transparent: ref(primitive.color.transparent),
+    },
+    
+    // Border
+    border: {
+      default: ref(primitive.color.gray300),
+      strong: ref(primitive.color.gray500),
+      stronger: ref(primitive.color.gray650),
+      subtle: ref(primitive.color.gray200),
+      subtler: ref(primitive.color.gray150),
+      dark: ref(primitive.color.gray900),
+      darkStrong: ref(primitive.color.gray800),
+    },
+    
+    // Interactive States (generics)
+    interactive: {
+      default: ref(primitive.color.gray800),
+      hover: ref(primitive.color.gray700),
+      active: ref(primitive.color.gray400),
+      disabled: ref(primitive.color.gray500),
+      focus: ref(primitive.color.gray650),
+      
+      // Backgrounds for interactive
+      bgHover: ref(primitive.color.gray100),
+      bgActive: ref(primitive.color.gray200),
+      bgFocus: ref(primitive.color.gray200),
+      
+      // Alphas for overlays
+      alphaHover: ref(primitive.color.gray800Alpha20),
+      alphaActive: ref(primitive.color.gray800Alpha20),
+      alphaFocus: ref(primitive.color.gray800Alpha50),
+      alphaDisabled: ref(primitive.color.gray800Alpha10),
+    },
+  },
+  
+  /**
+   * ESPAÇAMENTOS SEMÂNTICOS
+   */
+  spacing: {
+    // Component spacing
+    component: {
+      gapSmall: ref(primitive.space[8]),
+      gapMedium: ref(primitive.space[12]),
+      gapLarge: ref(primitive.space[16]),
+      
+      paddingSmall: ref(primitive.space[8]),
+      paddingMedium: ref(primitive.space[12]),
+      paddingLarge: ref(primitive.space[16]),
+    },
+    
+    // Layout spacing
+    layout: {
+      sectionGap: ref(primitive.space[24]),
+      containerPadding: ref(primitive.space[16]),
+      containerPaddingLarge: ref(primitive.space[24]),
+    },
+  },
+  
+  /**
+   * TAMANHOS SEMÂNTICOS
+   */
+  sizing: {
+    // Interactive elements (acessibilidade)
+    interactive: {
+      minHeight: ref(primitive.size[44]), // WCAG touch target
+      minWidth: ref(primitive.size[44]),
+    },
+    
+    // Icon sizes
+    icon: {
+      micro: ref(primitive.size[12]),
+      extraSmall: ref(primitive.size[16]),
+      small: ref(primitive.size[20]),
+      medium: ref(primitive.size[24]),
+      large: ref(primitive.size[28]),
+      extraLarge: ref(primitive.size[32]),
+    },
+  },
+  
+  /**
+   * BORDER RADIUS SEMÂNTICOS
+   */
+  radius: {
+    component: {
+      small: ref(primitive.radius[8]),
+      smallMedium: ref(primitive.radius[12]),
+      medium: ref(primitive.radius[16]),
+      large: ref(primitive.radius[20]),
+      circular: ref(primitive.radius.round),
+    },
+    
+    icon: {
+      small: ref(primitive.radius[4]),
+      medium: ref(primitive.radius[8]),
+    },
+  },
+} as const
+
+// ================================================================================
+// COMPONENT TOKENS (Camada de Aplicação)
+// ================================================================================
+
+/**
+ * Tokens de componentes - aplicação específica por componente
+ * - Referenciam tokens SEMÂNTICOS (não primitivos)
+ * - Define como cada componente usa os tokens
+ * - Organizado por: component → property → variant → state
  */
 export const tokens = {
   /**
-   * Expor tokens primitivos (uso direto)
+   * Expor acesso direto aos tokens primitivos e semânticos
    */
   color: primitive.color,
   space: primitive.space,
@@ -317,6 +561,9 @@ export const tokens = {
   zIndex: primitive.zIndex,
   transition: primitive.transition,
   breakpoint: primitive.breakpoint,
+  
+  // Expor semantic tokens
+  semantic: semantic,
 
   /**
    * BUTTON
@@ -325,216 +572,216 @@ export const tokens = {
     size: {
       small: {
         height: 36,
-        paddingVertical: ref(primitive.space[8]),
-        paddingHorizontal: ref(primitive.space[16]),
-        borderRadius: ref(primitive.radius[12]),
+        paddingVertical: ref(semantic.spacing.component.paddingSmall),
+        paddingHorizontal: ref(semantic.spacing.component.paddingLarge),
+        borderRadius: ref(semantic.radius.component.smallMedium),
         fontSize: ref(primitive.typography.fontSize.small),
         lineHeight: ref(primitive.typography.lineHeight.regular.small),
-        iconSize: ref(primitive.size[20]),
-        gap: ref(primitive.space[8]),
-        minWidth: ref(primitive.size[44]),
+        iconSize: ref(semantic.sizing.icon.small),
+        gap: ref(semantic.spacing.component.gapSmall),
+        minWidth: ref(semantic.sizing.interactive.minWidth),
       },
       medium: {
         height: 48,
-        paddingVertical: ref(primitive.space[12]),
-        paddingHorizontal: ref(primitive.space[16]),
-        borderRadius: ref(primitive.radius[16]),
+        paddingVertical: ref(semantic.spacing.component.paddingMedium),
+        paddingHorizontal: ref(semantic.spacing.component.paddingLarge),
+        borderRadius: ref(semantic.radius.component.medium),
         fontSize: ref(primitive.typography.fontSize.medium),
         lineHeight: ref(primitive.typography.lineHeight.regular.medium),
-        iconSize: ref(primitive.size[24]),
-        gap: ref(primitive.space[8]),
-        minWidth: ref(primitive.size[44]),
+        iconSize: ref(semantic.sizing.icon.medium),
+        gap: ref(semantic.spacing.component.gapSmall),
+        minWidth: ref(semantic.sizing.interactive.minWidth),
       },
     },
     
     variant: {
       primary: {
         normal: {
-          bg: ref(primitive.color.zeYellow),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.zeYellow),
+          bg: ref(semantic.color.brand.primary),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primary),
           borderWidth: 0,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
         hover: {
-          bg: ref(primitive.color.zeYellowDark),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.zeYellowDark),
+          bg: ref(semantic.color.brand.primaryHover),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primaryHover),
           borderWidth: 0,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
         focus: {
-          bg: ref(primitive.color.zeYellowDark),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.zeYellowDark),
+          bg: ref(semantic.color.brand.primaryHover),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primaryHover),
           borderWidth: 2,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
         active: {
-          bg: ref(primitive.color.zeYellowLight),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.zeYellowLight),
+          bg: ref(semantic.color.brand.primaryActive),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primaryActive),
           borderWidth: 0,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
         disabled: {
-          bg: ref(primitive.color.gray200),
-          color: ref(primitive.color.gray500),
-          borderColor: ref(primitive.color.gray200),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          color: ref(semantic.color.text.disabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray500),
+          iconColor: ref(semantic.color.text.disabled),
         },
         loading: {
-          bg: ref(primitive.color.zeYellow),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.zeYellow),
+          bg: ref(semantic.color.brand.primary),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primary),
           borderWidth: 0,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
       },
       
       secondary: {
         normal: {
-          bg: ref(primitive.color.transparent),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray900),
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.border.dark),
           borderWidth: 1,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
         hover: {
-          bg: ref(primitive.color.gray700),
-          color: ref(primitive.color.white),
-          borderColor: ref(primitive.color.gray700),
+          bg: ref(semantic.color.interactive.hover),
+          color: ref(semantic.color.text.inverse),
+          borderColor: ref(semantic.color.interactive.hover),
           borderWidth: 0,
-          iconColor: ref(primitive.color.white),
+          iconColor: ref(semantic.color.text.inverse),
         },
         focus: {
-          bg: ref(primitive.color.gray700),
-          color: ref(primitive.color.white),
-          borderColor: ref(primitive.color.gray400),
+          bg: ref(semantic.color.interactive.hover),
+          color: ref(semantic.color.text.inverse),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 2,
-          iconColor: ref(primitive.color.white),
+          iconColor: ref(semantic.color.text.inverse),
         },
         active: {
-          bg: ref(primitive.color.gray400),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.gray400),
+          bg: ref(semantic.color.interactive.active),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 0,
-          iconColor: ref(primitive.color.black),
+          iconColor: ref(semantic.color.text.onBrand),
         },
         disabled: {
-          bg: ref(primitive.color.gray200),
-          color: ref(primitive.color.gray500),
-          borderColor: ref(primitive.color.gray200),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          color: ref(semantic.color.text.disabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray500),
+          iconColor: ref(semantic.color.text.disabled),
         },
         loading: {
-          bg: ref(primitive.color.transparent),
-          color: ref(primitive.color.black),
-          borderColor: ref(primitive.color.gray600),
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.border.darkStrong),
           borderWidth: 1,
-          iconColor: ref(primitive.color.gray900),
+          iconColor: ref(semantic.color.border.dark),
         },
       },
       
       tertiary: {
         normal: {
-          bg: ref(primitive.color.transparent),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray600),
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.border.darkStrong),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
         hover: {
-          bg: ref(primitive.color.gray800Alpha20),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray700),
+          bg: ref(semantic.color.interactive.alphaHover),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.interactive.hover),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
         focus: {
-          bg: ref(primitive.color.gray800Alpha20),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray800Alpha50),
+          bg: ref(semantic.color.interactive.alphaHover),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.interactive.alphaFocus),
           borderWidth: 2,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
         active: {
-          bg: ref(primitive.color.gray800Alpha20),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray400),
+          bg: ref(semantic.color.interactive.alphaActive),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
         disabled: {
-          bg: ref(primitive.color.gray200),
-          color: ref(primitive.color.gray500),
-          borderColor: ref(primitive.color.gray200),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          color: ref(semantic.color.text.disabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray500),
+          iconColor: ref(semantic.color.text.disabled),
         },
         loading: {
-          bg: ref(primitive.color.gray800Alpha10),
-          color: ref(primitive.color.gray800),
-          borderColor: ref(primitive.color.gray800Alpha10),
+          bg: ref(semantic.color.interactive.alphaDisabled),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.interactive.alphaDisabled),
           borderWidth: 2,
-          iconColor: ref(primitive.color.gray800),
+          iconColor: ref(semantic.color.text.primary),
         },
       },
       
       destructive: {
         normal: {
-          bg: ref(primitive.color.transparent),
-          color: ref(primitive.color.redDark),
-          borderColor: ref(primitive.color.red),
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.feedback.errorStrong),
+          borderColor: ref(semantic.color.feedback.error),
           borderWidth: 1,
-          iconColor: ref(primitive.color.redDark),
+          iconColor: ref(semantic.color.feedback.errorStrong),
         },
         hover: {
-          bg: ref(primitive.color.redDark),
-          color: ref(primitive.color.white),
-          borderColor: ref(primitive.color.redDark),
+          bg: ref(semantic.color.feedback.errorStrong),
+          color: ref(semantic.color.text.inverse),
+          borderColor: ref(semantic.color.feedback.errorStrong),
           borderWidth: 0,
-          iconColor: ref(primitive.color.white),
+          iconColor: ref(semantic.color.text.inverse),
         },
         focus: {
-          bg: ref(primitive.color.red),
-          color: ref(primitive.color.white),
-          borderColor: ref(primitive.color.redLight),
+          bg: ref(semantic.color.feedback.error),
+          color: ref(semantic.color.text.inverse),
+          borderColor: ref(semantic.color.feedback.errorSoft),
           borderWidth: 2,
-          iconColor: ref(primitive.color.white),
+          iconColor: ref(semantic.color.text.inverse),
         },
         active: {
-          bg: ref(primitive.color.redDark),
-          color: ref(primitive.color.white),
-          borderColor: ref(primitive.color.redDark),
+          bg: ref(semantic.color.feedback.errorStrong),
+          color: ref(semantic.color.text.inverse),
+          borderColor: ref(semantic.color.feedback.errorStrong),
           borderWidth: 0,
-          iconColor: ref(primitive.color.white),
+          iconColor: ref(semantic.color.text.inverse),
         },
         disabled: {
-          bg: ref(primitive.color.gray200),
-          color: ref(primitive.color.gray500),
-          borderColor: ref(primitive.color.gray200),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          color: ref(semantic.color.text.disabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
-          iconColor: ref(primitive.color.gray500),
+          iconColor: ref(semantic.color.text.disabled),
         },
         loading: {
-          bg: ref(primitive.color.transparent),
-          color: ref(primitive.color.redDark),
-          borderColor: ref(primitive.color.red),
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.feedback.errorStrong),
+          borderColor: ref(semantic.color.feedback.error),
           borderWidth: 1,
-          iconColor: ref(primitive.color.redDark),
+          iconColor: ref(semantic.color.feedback.errorStrong),
         },
       },
     },
     
     loading: {
       dotSize: ref(primitive.size[8]),
-      gap: ref(primitive.space[12]),
-      dotBorderRadius: ref(primitive.radius.round),
+      gap: ref(semantic.spacing.component.gapMedium),
+      dotBorderRadius: ref(semantic.radius.component.circular),
       dotActiveColor: ref(primitive.color.gray800Alpha80),
-      dotInactiveColor: ref(primitive.color.gray800Alpha20),
+      dotInactiveColor: ref(semantic.color.interactive.alphaHover),
     },
   },
   
@@ -543,15 +790,15 @@ export const tokens = {
    */
   icon: {
     size: {
-      micro: ref(primitive.size[12]),
-      extraSmall: ref(primitive.size[16]),
-      small: ref(primitive.size[20]),
-      medium: ref(primitive.size[24]),
-      large: ref(primitive.size[28]),
-      extraLarge: ref(primitive.size[32]),
+      micro: ref(semantic.sizing.icon.micro),
+      extraSmall: ref(semantic.sizing.icon.extraSmall),
+      small: ref(semantic.sizing.icon.small),
+      medium: ref(semantic.sizing.icon.medium),
+      large: ref(semantic.sizing.icon.large),
+      extraLarge: ref(semantic.sizing.icon.extraLarge),
     },
     color: {
-      normal: ref(primitive.color.gray800),
+      normal: ref(semantic.color.text.primary),
     },
   },
 
@@ -561,25 +808,27 @@ export const tokens = {
   loading: {
     size: {
       dot: ref(primitive.size[8]),
-      gap: ref(primitive.space[12]),
-      borderRadius: ref(primitive.radius.round),
+      gap: ref(semantic.spacing.component.gapMedium),
+      borderRadius: ref(semantic.radius.component.circular),
     },
     
     brand: {
       default: {
         active: {
           bg: ref(primitive.color.gray800Alpha80),
+          bgHex: ref(primitive.color.gray800Alpha80), // Compatibilidade tokens-df
         },
         inactive: {
-          bg: ref(primitive.color.gray800Alpha20),
+          bg: ref(semantic.color.interactive.alphaHover),
+          bgHex: ref(semantic.color.interactive.alphaHover), // Compatibilidade tokens-df
         },
       },
       rewards: {
         active: {
-          bg: ref(primitive.color.zeCompensaPurple),
+          bg: ref(semantic.color.brand.secondary),
         },
         inactive: {
-          bg: ref(primitive.color.zeCompensaPurpleLight),
+          bg: ref(semantic.color.brand.secondaryLight),
         },
       },
     },
@@ -599,35 +848,37 @@ export const tokens = {
       small: {
         input: {
           height: 36,
-          paddingVertical: ref(primitive.space[8]),
-          paddingHorizontal: ref(primitive.space[8]),
-          borderRadius: ref(primitive.radius[8]),
-          gap: ref(primitive.space[8]),
+          paddingVertical: ref(semantic.spacing.component.paddingSmall),
+          paddingHorizontal: ref(semantic.spacing.component.paddingSmall),
+          borderRadius: ref(semantic.radius.component.small),
+          gap: ref(semantic.spacing.component.gapSmall),
           fontSize: ref(primitive.typography.fontSize.small),
           lineHeight: ref(primitive.typography.lineHeight.regular.small),
-          iconPlateSize: ref(primitive.size[20]),
-          iconPlateBorderRadius: ref(primitive.radius[4]),
+          fontWeight: ref(primitive.typography.fontWeight.regular),
+          iconPlateSize: ref(semantic.sizing.icon.small),
+          iconPlateBorderRadius: ref(semantic.radius.icon.small),
         },
         single: {
-          size: ref(primitive.size[20]),
-          borderRadius: ref(primitive.radius[4]),
+          size: ref(semantic.sizing.icon.small),
+          borderRadius: ref(semantic.radius.icon.small),
         },
       },
       medium: {
         input: {
           height: 48,
-          paddingVertical: ref(primitive.space[12]),
-          paddingHorizontal: ref(primitive.space[12]),
-          borderRadius: ref(primitive.radius[12]),
-          gap: ref(primitive.space[8]),
+          paddingVertical: ref(semantic.spacing.component.paddingMedium),
+          paddingHorizontal: ref(semantic.spacing.component.paddingMedium),
+          borderRadius: ref(semantic.radius.component.smallMedium),
+          gap: ref(semantic.spacing.component.gapSmall),
           fontSize: ref(primitive.typography.fontSize.medium),
           lineHeight: ref(primitive.typography.lineHeight.regular.medium),
-          iconPlateSize: ref(primitive.size[24]),
-          iconPlateBorderRadius: ref(primitive.radius[8]),
+          fontWeight: ref(primitive.typography.fontWeight.regular),
+          iconPlateSize: ref(semantic.sizing.icon.medium),
+          iconPlateBorderRadius: ref(semantic.radius.icon.medium),
         },
         single: {
-          size: ref(primitive.size[24]),
-          borderRadius: ref(primitive.radius[8]),
+          size: ref(semantic.sizing.icon.medium),
+          borderRadius: ref(semantic.radius.icon.medium),
         },
       },
     },
@@ -635,95 +886,95 @@ export const tokens = {
     state: {
       normal: {
         enabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray800),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.primary),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray800),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primary),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         hover: {
-          iconPlateBorderColor: ref(primitive.color.gray300),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.default),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray100),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgHover),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         focus: {
-          iconPlateBorderColor: ref(primitive.color.gray650),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.stronger),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray650),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgActive),
+          borderColor: ref(semantic.color.border.stronger),
           borderWidth: 2,
         },
         active: {
-          iconPlateBorderColor: ref(primitive.color.gray500),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.strong),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgActive),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         disabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.disabled),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray500),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.disabled),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
       },
       error: {
         enabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.redDark),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.feedback.errorStrong),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.redDark),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.feedback.errorStrong),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         hover: {
-          iconPlateBorderColor: ref(primitive.color.redLightest),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderColor: ref(semantic.color.feedback.errorBg),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         focus: {
           iconPlateBorderColor: ref(primitive.color.redDarkest),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
           borderColor: ref(primitive.color.redDarkest),
           borderWidth: 2,
         },
         active: {
-          iconPlateBorderColor: ref(primitive.color.redLight),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderColor: ref(semantic.color.feedback.errorSoft),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         disabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.disabled),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray500),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.disabled),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
       },
@@ -733,42 +984,44 @@ export const tokens = {
   /**
    * RADIOBUTTON
    * Componente de radio button (seleção única) com border radius circular
-   * Reutiliza as mesmas cores do Checkbox
+   * Reutiliza as mesmas cores do Checkbox (apenas muda o borderRadius)
    */
   radioButton: {
     size: {
       small: {
         input: {
           height: 36,
-          paddingVertical: ref(primitive.space[8]),
-          paddingHorizontal: ref(primitive.space[8]),
-          borderRadius: ref(primitive.radius[8]),
-          gap: ref(primitive.space[8]),
+          paddingVertical: ref(semantic.spacing.component.paddingSmall),
+          paddingHorizontal: ref(semantic.spacing.component.paddingSmall),
+          borderRadius: ref(semantic.radius.component.small),
+          gap: ref(semantic.spacing.component.gapSmall),
           fontSize: ref(primitive.typography.fontSize.small),
           lineHeight: ref(primitive.typography.lineHeight.regular.small),
-          iconPlateSize: ref(primitive.size[20]),
-          iconPlateBorderRadius: ref(primitive.radius[16]), // CIRCULAR!
+          fontWeight: ref(primitive.typography.fontWeight.regular),
+          iconPlateSize: ref(semantic.sizing.icon.small),
+          iconPlateBorderRadius: ref(semantic.radius.component.circular), // CIRCULAR!
         },
         single: {
-          size: ref(primitive.size[20]),
-          borderRadius: ref(primitive.radius[16]), // CIRCULAR!
+          size: ref(semantic.sizing.icon.small),
+          borderRadius: ref(semantic.radius.component.circular), // CIRCULAR!
         },
       },
       medium: {
         input: {
           height: 48,
-          paddingVertical: ref(primitive.space[12]),
-          paddingHorizontal: ref(primitive.space[12]),
-          borderRadius: ref(primitive.radius[12]),
-          gap: ref(primitive.space[8]),
+          paddingVertical: ref(semantic.spacing.component.paddingMedium),
+          paddingHorizontal: ref(semantic.spacing.component.paddingMedium),
+          borderRadius: ref(semantic.radius.component.smallMedium),
+          gap: ref(semantic.spacing.component.gapSmall),
           fontSize: ref(primitive.typography.fontSize.medium),
           lineHeight: ref(primitive.typography.lineHeight.regular.medium),
-          iconPlateSize: ref(primitive.size[24]),
-          iconPlateBorderRadius: ref(primitive.radius[16]), // CIRCULAR!
+          fontWeight: ref(primitive.typography.fontWeight.regular),
+          iconPlateSize: ref(semantic.sizing.icon.medium),
+          iconPlateBorderRadius: ref(semantic.radius.component.circular), // CIRCULAR!
         },
         single: {
-          size: ref(primitive.size[24]),
-          borderRadius: ref(primitive.radius[16]), // CIRCULAR!
+          size: ref(semantic.sizing.icon.medium),
+          borderRadius: ref(semantic.radius.component.circular), // CIRCULAR!
         },
       },
     },
@@ -777,95 +1030,95 @@ export const tokens = {
     state: {
       normal: {
         enabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray800),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.primary),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray800),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primary),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         hover: {
-          iconPlateBorderColor: ref(primitive.color.gray300),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.default),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray100),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgHover),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         focus: {
-          iconPlateBorderColor: ref(primitive.color.gray650),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.stronger),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray650),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgActive),
+          borderColor: ref(semantic.color.border.stronger),
           borderWidth: 2,
         },
         active: {
-          iconPlateBorderColor: ref(primitive.color.gray500),
-          iconPlateIconColor: ref(primitive.color.gray850),
+          iconPlateBorderColor: ref(semantic.color.border.strong),
+          iconPlateIconColor: ref(semantic.color.text.primaryStrong),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.gray850),
-          bgColor: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.primaryStrong),
+          bgColor: ref(semantic.color.interactive.bgActive),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         disabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.disabled),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray500),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.disabled),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
       },
       error: {
         enabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.redDark),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.feedback.errorStrong),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.redDark),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.feedback.errorStrong),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         hover: {
-          iconPlateBorderColor: ref(primitive.color.redLightest),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderColor: ref(semantic.color.feedback.errorBg),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         focus: {
           iconPlateBorderColor: ref(primitive.color.redDarkest),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
           borderColor: ref(primitive.color.redDarkest),
           borderWidth: 2,
         },
         active: {
-          iconPlateBorderColor: ref(primitive.color.redLight),
-          iconPlateIconColor: ref(primitive.color.black),
+          iconPlateBorderColor: ref(semantic.color.feedback.errorSoft),
+          iconPlateIconColor: ref(semantic.color.text.onBrand),
           iconPlateBorderWidth: 2,
-          textColor: ref(primitive.color.black),
-          bgColor: ref(primitive.color.redLightest),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.onBrand),
+          bgColor: ref(semantic.color.feedback.errorBg),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
         disabled: {
-          iconPlateBorderColor: ref(primitive.color.transparent),
-          iconPlateIconColor: ref(primitive.color.gray500),
+          iconPlateBorderColor: ref(semantic.color.surface.transparent),
+          iconPlateIconColor: ref(semantic.color.text.disabled),
           iconPlateBorderWidth: 0,
-          textColor: ref(primitive.color.gray500),
-          bgColor: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.transparent),
+          textColor: ref(semantic.color.text.disabled),
+          bgColor: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.surface.transparent),
           borderWidth: 0,
         },
       },
@@ -882,189 +1135,713 @@ export const tokens = {
       small: {
         width: 36,
         height: 36,
-        iconSize: ref(primitive.size[20]),
-        padding: ref(primitive.space[8]),
-        borderRadius: ref(primitive.radius[12]),
+        iconSize: ref(semantic.sizing.icon.small),
+        padding: ref(semantic.spacing.component.paddingSmall),
+        borderRadius: ref(semantic.radius.component.smallMedium),
       },
       medium: {
         width: 48,
         height: 48,
-        iconSize: ref(primitive.size[24]),
-        padding: ref(primitive.space[12]),
-        borderRadius: ref(primitive.radius[16]),
+        iconSize: ref(semantic.sizing.icon.medium),
+        padding: ref(semantic.spacing.component.paddingMedium),
+        borderRadius: ref(semantic.radius.component.medium),
       },
     },
     
     variant: {
       primary: {
         normal: {
-          iconColor: ref(primitive.color.black),
-          bg: ref(primitive.color.zeYellow),
-          borderColor: ref(primitive.color.zeYellow),
+          iconColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.brand.primary),
+          borderColor: ref(semantic.color.brand.primary),
           borderWidth: 0,
         },
         hover: {
-          iconColor: ref(primitive.color.black),
-          bg: ref(primitive.color.zeYellowDark),
-          borderColor: ref(primitive.color.zeYellowDark),
+          iconColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.brand.primaryHover),
+          borderColor: ref(semantic.color.brand.primaryHover),
           borderWidth: 0,
         },
         focus: {
-          iconColor: ref(primitive.color.black),
-          bg: ref(primitive.color.zeYellowDark),
-          borderColor: ref(primitive.color.zeYellowDark),
+          iconColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.brand.primaryHover),
+          borderColor: ref(semantic.color.brand.primaryHover),
           borderWidth: 2,
         },
         active: {
-          iconColor: ref(primitive.color.black),
-          bg: ref(primitive.color.zeYellowLight),
-          borderColor: ref(primitive.color.zeYellowLight),
+          iconColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.brand.primaryActive),
+          borderColor: ref(semantic.color.brand.primaryActive),
           borderWidth: 0,
         },
         disabled: {
-          iconColor: ref(primitive.color.gray500),
-          bg: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray200),
+          iconColor: ref(semantic.color.text.disabled),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
         },
         loading: {
-          iconColor: ref(primitive.color.black),
-          spinnerColor: ref(primitive.color.black),
-          bg: ref(primitive.color.zeYellow),
-          borderColor: ref(primitive.color.zeYellow),
+          iconColor: ref(semantic.color.text.onBrand),
+          spinnerColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.brand.primary),
+          borderColor: ref(semantic.color.brand.primary),
           borderWidth: 0,
         },
       },
       
       secondary: {
         normal: {
-          iconColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.gray900),
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.border.dark),
           borderWidth: 1,
         },
         hover: {
-          iconColor: ref(primitive.color.white),
-          bg: ref(primitive.color.gray700),
-          borderColor: ref(primitive.color.gray700),
+          iconColor: ref(semantic.color.text.inverse),
+          bg: ref(semantic.color.interactive.hover),
+          borderColor: ref(semantic.color.interactive.hover),
           borderWidth: 0,
         },
         focus: {
-          iconColor: ref(primitive.color.white),
-          bg: ref(primitive.color.gray700),
-          borderColor: ref(primitive.color.gray400),
+          iconColor: ref(semantic.color.text.inverse),
+          bg: ref(semantic.color.interactive.hover),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 2,
         },
         active: {
-          iconColor: ref(primitive.color.black),
-          bg: ref(primitive.color.gray400),
-          borderColor: ref(primitive.color.gray400),
+          iconColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.interactive.active),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 0,
         },
         disabled: {
-          iconColor: ref(primitive.color.gray500),
-          bg: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray200),
+          iconColor: ref(semantic.color.text.disabled),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
         },
         loading: {
-          iconColor: ref(primitive.color.white),
-          spinnerColor: ref(primitive.color.black),
-          bg: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.gray600),
+          iconColor: ref(semantic.color.text.inverse),
+          spinnerColor: ref(semantic.color.text.onBrand),
+          bg: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.border.darkStrong),
           borderWidth: 1,
         },
       },
       
       tertiary: {
         normal: {
-          iconColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.gray600),
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.border.darkStrong),
           borderWidth: 0,
         },
         hover: {
-          iconColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.gray800Alpha20),
-          borderColor: ref(primitive.color.gray700),
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaHover),
+          borderColor: ref(semantic.color.interactive.hover),
           borderWidth: 0,
         },
         focus: {
-          iconColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.gray800Alpha20),
-          borderColor: ref(primitive.color.gray800Alpha50),
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaHover),
+          borderColor: ref(semantic.color.interactive.alphaFocus),
           borderWidth: 2,
         },
         active: {
-          iconColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.gray800Alpha20),
-          borderColor: ref(primitive.color.gray400),
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaActive),
+          borderColor: ref(semantic.color.interactive.active),
           borderWidth: 0,
         },
         disabled: {
-          iconColor: ref(primitive.color.gray500),
-          bg: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray200),
+          iconColor: ref(semantic.color.text.disabled),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
         },
         loading: {
-          iconColor: ref(primitive.color.gray800),
-          spinnerColor: ref(primitive.color.gray800),
-          bg: ref(primitive.color.gray800Alpha10),
-          borderColor: ref(primitive.color.gray800Alpha10),
+          iconColor: ref(semantic.color.text.primary),
+          spinnerColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaDisabled),
+          borderColor: ref(semantic.color.interactive.alphaDisabled),
           borderWidth: 2,
         },
       },
       
       destructive: {
         normal: {
-          iconColor: ref(primitive.color.redDark),
-          bg: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.red),
+          iconColor: ref(semantic.color.feedback.errorStrong),
+          bg: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.feedback.error),
           borderWidth: 1,
         },
         hover: {
-          iconColor: ref(primitive.color.white),
-          bg: ref(primitive.color.redDark),
-          borderColor: ref(primitive.color.redDark),
+          iconColor: ref(semantic.color.text.inverse),
+          bg: ref(semantic.color.feedback.errorStrong),
+          borderColor: ref(semantic.color.feedback.errorStrong),
           borderWidth: 0,
         },
         focus: {
-          iconColor: ref(primitive.color.white),
-          bg: ref(primitive.color.red),
-          borderColor: ref(primitive.color.redLight),
+          iconColor: ref(semantic.color.text.inverse),
+          bg: ref(semantic.color.feedback.error),
+          borderColor: ref(semantic.color.feedback.errorSoft),
           borderWidth: 2,
         },
         active: {
-          iconColor: ref(primitive.color.white),
-          bg: ref(primitive.color.red),
-          borderColor: ref(primitive.color.redDark),
+          iconColor: ref(semantic.color.text.inverse),
+          bg: ref(semantic.color.feedback.error),
+          borderColor: ref(semantic.color.feedback.errorStrong),
           borderWidth: 0,
         },
         disabled: {
-          iconColor: ref(primitive.color.gray500),
-          bg: ref(primitive.color.gray200),
-          borderColor: ref(primitive.color.gray200),
+          iconColor: ref(semantic.color.text.disabled),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
           borderWidth: 0,
         },
         loading: {
-          iconColor: ref(primitive.color.redDark),
-          spinnerColor: ref(primitive.color.redDark),
-          bg: ref(primitive.color.transparent),
-          borderColor: ref(primitive.color.red),
+          iconColor: ref(semantic.color.feedback.errorStrong),
+          spinnerColor: ref(semantic.color.feedback.errorStrong),
+          bg: ref(semantic.color.surface.transparent),
+          borderColor: ref(semantic.color.feedback.error),
           borderWidth: 1,
         },
       },
     },
   },
 
+  /**
+   * DISMISS BUTTON
+   * Botão circular de fechar/dismiss
+   */
+  dismissButton: {
+    size: {
+      extraSmall: {
+        width: ref(semantic.sizing.icon.small),
+        height: ref(semantic.sizing.icon.small),
+        iconSize: ref(semantic.sizing.icon.micro),
+        padding: ref(primitive.space[4]),
+        borderRadius: ref(semantic.radius.component.circular),
+      },
+      small: {
+        width: ref(semantic.sizing.icon.medium),
+        height: ref(semantic.sizing.icon.medium),
+        iconSize: ref(semantic.sizing.icon.extraSmall),
+        padding: ref(primitive.space[4]),
+        borderRadius: ref(semantic.radius.component.circular),
+      },
+      medium: {
+        width: ref(primitive.size[32]),
+        height: ref(primitive.size[32]),
+        iconSize: ref(semantic.sizing.icon.medium),
+        padding: ref(primitive.space[4]),
+        borderRadius: ref(semantic.radius.component.circular),
+      },
+    },
+    
+    variant: {
+      default: {
+        normal: {
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaDisabled),
+          borderColor: ref(semantic.color.interactive.alphaDisabled),
+          borderWidth: 0,
+        },
+        hover: {
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaHover),
+          borderColor: ref(semantic.color.interactive.alphaHover),
+          borderWidth: 0,
+        },
+        focus: {
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaHover),
+          borderColor: ref(semantic.color.interactive.alphaFocus),
+          borderWidth: 1,
+        },
+        active: {
+          iconColor: ref(semantic.color.text.primary),
+          bg: ref(semantic.color.interactive.alphaHover),
+          borderColor: ref(semantic.color.interactive.alphaHover),
+          borderWidth: 0,
+        },
+        disabled: {
+          iconColor: ref(semantic.color.text.disabled),
+          bg: ref(semantic.color.brand.primaryDisabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
+          borderWidth: 0,
+        },
+      },
+    },
+  },
+
+  /**
+   * INPUT FIELD
+   * Componente de composição que envolve InputSingle/InputTextarea
+   * Adiciona label, optional tag, notification e counter
+   * 
+   * Este é um wrapper que adiciona metadados visuais aos inputs
+   * O input interno (InputSingle/InputTextarea) mantém seus próprios estilos
+   */
+  inputField: {
+    size: {
+      medium: {
+        headingGap: ref(primitive.space[8]),              // Gap entre label e optional
+        gap: ref(primitive.space[8]),                     // Gap vertical (heading → input → footer)
+        footerGap: ref(primitive.space[16]),              // Gap entre notification e counter
+        
+        // Tipografia - Label
+        labelFontSize: ref(primitive.typography.fontSize.small),
+        labelLineHeight: ref(primitive.typography.lineHeight.tight.small),
+        labelFontWeight: ref(primitive.typography.fontWeight.regular),
+        
+        // Tipografia - Optional Tag
+        optionalFontSize: ref(primitive.typography.fontSize.extraSmall),
+        optionalLineHeight: ref(primitive.typography.lineHeight.close.extraSmall),
+        optionalFontWeight: ref(primitive.typography.fontWeight.regular),
+        
+        // Tipografia - Notification / Counter
+        notificationFontSize: ref(primitive.typography.fontSize.small),
+        notificationLineHeight: ref(primitive.typography.lineHeight.regular.small),
+        notificationFontWeight: ref(primitive.typography.fontWeight.regular),
+        
+        counterFontSize: ref(primitive.typography.fontSize.small),
+        counterLineHeight: ref(primitive.typography.lineHeight.regular.small),
+        counterFontWeight: ref(primitive.typography.fontWeight.regular),
+      },
+    },
+    
+    // Estados (cores dos metadados + input interno)
+    state: {
+      normal: {
+        // Metadados (label, optional, notification, counter)
+        labelColor: ref(primitive.color.gray800),
+        optionalColor: ref(primitive.color.gray800),
+        notificationColor: ref(primitive.color.gray650),
+        counterColor: ref(primitive.color.gray650),
+        
+        // Input interno
+        inputBgColor: ref(primitive.color.white),
+        inputBorderColor: ref(primitive.color.gray300),
+      },
+      error: {
+        // Metadados
+        labelColor: ref(primitive.color.redDark),
+        optionalColor: ref(primitive.color.redDark),
+        notificationColor: ref(primitive.color.redDark),
+        counterColor: ref(primitive.color.redDark),
+        
+        // Input interno
+        inputBgColor: ref(primitive.color.white),
+        inputBorderColor: ref(primitive.color.redDark),
+      },
+      disabled: {
+        // Metadados
+        labelColor: ref(primitive.color.gray500),
+        optionalColor: ref(primitive.color.gray500),
+        notificationColor: ref(primitive.color.gray500),
+        counterColor: ref(primitive.color.gray500),
+        
+        // Input interno
+        inputBgColor: ref(primitive.color.gray200),
+        inputBorderColor: ref(primitive.color.gray200),
+      },
+    },
+    
+    // Border padrão (quando não tem estado específico)
+    defaultBorderColor: ref(primitive.color.gray650),
+  },
+
+  /**
+   * INPUT SINGLE
+   * Campo de entrada de texto de linha única (node-id: 4921-43563)
+   * 
+   * Componente base para todos os inputs do sistema
+   * Estados: Normal (vazio), Filled (preenchido), Disabled
+   * Foco: Blurred (sem foco), Focused (com foco)
+   * Feedback: Normal, Error
+   * 
+   * Este componente combina 4 dimensões de estados:
+   * - Tamanho (small, medium)
+   * - Preenchimento (normal, filled, disabled)
+   * - Foco (blurred, focused)
+   * - Feedback (normal, error)
+   */
+  inputSingle: {
+    // Tamanhos base
+    size: {
+      small: {
+        height: 36,
+        paddingVertical: ref(primitive.space[8]),
+        paddingHorizontal: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[12]),
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.regular.small),
+        gap: ref(primitive.space[8]),
+      },
+      medium: {
+        height: 48,
+        paddingVertical: ref(primitive.space[12]),
+        paddingHorizontal: ref(primitive.space[16]),
+        borderRadius: ref(primitive.radius[16]),
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.regular.medium),
+        gap: ref(primitive.space[8]),
+      },
+    },
+    
+    // Estados visuais (combinação de feedback + foco + preenchimento)
+    // 💡 Border width aumenta de 1→2 quando focado (exceto disabled)
+    state: {
+      // Feedback Normal (sem erro)
+      normal: {
+        // Focus False (Blurred)
+        blurred: {
+          normal: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.gray300),
+            borderWidth: 1,
+          },
+          filled: {
+            labelColor: ref(primitive.color.gray650),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.gray300),
+            borderWidth: 1,
+          },
+          disabled: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray500),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.gray200),
+            borderColor: ref(primitive.color.gray200),
+            borderWidth: 1,
+          },
+        },
+        // Focus True (Focused)
+        focused: {
+          normal: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.gray650),
+            borderWidth: 2,
+          },
+          filled: {
+            labelColor: ref(primitive.color.gray650),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.gray650),
+            borderWidth: 2,
+          },
+          disabled: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray500),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.gray200),
+            borderColor: ref(primitive.color.gray200),
+            borderWidth: 1, // Não muda quando focado
+          },
+        },
+      },
+      
+      // Feedback Error
+      error: {
+        // Focus False (Blurred)
+        blurred: {
+          normal: {
+            labelColor: ref(primitive.color.gray300),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray300),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.redDark),
+            borderWidth: 1,
+          },
+          filled: {
+            labelColor: ref(primitive.color.redDark),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray300),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.redDark),
+            borderWidth: 1,
+          },
+          disabled: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray500),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.gray200),
+            borderColor: ref(primitive.color.gray200),
+            borderWidth: 1,
+          },
+        },
+        // Focus True (Focused)
+        focused: {
+          normal: {
+            labelColor: ref(primitive.color.gray300),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray300),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.redDark),
+            borderWidth: 2,
+          },
+          filled: {
+            labelColor: ref(primitive.color.redDark),
+            textColor: ref(primitive.color.gray800),
+            placeholderColor: ref(primitive.color.gray300),
+            bg: ref(primitive.color.white),
+            borderColor: ref(primitive.color.redDark),
+            borderWidth: 2,
+          },
+          disabled: {
+            labelColor: ref(primitive.color.gray500),
+            textColor: ref(primitive.color.gray500),
+            placeholderColor: ref(primitive.color.gray500),
+            bg: ref(primitive.color.gray200),
+            borderColor: ref(primitive.color.gray200),
+            borderWidth: 1, // Não muda quando focado
+          },
+        },
+      },
+    },
+  },
+
+  /**
+   * INPUT TEXTAREA
+   * Campo de texto multilinhas (node-id: 4943-44572)
+   * 
+   * Baseado no InputSingle - reutiliza TODOS os tokens de cores
+   * Diferenças: altura mínima (variável), múltiplas linhas, ícone de resize
+   * Estados: Normal, Filled, Disabled, Focused, Blurred, Error
+   * 
+   * 🔄 Reutiliza cores do inputSingle.state
+   * 🆕 Adiciona apenas tokens de dimensão e ícone de resize
+   */
+  inputTextarea: {
+    // Tamanhos base (altura mínima, não fixa)
+    size: {
+      small: {
+        minHeight: 56,
+        paddingVertical: ref(primitive.space[8]),
+        paddingHorizontal: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[12]),
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.regular.small),
+        gap: ref(primitive.space[8]),
+      },
+      medium: {
+        minHeight: 72,
+        paddingVertical: ref(primitive.space[12]),
+        paddingHorizontal: ref(primitive.space[16]),
+        borderRadius: ref(primitive.radius[16]),
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.regular.medium),
+        gap: ref(primitive.space[8]),
+      },
+    },
+    
+    // Ícone de redimensionamento (canto inferior direito)
+    // Cores seguem o mesmo padrão do InputSingle
+    resizingIcon: {
+      size: 16, // Tamanho fixo do ícone
+      // Cores por estado (reutiliza cores do InputSingle)
+      normal: {
+        blurred: {
+          normal: ref(primitive.color.gray500),
+          filled: ref(primitive.color.gray500),
+        },
+        focused: {
+          normal: ref(primitive.color.gray500),
+          filled: ref(primitive.color.gray500),
+        },
+      },
+      error: {
+        blurred: {
+          normal: ref(primitive.color.redDark),
+          filled: ref(primitive.color.redDark),
+        },
+        focused: {
+          normal: ref(primitive.color.redDark),
+          filled: ref(primitive.color.redDark),
+        },
+      },
+    },
+    
+    // 💡 Estados visuais (cores) são reutilizados do inputSingle.state
+    // O InputTextarea usa exatamente as mesmas cores, apenas muda dimensões
+  },
+
+  /**
+   * INPUT SELECT
+   * Campo de seleção dropdown (node-id: 4946-45056)
+   * 
+   * Reutiliza 95% do InputSingle - mesmos estados e cores
+   * Diferença: trailing icon (ChevronDown) obrigatório
+   * Estados: Normal, Filled, Disabled, Focused, Blurred, Error
+   * 
+   * 🔄 Reutiliza cores do inputSingle.state
+   * 🆕 Adiciona apenas trailing icon color por estado
+   */
+  inputSelect: {
+    // Tamanhos base (idênticos ao InputSingle)
+    size: {
+      small: {
+        height: 36,
+        paddingVertical: ref(primitive.space[8]),
+        paddingHorizontal: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[12]),
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.regular.small),
+        gap: ref(primitive.space[8]),
+        iconSize: 20,
+      },
+      medium: {
+        height: 48,
+        paddingVertical: ref(primitive.space[12]),
+        paddingHorizontal: ref(primitive.space[16]),
+        borderRadius: ref(primitive.radius[16]),
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.regular.medium),
+        gap: ref(primitive.space[8]),
+        iconSize: 20,
+      },
+    },
+    
+    // Trailing Icon (ChevronDown) - cores específicas por estado
+    trailingIcon: {
+      // Feedback Normal
+      normal: {
+        blurred: {
+          normal: ref(primitive.color.gray800),
+          filled: ref(primitive.color.gray800),
+          disabled: ref(primitive.color.gray500),
+        },
+        focused: {
+          normal: ref(primitive.color.gray800),
+          filled: ref(primitive.color.gray800),
+          disabled: ref(primitive.color.gray500),
+        },
+      },
+      // Feedback Error
+      error: {
+        blurred: {
+          normal: ref(primitive.color.redDark),
+          filled: ref(primitive.color.redDark),
+          disabled: ref(primitive.color.gray500),
+        },
+        focused: {
+          normal: ref(primitive.color.redDark),
+          filled: ref(primitive.color.redDark),
+          disabled: ref(primitive.color.gray500),
+        },
+      },
+    },
+    
+    // 💡 Estados visuais (cores de bg, border, text) são reutilizados do inputSingle.state
+    // O InputSelect usa exatamente as mesmas cores do InputSingle, apenas adiciona trailing icon
+  },
+
+  /**
+   * LIST MENU
+   * Container de lista que agrupa ListMenuItem (node-id: 5053-5994)
+   * 
+   * Container simples sem estilos complexos
+   * Suporta 5 tipos de conteúdo: text, leading, trailing, radio, checkbox
+   * Usa tokens dos componentes internos (ListMenuItem, Radio, Checkbox)
+   */
+  listMenu: {
+    // Espaçamento do container
+    gap: 0, // Sem gap, ListMenuItem já tem espaçamento interno
+    padding: 0, // Sem padding externo
+    
+    // 💡 List Menu delega estilos para ListMenuItem
+    // Não adiciona tokens visuais próprios
+  },
+
+  /**
+   * LIST MENU ITEM
+   * Item individual de lista (node-id: 5053-5994)
+   * 
+   * Item base usado pelo ListMenu
+   * Estados: Normal, Hover, Active, Focus (SEM error/disabled)
+   * Estrutura: Leading (opcional) + Text + Trailing (opcional)
+   */
+  listMenuItem: {
+    // Tamanhos
+    size: {
+      small: {
+        height: 36,
+        paddingVertical: ref(primitive.space[8]),
+        paddingHorizontal: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[8]),
+        gap: ref(primitive.space[8]),
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.regular.small),
+        fontWeight: ref(primitive.typography.fontWeight.regular),
+        leadingIconSize: 20,
+        trailingIconSize: 20,
+      },
+      medium: {
+        height: 48,
+        paddingVertical: ref(primitive.space[12]),
+        paddingHorizontal: ref(primitive.space[12]),
+        borderRadius: ref(primitive.radius[12]),
+        gap: ref(primitive.space[8]),
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.regular.medium),
+        fontWeight: ref(primitive.typography.fontWeight.regular),
+        leadingIconSize: 24,
+        trailingIconSize: 24,
+      },
+    },
+    
+    // Estados (APENAS interativos, SEM error/disabled)
+    state: {
+      normal: {
+        leadingColor: ref(primitive.color.gray800),
+        textColor: ref(primitive.color.gray800),
+        trailingColor: ref(primitive.color.gray800),
+        bgColor: 'transparent',
+        borderColor: 'transparent',
+        borderWidth: 0,
+      },
+      hover: {
+        leadingColor: ref(primitive.color.gray850),
+        textColor: ref(primitive.color.gray850),
+        trailingColor: ref(primitive.color.gray850),
+        bgColor: ref(primitive.color.gray100),
+        borderColor: 'transparent',
+        borderWidth: 0,
+      },
+      active: {
+        leadingColor: ref(primitive.color.gray850),
+        textColor: ref(primitive.color.gray850),
+        trailingColor: ref(primitive.color.gray850),
+        bgColor: ref(primitive.color.gray200),
+        borderColor: 'transparent',
+        borderWidth: 0,
+      },
+      focus: {
+        leadingColor: ref(primitive.color.gray850),
+        textColor: ref(primitive.color.gray850),
+        trailingColor: ref(primitive.color.gray850),
+        bgColor: ref(primitive.color.gray200),
+        borderColor: ref(primitive.color.gray300),
+        borderWidth: 2,
+      },
+    },
+  },
+
   // 📝 TODO: Adicionar outros componentes seguindo o mesmo padrão
-  // - dismissButton
-  // - inputSingle / inputTextarea / inputSelect / inputField
   // - linkAction
   // - dropdownButton
   // - toggle
-  // - listMenuItem
   // - tag / compoundTag
   // - text
   // - snackbar
@@ -1077,6 +1854,7 @@ export const tokens = {
 
 export type Tokens = typeof tokens
 export type PrimitiveTokens = typeof primitive
+export type SemanticTokens = typeof semantic
 export type Color = keyof typeof tokens.color
 export type Space = keyof typeof tokens.space
 export type Size = keyof typeof tokens.size
@@ -1090,6 +1868,11 @@ export type Radius = keyof typeof tokens.radius
  * Exportar primitivos separadamente para casos de uso avançados
  */
 export { primitive }
+
+/**
+ * Exportar semantic tokens separadamente para facilitar customização de temas
+ */
+export { semantic }
 
 /**
  * Export helper ref para uso em extensões

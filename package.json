@@ -18,7 +18,10 @@
     "storybook:ios": "TAMAGUI_TARGET=native STORYBOOK_ENABLED=true expo start --ios",
     "storybook:ios:clean": "TAMAGUI_TARGET=native STORYBOOK_ENABLED=true expo start --ios --clear",
     "storybook:android": "TAMAGUI_TARGET=native STORYBOOK_ENABLED=true expo start --android",
-    "storybook:android:clean": "TAMAGUI_TARGET=native STORYBOOK_ENABLED=true expo start --android --clear"
+    "storybook:android:clean": "TAMAGUI_TARGET=native STORYBOOK_ENABLED=true expo start --android --clear",
+    "tokens:validate": "node scripts/validate_tokens_runner.js",
+    "tokens:validate:direct": "npx ts-node scripts/validate_tokens.ts",
+    "tokens:priority": "node scripts/token_priority_analyzer.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",

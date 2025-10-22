@@ -3,23 +3,6 @@ const path = require("path");
 
 const defaultConfig = getDefaultConfig(__dirname, { isCSSEnabled: true });
 
-// Configuração do Storybook
-if (process.env.STORYBOOK_ENABLED) {
-  // MUDANÇA: Storybook 8 usa novo sistema de loader
-  const { generate } = require("@storybook/react-native/scripts/loader");
-  
-  generate({
-    configPath: path.resolve(__dirname, "./.ondevice"),
-  });
-
-  defaultConfig.resolver.resolverMainFields = [
-    "sbmodern",
-    "react-native",
-    "browser",
-    "main",
-  ];
-}
-
 // Configuração para SVG
 const { transformer, resolver } = defaultConfig;
 
@@ -39,5 +22,19 @@ defaultConfig.resolver = {
 defaultConfig.watchFolders = [
   path.resolve(__dirname, "./"),
 ];
+
+// Configuração do Storybook (v8+)
+if (process.env.STORYBOOK_ENABLED) {
+  defaultConfig.resolver.resolverMainFields = [
+    "sbmodern",
+    "react-native",
+    "browser",
+    "main",
+  ];
+  
+  defaultConfig.watchFolders.push(
+    path.resolve(__dirname, "./.ondevice")
+  );
+}
 
 module.exports = defaultConfig;

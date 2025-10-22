@@ -1,0 +1,1 @@
+Remova os raw values e mantenha somente os tokens do componente enviado pelo usuário

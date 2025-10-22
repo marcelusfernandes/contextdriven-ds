@@ -22,7 +22,7 @@ export default function App() {
 
   // Carregar Storybook UI se habilitado
   if (storybookEnabled) {
-    const StorybookUI = require('./.ondevice/Storybook').default
+    const StorybookUI = require('./.ondevice').default
     return <StorybookUI />
   }
 
