@@ -4,8 +4,8 @@
  * Demonstra todas as 108 variantes do componente Checkbox
  */
 
+import React, { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useState } from 'react'
 import { Checkbox } from './Checkbox'
 import { Stack, YStack, XStack, Text } from 'tamagui'
 

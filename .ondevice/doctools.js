@@ -1,10 +1,9 @@
-import { extractArgTypes } from "@storybook/react/dist/modern/client/docs/extractArgTypes";
-import { addArgTypesEnhancer, addParameters } from "@storybook/react-native";
-import { enhanceArgTypes } from "@storybook/docs-tools";
+// Doctools simplificado para React Native
+// Storybook v8 React Native não precisa de extractArgTypes do web
+import { addParameters } from "@storybook/react-native";
 
-addArgTypesEnhancer(enhanceArgTypes);
 addParameters({
   docs: {
-    extractArgTypes,
+    // Configurações básicas de docs para React Native
   },
 });

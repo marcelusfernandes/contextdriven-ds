@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { TamaguiProvider, Stack, Text } from '@tamagui/core'
 import { useFonts } from 'expo-font'
+import Constants from 'expo-constants'
 import config from './tamagui.config'
 import { Button } from './components/Button'
 
 export default function App() {
+  // Verificar se Storybook está habilitado
+  const storybookEnabled = Constants.expoConfig?.extra?.storybookEnabled === 'true'
+
   const [loading, setLoading] = useState(false)
 
   const [fontsLoaded] = useFonts({
@@ -14,6 +18,12 @@ export default function App() {
 
   if (!fontsLoaded) {
     return null
+  }
+
+  // Carregar Storybook UI se habilitado
+  if (storybookEnabled) {
+    const StorybookUI = require('./.ondevice').default
+    return <StorybookUI />
   }
 
   const handlePress = () => {
