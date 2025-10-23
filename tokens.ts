@@ -1838,11 +1838,163 @@ export const tokens = {
     },
   },
 
+  /**
+   * TAG
+   * Componente de etiqueta/badge de status
+   * Variantes: hierarchy (solid/weak), color (7 cores), radius (rounded/pill), size (5 tamanhos)
+   */
+  tag: {
+    size: {
+      extraSmall: {
+        height: 16,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+        gap: 4,
+        iconSize: 12,
+        fontSize: ref(primitive.typography.fontSize.extraSmall),
+        lineHeight: ref(primitive.typography.lineHeight.tight.extraSmall),
+        fontWeight: ref(primitive.typography.fontWeight.semibold),
+        borderRadius: ref(semantic.radius.component.small),
+      },
+      small: {
+        height: 20,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        gap: 4,
+        iconSize: 12,
+        fontSize: ref(primitive.typography.fontSize.extraSmall),
+        lineHeight: ref(primitive.typography.lineHeight.tight.extraSmall),
+        fontWeight: ref(primitive.typography.fontWeight.semibold),
+        borderRadius: ref(semantic.radius.component.small),
+      },
+      medium: {
+        height: 24,
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        gap: 6,
+        iconSize: 16,
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.tight.small),
+        fontWeight: ref(primitive.typography.fontWeight.semibold),
+        borderRadius: ref(semantic.radius.component.small),
+      },
+      large: {
+        height: 28,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        gap: 6,
+        iconSize: 20,
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.close.medium),
+        fontWeight: ref(primitive.typography.fontWeight.semibold),
+        borderRadius: ref(semantic.radius.component.small),
+      },
+      extraLarge: {
+        height: 32,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        gap: 8,
+        iconSize: 24,
+        fontSize: ref(primitive.typography.fontSize.large),
+        lineHeight: ref(primitive.typography.lineHeight.close.large),
+        fontWeight: ref(primitive.typography.fontWeight.semibold),
+        borderRadius: ref(semantic.radius.component.small),
+      },
+    },
+    
+    radius: {
+      rounded: ref(semantic.radius.component.small), // 8px
+      pill: ref(semantic.radius.component.circular),  // 9999px
+    },
+    
+    hierarchy: {
+      solid: {
+        success: {
+          bg: ref(semantic.color.feedback.successBg),
+          text: ref(semantic.color.text.onBrand),
+          icon: ref(semantic.color.text.onBrand),
+        },
+        cold: {
+          bg: ref(primitive.color.coldBlue),
+          text: ref(semantic.color.text.onBrand),
+          icon: ref(semantic.color.text.onBrand),
+        },
+        warning: {
+          bg: ref(semantic.color.feedback.warningBg),
+          text: ref(semantic.color.text.primary),
+          icon: ref(semantic.color.text.primary),
+        },
+        danger: {
+          bg: ref(semantic.color.feedback.errorBg),
+          text: ref(semantic.color.text.onBrand),
+          icon: ref(semantic.color.text.onBrand),
+        },
+        primary: {
+          bg: ref(semantic.color.brand.primary),
+          text: ref(semantic.color.text.onBrand),
+          icon: ref(semantic.color.text.onBrand),
+        },
+        secondary: {
+          bg: ref(primitive.color.gray800),
+          text: ref(semantic.color.text.onBrand),
+          icon: ref(semantic.color.text.onBrand),
+        },
+        rewards: {
+          bg: ref(semantic.color.brand.secondary),
+          text: ref(semantic.color.text.primary),
+          icon: ref(semantic.color.text.primary),
+        },
+      },
+      weak: {
+        success: {
+          bg: ref(semantic.color.feedback.successLight),
+          text: ref(semantic.color.feedback.successStrong),
+          icon: ref(semantic.color.feedback.successStrong),
+        },
+        cold: {
+          bg: ref(primitive.color.coldBlueLight),
+          text: ref(primitive.color.coldBlue),
+          icon: ref(primitive.color.coldBlue),
+        },
+        warning: {
+          bg: ref(semantic.color.feedback.warningLight),
+          text: ref(semantic.color.feedback.warningStrong),
+          icon: ref(semantic.color.feedback.warningStrong),
+        },
+        danger: {
+          bg: ref(semantic.color.feedback.errorLight),
+          text: ref(semantic.color.feedback.errorStrong),
+          icon: ref(semantic.color.feedback.errorStrong),
+        },
+        primary: {
+          bg: ref(semantic.color.brand.primaryLight),
+          text: ref(semantic.color.brand.primary),
+          icon: ref(semantic.color.brand.primary),
+        },
+        secondary: {
+          bg: ref(primitive.color.gray200),
+          text: ref(primitive.color.gray800),
+          icon: ref(primitive.color.gray800),
+        },
+        rewards: {
+          bg: ref(semantic.color.brand.secondaryLight),
+          text: ref(semantic.color.brand.secondary),
+          icon: ref(semantic.color.brand.secondary),
+        },
+      },
+    },
+    
+    // Configurações de tipografia
+    fontFamily: ref(primitive.typography.fontFamily.body),
+    // Font variation settings do RobotoFlex (mantém consistência com outros componentes)
+    fontVariationSettings: "'GRAD' 0, 'XOPQ' 96, 'XTRA' 468, 'YOPQ' 79, 'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'wdth' 100",
+  },
+
   // 📝 TODO: Adicionar outros componentes seguindo o mesmo padrão
   // - linkAction
   // - dropdownButton
   // - toggle
-  // - tag / compoundTag
+  // - compoundTag
   // - text
   // - snackbar
   
