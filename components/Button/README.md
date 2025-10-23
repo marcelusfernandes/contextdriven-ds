@@ -2,6 +2,18 @@
 
 Componente Button do Design System Zé com suporte completo a 48 variantes conforme especificação do Figma.
 
+## 🎨 Figma Code Connect
+
+Este componente está conectado ao Figma via Code Connect! Os designers podem ver o código real diretamente no Figma Dev Mode.
+
+**Arquivo de conexão:** `Button.figma.tsx`  
+**Guia completo:** [`_context/support-docs/CODE_CONNECT_GUIA.md`](../../_context/support-docs/CODE_CONNECT_GUIA.md)
+
+**Para publicar alterações:**
+```bash
+yarn figma:publish:button
+```
+
 ## Características
 
 - ✅ 4 variantes visuais: Primary, Secondary, Tertiary, Destructive
