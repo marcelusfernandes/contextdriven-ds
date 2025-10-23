@@ -13,6 +13,9 @@
       "**/*.stories.tsx"
     ],
     "label": "React",
+    "documentUrlSubstitutions": {
+      "^.*/contextdriven-ds/(.*)": "https://github.com/marcelusfernandes/contextdriven-ds/blob/main/$1"
+    },
     "links": [
       {
         "name": "GitHub Repository",
@@ -21,6 +24,10 @@
       {
         "name": "Storybook Web",
         "url": "http://localhost:6138"
+      },
+      {
+        "name": "Component Code",
+        "url": "https://github.com/marcelusfernandes/contextdriven-ds/tree/main/components"
       }
     ]
   }
