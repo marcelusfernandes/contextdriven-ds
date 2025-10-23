@@ -1,0 +1,27 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "include": [
+      "components/**/*.figma.tsx",
+      "components/**/*.tsx",
+      "components/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      "**/*.stories.tsx"
+    ],
+    "label": "React",
+    "links": [
+      {
+        "name": "GitHub Repository",
+        "url": "https://github.com/marcelusfernandes/contextdriven-ds"
+      },
+      {
+        "name": "Storybook Web",
+        "url": "http://localhost:6138"
+      }
+    ]
+  }
+}
