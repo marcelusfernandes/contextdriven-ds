@@ -173,7 +173,6 @@ A AI pode criar documentação adicional **SOMENTE** quando:
 - ✅ **Documentação adicional/support:** `/_context/support-docs/`
 - ✅ **Regras de implementação:** `/.cursor/rules/`
 - ❌ **NÃO criar na raiz** (evitar poluir)
-- ❌ **NÃO criar em components/** (apenas README.md e QUICK_START.md)
 
 ### Formato de Documentação Adicional
 
