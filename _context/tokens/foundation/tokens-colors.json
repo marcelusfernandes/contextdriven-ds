@@ -1,0 +1,325 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation color tokens - Semantic colors that reference primitive color tokens. These tokens define the purpose and usage of colors in the design system.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 47,
+    "categories": [
+      "brand",
+      "rewards",
+      "highlight",
+      "background",
+      "border",
+      "content",
+      "feedback"
+    ]
+  },
+  "colors": {
+    "brand": {
+      "$description": "Brand colors for Zé Delivery main service. Yellow palette representing energy and optimism.",
+      "1": {
+        "$value": "{primitives.colors.yellow.100}",
+        "type": "color",
+        "token": "color-brand-1",
+        "usage": "Lightest brand accent, backgrounds"
+      },
+      "2": {
+        "$value": "{primitives.colors.yellow.300}",
+        "type": "color",
+        "token": "color-brand-2",
+        "usage": "Light brand accent"
+      },
+      "3": {
+        "$value": "{primitives.colors.yellow.500}",
+        "type": "color",
+        "token": "color-brand-3",
+        "usage": "Primary brand color - Main Zé Delivery yellow"
+      },
+      "4": {
+        "$value": "{primitives.colors.yellow.600}",
+        "type": "color",
+        "token": "color-brand-4",
+        "usage": "Darker brand accent, hover states"
+      },
+      "5": {
+        "$value": "{primitives.colors.yellow.700}",
+        "type": "color",
+        "token": "color-brand-5",
+        "usage": "Darkest brand accent, active states"
+      }
+    },
+    "rewards": {
+      "$description": "Rewards colors for Zé Compensa loyalty program. Purple palette representing exclusivity and premium value.",
+      "1": {
+        "$value": "{primitives.colors.purple.100}",
+        "type": "color",
+        "token": "color-rewards-1",
+        "usage": "Lightest rewards accent, backgrounds"
+      },
+      "2": {
+        "$value": "{primitives.colors.purple.300}",
+        "type": "color",
+        "token": "color-rewards-2",
+        "usage": "Light rewards accent"
+      },
+      "3": {
+        "$value": "{primitives.colors.purple.500}",
+        "type": "color",
+        "token": "color-rewards-3",
+        "usage": "Primary rewards color - Main Zé Compensa purple"
+      },
+      "4": {
+        "$value": "{primitives.colors.purple.600}",
+        "type": "color",
+        "token": "color-rewards-4",
+        "usage": "Darker rewards accent, hover states"
+      },
+      "5": {
+        "$value": "{primitives.colors.purple.700}",
+        "type": "color",
+        "token": "color-rewards-5",
+        "usage": "Darkest rewards accent, active states"
+      }
+    },
+    "highlight": {
+      "$description": "Complementary grayscale palette for highlighting important UI elements. Provides contrast and focus, adapts to both Zé Delivery and Zé Compensa themes.",
+      "1": {
+        "$value": "{primitives.colors.grayscale.100}",
+        "type": "color",
+        "token": "color-highlight-1",
+        "usage": "Subtle highlight, very light gray"
+      },
+      "2": {
+        "$value": "{primitives.colors.grayscale.300}",
+        "type": "color",
+        "token": "color-highlight-2",
+        "usage": "Light highlight"
+      },
+      "3": {
+        "$value": "{primitives.colors.grayscale.500}",
+        "type": "color",
+        "token": "color-highlight-3",
+        "usage": "Medium highlight, neutral gray"
+      },
+      "4": {
+        "$value": "{primitives.colors.grayscale.700}",
+        "type": "color",
+        "token": "color-highlight-4",
+        "usage": "Dark highlight"
+      },
+      "5": {
+        "$value": "{primitives.colors.grayscale.900}",
+        "type": "color",
+        "token": "color-highlight-5",
+        "usage": "Darkest highlight, almost black"
+      }
+    },
+    "background": {
+      "$description": "Background colors for interface surfaces. Essential for creating pleasant interfaces and ensuring component readability.",
+      "primary": {
+        "$value": "{primitives.colors.grayscale.white}",
+        "type": "color",
+        "token": "color-background-primary",
+        "usage": "Primary background - White, main content areas"
+      },
+      "secondary": {
+        "$value": "{primitives.colors.mist.100}",
+        "type": "color",
+        "token": "color-background-secondary",
+        "usage": "Secondary background - Light mist, secondary surfaces"
+      },
+      "disabled": {
+        "$value": "{primitives.colors.grayscale.200}",
+        "type": "color",
+        "token": "color-background-disabled",
+        "usage": "Disabled state background"
+      }
+    },
+    "border": {
+      "$description": "Border colors for defining edges and divisions. Help highlight, separate and define elements, improving content hierarchy and UX.",
+      "primary": {
+        "$value": "{primitives.colors.opacity.black.16}",
+        "type": "color",
+        "token": "color-border-primary",
+        "usage": "Primary border - Black with 16% opacity"
+      },
+      "secondary": {
+        "$value": "{primitives.colors.opacity.black.8}",
+        "type": "color",
+        "token": "color-border-secondary",
+        "usage": "Secondary border - Black with 8% opacity, subtle dividers"
+      },
+      "disabled": {
+        "$value": "{primitives.colors.opacity.black.8}",
+        "type": "color",
+        "token": "color-border-disabled",
+        "usage": "Disabled state border"
+      }
+    },
+    "content": {
+      "$description": "Content colors for text and icons. Essential for ensuring readability and accessibility, varying by state and content hierarchy level.",
+      "primary": {
+        "$value": "{primitives.colors.grayscale.900}",
+        "type": "color",
+        "token": "color-content-primary",
+        "usage": "Primary text/content - High emphasis, main text"
+      },
+      "secondary": {
+        "$value": "{primitives.colors.grayscale.500}",
+        "type": "color",
+        "token": "color-content-secondary",
+        "usage": "Secondary text/content - Medium emphasis, supporting text"
+      },
+      "tertiary": {
+        "$value": "{primitives.colors.grayscale.white}",
+        "type": "color",
+        "token": "color-content-tertiary",
+        "usage": "Tertiary content - Text on dark backgrounds"
+      },
+      "disabled": {
+        "$value": "{primitives.colors.grayscale.300}",
+        "type": "color",
+        "token": "color-content-disabled",
+        "usage": "Disabled state text/content"
+      }
+    },
+    "feedback": {
+      "$description": "Feedback colors communicate state and outcome of user interactions. Essential elements for clear communication.",
+      "success": {
+        "$description": "Success palette - Generally associated with successful and positive actions. Used to indicate successful operations, highlight positive information, and represent discounts.",
+        "1": {
+          "$value": "{primitives.colors.green.100}",
+          "type": "color",
+          "token": "color-feedback-success-1",
+          "usage": "Success background, lightest"
+        },
+        "2": {
+          "$value": "{primitives.colors.green.300}",
+          "type": "color",
+          "token": "color-feedback-success-2",
+          "usage": "Success accent, light"
+        },
+        "3": {
+          "$value": "{primitives.colors.green.500}",
+          "type": "color",
+          "token": "color-feedback-success-3",
+          "usage": "Primary success color"
+        },
+        "4": {
+          "$value": "{primitives.colors.green.600}",
+          "type": "color",
+          "token": "color-feedback-success-4",
+          "usage": "Success hover state"
+        },
+        "5": {
+          "$value": "{primitives.colors.green.700}",
+          "type": "color",
+          "token": "color-feedback-success-5",
+          "usage": "Success active state, darkest"
+        }
+      },
+      "info": {
+        "$description": "Info palette - Used to provide general information to users. Helps highlight important or additional information that may not be critical but still useful.",
+        "1": {
+          "$value": "{primitives.colors.cyan.100}",
+          "type": "color",
+          "token": "color-feedback-info-1",
+          "usage": "Info background, lightest"
+        },
+        "2": {
+          "$value": "{primitives.colors.cyan.300}",
+          "type": "color",
+          "token": "color-feedback-info-2",
+          "usage": "Info accent, light"
+        },
+        "3": {
+          "$value": "{primitives.colors.cyan.500}",
+          "type": "color",
+          "token": "color-feedback-info-3",
+          "usage": "Primary info color"
+        },
+        "4": {
+          "$value": "{primitives.colors.cyan.600}",
+          "type": "color",
+          "token": "color-feedback-info-4",
+          "usage": "Info hover state"
+        },
+        "5": {
+          "$value": "{primitives.colors.cyan.700}",
+          "type": "color",
+          "token": "color-feedback-info-5",
+          "usage": "Info active state, darkest"
+        }
+      },
+      "alert": {
+        "$description": "Alert palette - Used to indicate situations that may require attention. Serves to alert users about something that may need review or action.",
+        "1": {
+          "$value": "{primitives.colors.orange.100}",
+          "type": "color",
+          "token": "color-feedback-alert-1",
+          "usage": "Alert background, lightest"
+        },
+        "2": {
+          "$value": "{primitives.colors.orange.300}",
+          "type": "color",
+          "token": "color-feedback-alert-2",
+          "usage": "Alert accent, light"
+        },
+        "3": {
+          "$value": "{primitives.colors.orange.500}",
+          "type": "color",
+          "token": "color-feedback-alert-3",
+          "usage": "Primary alert color"
+        },
+        "4": {
+          "$value": "{primitives.colors.orange.600}",
+          "type": "color",
+          "token": "color-feedback-alert-4",
+          "usage": "Alert hover state"
+        },
+        "5": {
+          "$value": "{primitives.colors.orange.700}",
+          "type": "color",
+          "token": "color-feedback-alert-5",
+          "usage": "Alert active state, darkest"
+        }
+      },
+      "error": {
+        "$description": "Error palette - Used to highlight errors, failures or critical situations that need to be corrected.",
+        "1": {
+          "$value": "{primitives.colors.red.100}",
+          "type": "color",
+          "token": "color-feedback-error-1",
+          "usage": "Error background, lightest"
+        },
+        "2": {
+          "$value": "{primitives.colors.red.300}",
+          "type": "color",
+          "token": "color-feedback-error-2",
+          "usage": "Error accent, light"
+        },
+        "3": {
+          "$value": "{primitives.colors.red.500}",
+          "type": "color",
+          "token": "color-feedback-error-3",
+          "usage": "Primary error color"
+        },
+        "4": {
+          "$value": "{primitives.colors.red.600}",
+          "type": "color",
+          "token": "color-feedback-error-4",
+          "usage": "Error hover state"
+        },
+        "5": {
+          "$value": "{primitives.colors.red.700}",
+          "type": "color",
+          "token": "color-feedback-error-5",
+          "usage": "Error active state, darkest"
+        }
+      }
+    }
+  }
+}

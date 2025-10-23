@@ -1,0 +1,92 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation padding tokens - Semantic padding values for internal spacing within components. References primitive dimension tokens.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 13,
+    "usage": "Use for padding inside buttons, cards, containers, and components (internal spacing)"
+  },
+  "padding": {
+    "0": {
+      "$value": "0",
+      "type": "dimension",
+      "token": "padding-0",
+      "usage": "No padding - content at edges"
+    },
+    "1": {
+      "$value": "1",
+      "type": "dimension",
+      "token": "padding-1",
+      "usage": "1px - minimal padding"
+    },
+    "2": {
+      "$value": "2",
+      "type": "dimension",
+      "token": "padding-2",
+      "usage": "2px - tiny padding"
+    },
+    "4": {
+      "$value": "{primitives.dimension.4}",
+      "type": "dimension",
+      "token": "padding-4",
+      "usage": "4px - tight internal spacing"
+    },
+    "8": {
+      "$value": "{primitives.dimension.8}",
+      "type": "dimension",
+      "token": "padding-8",
+      "usage": "8px - compact padding"
+    },
+    "12": {
+      "$value": "{primitives.dimension.12}",
+      "type": "dimension",
+      "token": "padding-12",
+      "usage": "12px - small buttons/chips"
+    },
+    "16": {
+      "$value": "{primitives.dimension.16}",
+      "type": "dimension",
+      "token": "padding-16",
+      "usage": "16px - standard buttons and inputs"
+    },
+    "20": {
+      "$value": "{primitives.dimension.20}",
+      "type": "dimension",
+      "token": "padding-20",
+      "usage": "20px - comfortable components"
+    },
+    "24": {
+      "$value": "{primitives.dimension.24}",
+      "type": "dimension",
+      "token": "padding-24",
+      "usage": "24px - cards and containers"
+    },
+    "28": {
+      "$value": "{primitives.dimension.28}",
+      "type": "dimension",
+      "token": "padding-28",
+      "usage": "28px - spacious cards"
+    },
+    "44": {
+      "$value": "{primitives.dimension.44}",
+      "type": "dimension",
+      "token": "padding-44",
+      "usage": "44px - prominent containers"
+    },
+    "72": {
+      "$value": "{primitives.dimension.72}",
+      "type": "dimension",
+      "token": "padding-72",
+      "usage": "72px - page sections"
+    },
+    "116": {
+      "$value": "116",
+      "type": "dimension",
+      "token": "padding-116",
+      "usage": "116px - hero sections and major page padding"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation border width tokens - Semantic border width values that reference primitive border width tokens. Maintains consistency of border thickness across the interface.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 5
+  },
+  "borderWidth": {
+    "0": {
+      "$value": "{primitives.borderWidth.0}",
+      "type": "number",
+      "token": "border-width-0",
+      "usage": "No border - borderless elements, ghost buttons"
+    },
+    "1": {
+      "$value": "{primitives.borderWidth.1}",
+      "type": "number",
+      "token": "border-width-1",
+      "usage": "Hairline border - subtle separation, dividers, input fields"
+    },
+    "2": {
+      "$value": "{primitives.borderWidth.2}",
+      "type": "number",
+      "token": "border-width-2",
+      "usage": "Standard border - buttons, cards, modals, default elements"
+    },
+    "3": {
+      "$value": "{primitives.borderWidth.3}",
+      "type": "number",
+      "token": "border-width-3",
+      "usage": "Medium border - emphasized buttons, focus states, selected items"
+    },
+    "4": {
+      "$value": "{primitives.borderWidth.4}",
+      "type": "number",
+      "token": "border-width-4",
+      "usage": "Thick border - strong emphasis, active states, error states"
+    }
+  }
+}
+

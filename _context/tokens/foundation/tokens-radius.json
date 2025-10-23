@@ -1,0 +1,62 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation border radius tokens - Semantic border radius values that reference primitive radius tokens. Maintains consistency of rounded corners across the interface.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 8
+  },
+  "radius": {
+    "0": {
+      "$value": "{primitives.radius.0}",
+      "type": "number",
+      "token": "border-radius-0",
+      "usage": "No rounding - sharp corners for strict, formal elements"
+    },
+    "4": {
+      "$value": "{primitives.radius.4}",
+      "type": "number",
+      "token": "border-radius-4",
+      "usage": "Subtle rounding - minimal softness for small elements"
+    },
+    "8": {
+      "$value": "{primitives.radius.8}",
+      "type": "number",
+      "token": "border-radius-8",
+      "usage": "Small rounding - badges, tags, small buttons"
+    },
+    "12": {
+      "$value": "{primitives.radius.12}",
+      "type": "number",
+      "token": "border-radius-12",
+      "usage": "Medium rounding - buttons, inputs, small cards"
+    },
+    "16": {
+      "$value": "{primitives.radius.16}",
+      "type": "number",
+      "token": "border-radius-16",
+      "usage": "Base rounding - standard cards, modals, panels"
+    },
+    "20": {
+      "$value": "{primitives.radius.20}",
+      "type": "number",
+      "token": "border-radius-20",
+      "usage": "Large rounding - prominent cards, containers"
+    },
+    "24": {
+      "$value": "{primitives.radius.24}",
+      "type": "number",
+      "token": "border-radius-24",
+      "usage": "Extra large rounding - hero sections, large containers"
+    },
+    "circular": {
+      "$value": "{primitives.radius.circular}",
+      "type": "number",
+      "token": "border-radius-circular",
+      "usage": "Circular shape - avatars, icon buttons, badges, pills"
+    }
+  }
+}
+

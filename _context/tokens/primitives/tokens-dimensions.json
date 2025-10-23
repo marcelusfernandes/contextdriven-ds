@@ -1,0 +1,159 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Primitive dimension tokens - Base dimension values that serve as the foundation for spacing (margin, gap) and padding. All values are in pixels and follow a 4px grid system.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Primitives",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 28,
+    "system": "4px grid (with special values: 0, 1, 2, 116)",
+    "range": {
+      "min": 0,
+      "max": 116
+    },
+    "usage": "These dimension values are referenced by Foundation tokens for semantic spacing and padding"
+  },
+  "dimension": {
+    "0": {
+      "value": 0,
+      "type": "dimension",
+      "description": "0px - No dimension"
+    },
+    "1": {
+      "value": 1,
+      "type": "dimension",
+      "description": "1px - Hairline dimension"
+    },
+    "2": {
+      "value": 2,
+      "type": "dimension",
+      "description": "2px - Minimal dimension"
+    },
+    "4": {
+      "value": 4,
+      "type": "dimension",
+      "description": "4px - Extra tight dimension"
+    },
+    "8": {
+      "value": 8,
+      "type": "dimension",
+      "description": "8px - Tight dimension"
+    },
+    "12": {
+      "value": 12,
+      "type": "dimension",
+      "description": "12px - Compact dimension"
+    },
+    "16": {
+      "value": 16,
+      "type": "dimension",
+      "description": "16px - Base dimension unit"
+    },
+    "20": {
+      "value": 20,
+      "type": "dimension",
+      "description": "20px - Medium dimension"
+    },
+    "24": {
+      "value": 24,
+      "type": "dimension",
+      "description": "24px - Comfortable dimension"
+    },
+    "28": {
+      "value": 28,
+      "type": "dimension",
+      "description": "28px - Relaxed dimension"
+    },
+    "32": {
+      "value": 32,
+      "type": "dimension",
+      "description": "32px - Large dimension"
+    },
+    "36": {
+      "value": 36,
+      "type": "dimension",
+      "description": "36px - Extra large dimension"
+    },
+    "40": {
+      "value": 40,
+      "type": "dimension",
+      "description": "40px - Extra large dimension"
+    },
+    "44": {
+      "value": 44,
+      "type": "dimension",
+      "description": "44px - Extra extra large dimension"
+    },
+    "48": {
+      "value": 48,
+      "type": "dimension",
+      "description": "48px - Huge dimension"
+    },
+    "52": {
+      "value": 52,
+      "type": "dimension",
+      "description": "52px - Very large dimension"
+    },
+    "56": {
+      "value": 56,
+      "type": "dimension",
+      "description": "56px - Very large dimension"
+    },
+    "60": {
+      "value": 60,
+      "type": "dimension",
+      "description": "60px - Massive dimension"
+    },
+    "64": {
+      "value": 64,
+      "type": "dimension",
+      "description": "64px - Massive dimension"
+    },
+    "68": {
+      "value": 68,
+      "type": "dimension",
+      "description": "68px - Extra massive dimension"
+    },
+    "72": {
+      "value": 72,
+      "type": "dimension",
+      "description": "72px - Extra massive dimension"
+    },
+    "76": {
+      "value": 76,
+      "type": "dimension",
+      "description": "76px - Giant dimension"
+    },
+    "80": {
+      "value": 80,
+      "type": "dimension",
+      "description": "80px - Giant dimension"
+    },
+    "84": {
+      "value": 84,
+      "type": "dimension",
+      "description": "84px - Enormous dimension"
+    },
+    "88": {
+      "value": 88,
+      "type": "dimension",
+      "description": "88px - Enormous dimension"
+    },
+    "92": {
+      "value": 92,
+      "type": "dimension",
+      "description": "92px - Maximum dimension"
+    },
+    "96": {
+      "value": 96,
+      "type": "dimension",
+      "description": "96px - Maximum dimension"
+    },
+    "116": {
+      "value": 116,
+      "type": "dimension",
+      "description": "116px - Huge dimension for page-level spacing"
+    }
+  }
+}
+

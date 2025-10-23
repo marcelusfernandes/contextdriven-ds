@@ -1,0 +1,58 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Primitive border radius tokens - Base border radius values used for rounded corners throughout the design system.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Primitives",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 8,
+    "range": {
+      "min": 0,
+      "max": 1000,
+      "note": "1000px is used for circular shapes"
+    }
+  },
+  "radius": {
+    "0": {
+      "value": 0,
+      "type": "number",
+      "description": "0px - No border radius, sharp corners"
+    },
+    "4": {
+      "value": 4,
+      "type": "number",
+      "description": "4px - Subtle rounding"
+    },
+    "8": {
+      "value": 8,
+      "type": "number",
+      "description": "8px - Small rounding"
+    },
+    "12": {
+      "value": 12,
+      "type": "number",
+      "description": "12px - Medium rounding"
+    },
+    "16": {
+      "value": 16,
+      "type": "number",
+      "description": "16px - Base rounding"
+    },
+    "20": {
+      "value": 20,
+      "type": "number",
+      "description": "20px - Large rounding"
+    },
+    "24": {
+      "value": 24,
+      "type": "number",
+      "description": "24px - Extra large rounding"
+    },
+    "circular": {
+      "value": 1000,
+      "type": "number",
+      "description": "1000px - Circular shape (fully rounded)"
+    }
+  }
+}
+

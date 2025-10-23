@@ -1,0 +1,405 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation typography tokens - Semantic text styles that compose primitive typography tokens into complete type scales. Defines how typography should be used throughout the design system.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "extractedAt": "2025-10-22",
+    "totalStyles": 20,
+    "categories": [
+      "display",
+      "title",
+      "subtitle",
+      "body",
+      "label",
+      "caption"
+    ]
+  },
+  "typography": {
+    "display": {
+      "$description": "Display styles - Largest text styles for headers and important announcements",
+      "display1": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.28}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.700}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.36}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Display/Display 1",
+        "usage": "Largest display text, hero sections"
+      },
+      "display2": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.24}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.700}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.32}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Display/Display 2",
+        "usage": "Large display text"
+      },
+      "display2Strikethrough": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.24}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.32}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "textDecoration": "line-through",
+        "token": "Display/Display 2 Strikethrough",
+        "usage": "Large display text with strikethrough (e.g., old prices)"
+      },
+      "display3": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.16}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.700}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.24}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Display/Display 3",
+        "usage": "Small display text"
+      }
+    },
+    "title": {
+      "$description": "Title styles - For section headers and important titles",
+      "title1": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.20}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.700}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.28}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Title/Title 1",
+        "usage": "Primary section titles"
+      }
+    },
+    "subtitle": {
+      "$description": "Subtitle styles - For secondary headers and subheadings",
+      "subtitle1": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.16}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.500}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.24}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Subtitle/Subtitle 1",
+        "usage": "Large subtitles, secondary headings"
+      },
+      "subtitle2": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.500}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.20}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Subtitle/Subtitle 2",
+        "usage": "Smaller subtitles"
+      }
+    },
+    "body": {
+      "$description": "Body styles - For main content text",
+      "body1": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.16}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.24}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Body/Body 1",
+        "usage": "Primary body text, paragraphs"
+      },
+      "body1Strong": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.16}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.24}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Body/Body 1 Strong",
+        "usage": "Emphasized body text"
+      },
+      "body1StrongUnderline": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.16}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.24}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "textDecoration": "underline",
+        "token": "Body/Body 1 Strong Underline",
+        "usage": "Emphasized body text with underline (e.g., links)"
+      },
+      "body2": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.20}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Body/Body 2",
+        "usage": "Secondary body text, smaller paragraphs"
+      },
+      "body2Strong": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.20}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Body/Body 2 Strong",
+        "usage": "Emphasized secondary body text"
+      },
+      "body2StrongUnderline": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.20}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "textDecoration": "underline",
+        "token": "Body/Body 2 Strong Underline",
+        "usage": "Emphasized secondary body text with underline"
+      }
+    },
+    "label": {
+      "$description": "Label styles - For form labels, buttons, and UI elements",
+      "label": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Label/Label",
+        "usage": "Standard labels, form fields"
+      },
+      "labelStrong": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Label/Label Strong",
+        "usage": "Emphasized labels, button text"
+      },
+      "labelStrongUnderline": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.14}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.600}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "textDecoration": "underline",
+        "token": "Label/Label Strong Underline",
+        "usage": "Emphasized labels with underline"
+      }
+    },
+    "caption": {
+      "$description": "Caption styles - For helper text, metadata, and small annotations",
+      "caption": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.12}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Caption/Caption",
+        "usage": "Helper text, footnotes, timestamps"
+      },
+      "captionStrong": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.12}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.700}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "token": "Caption/Caption Strong",
+        "usage": "Emphasized caption text"
+      },
+      "captionStrikethrough": {
+        "fontFamily": {
+          "$value": "{primitives.typography.fontFamily.main}"
+        },
+        "fontSize": {
+          "$value": "{primitives.typography.fontSize.12}"
+        },
+        "fontWeight": {
+          "$value": "{primitives.typography.fontWeight.400}"
+        },
+        "lineHeight": {
+          "$value": "{primitives.typography.lineHeight.16}"
+        },
+        "letterSpacing": {
+          "$value": "{primitives.typography.letterSpacing.0}"
+        },
+        "textDecoration": "line-through",
+        "token": "Caption/Caption Strikethrough",
+        "usage": "Caption with strikethrough (e.g., old prices, discounts)"
+      }
+    }
+  }
+}

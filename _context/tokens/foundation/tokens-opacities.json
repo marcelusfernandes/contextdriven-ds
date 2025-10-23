@@ -1,0 +1,130 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Foundation opacity tokens - Semantic opacity values that reference primitive color opacity tokens. Used for overlays, backgrounds, and visual hierarchy across different contexts.",
+  "metadata": {
+    "source": "Figma - Zé Delivery Foundations - Opacity",
+    "figmaFileUrl": "https://www.figma.com/design/tW7TAIJa6IN6bpUH62t5CD/",
+    "figmaNodeId": "573-751",
+    "extractedAt": "2025-10-22",
+    "totalTokens": 40,
+    "categories": [
+      "tokens",
+      "brand",
+      "rewards",
+      "highlight",
+      "background",
+      "feedback"
+    ]
+  },
+  "opacity": {
+    "tokens": {
+      "4": { "$value": "{primitives.colors.opacity.black.4}", "type": "color", "token": "opacity-4", "usage": "Tokens gerais - 4% opacity" },
+      "8": { "$value": "{primitives.colors.opacity.black.8}", "type": "color", "token": "opacity-8", "usage": "Tokens gerais - 8% opacity" },
+      "12": { "$value": "{primitives.colors.opacity.black.12}", "type": "color", "token": "opacity-12", "usage": "Tokens gerais - 12% opacity" },
+      "16": { "$value": "{primitives.colors.opacity.black.16}", "type": "color", "token": "opacity-16", "usage": "Tokens gerais - 16% opacity" },
+      "24": { "$value": "{primitives.colors.opacity.black.24}", "type": "color", "token": "opacity-24", "usage": "Tokens gerais - 24% opacity" },
+      "32": { "$value": "{primitives.colors.opacity.black.32}", "type": "color", "token": "opacity-32", "usage": "Tokens gerais - 32% opacity" },
+      "40": { "$value": "{primitives.colors.opacity.black.40}", "type": "color", "token": "opacity-40", "usage": "Tokens gerais - 40% opacity" },
+      "48": { "$value": "{primitives.colors.opacity.black.48}", "type": "color", "token": "opacity-48", "usage": "Tokens gerais - 48% opacity" },
+      "60": { "$value": "{primitives.colors.opacity.black.60}", "type": "color", "token": "opacity-60", "usage": "Tokens gerais - 60% opacity" },
+      "72": { "$value": "{primitives.colors.opacity.black.72}", "type": "color", "token": "opacity-72", "usage": "Tokens gerais - 72% opacity" },
+      "84": { "$value": "{primitives.colors.opacity.black.84}", "type": "color", "token": "opacity-84", "usage": "Tokens gerais - 84% opacity" },
+      "96": { "$value": "{primitives.colors.opacity.black.96}", "type": "color", "token": "opacity-96", "usage": "Tokens gerais - 96% opacity" }
+    },
+    "brand": {
+      "enabled": {
+        "8": { "$value": "{primitives.colors.opacity.yellow.8}", "type": "color", "token": "opacity-brand-enabled-8", "usage": "Brand opacity - enabled state 8%" }
+      },
+      "hovered": {
+        "16": { "$value": "{primitives.colors.opacity.yellow.16}", "type": "color", "token": "opacity-brand-hovered-16", "usage": "Brand opacity - hovered state 16%" }
+      },
+      "pressed": {
+        "24": { "$value": "{primitives.colors.opacity.yellow.24}", "type": "color", "token": "opacity-brand-pressed-24", "usage": "Brand opacity - pressed state 24%" }
+      }
+    },
+    "rewards": {
+      "enabled": {
+        "8": { "$value": "{primitives.colors.opacity.purple.8}", "type": "color", "token": "opacity-rewards-enabled-8", "usage": "Rewards opacity - enabled state 8%" }
+      },
+      "hovered": {
+        "16": { "$value": "{primitives.colors.opacity.purple.16}", "type": "color", "token": "opacity-rewards-hovered-16", "usage": "Rewards opacity - hovered state 16%" }
+      },
+      "pressed": {
+        "24": { "$value": "{primitives.colors.opacity.purple.24}", "type": "color", "token": "opacity-rewards-pressed-24", "usage": "Rewards opacity - pressed state 24%" }
+      }
+    },
+    "highlight": {
+      "enabled": {
+        "4": { "$value": "{primitives.colors.opacity.grayscale.500.4}", "type": "color", "token": "opacity-highlight-enabled-4", "usage": "Highlight opacity - enabled state 4%" }
+      },
+      "hovered": {
+        "8": { "$value": "{primitives.colors.opacity.grayscale.500.8}", "type": "color", "token": "opacity-highlight-hovered-8", "usage": "Highlight opacity - hovered state 8%" }
+      },
+      "pressed": {
+        "12": { "$value": "{primitives.colors.opacity.grayscale.500.12}", "type": "color", "token": "opacity-highlight-pressed-12", "usage": "Highlight opacity - pressed state 12%" }
+      }
+    },
+    "background": {
+      "enabled": {
+        "16": { "$value": "{primitives.colors.opacity.grayscale.500.16}", "type": "color", "token": "opacity-background-enabled-16", "usage": "Background opacity - enabled state 16%" }
+      },
+      "hovered": {
+        "24": { "$value": "{primitives.colors.opacity.grayscale.500.24}", "type": "color", "token": "opacity-background-hovered-24", "usage": "Background opacity - hovered state 24%" }
+      },
+      "pressed": {
+        "32": { "$value": "{primitives.colors.opacity.grayscale.500.32}", "type": "color", "token": "opacity-background-pressed-32", "usage": "Background opacity - pressed state 32%" }
+      },
+      "overlay": {
+        "60": { "$value": "{primitives.colors.opacity.black.60}", "type": "color", "token": "opacity-background-overlay-60", "usage": "Background overlay - 60% opacity for modal backdrops" }
+      }
+    },
+    "feedback": {
+      "success": {
+        "enabled": {
+          "8": { "$value": "{primitives.colors.opacity.green.8}", "type": "color", "token": "opacity-feedback-success-enabled-8", "usage": "Success feedback - enabled state 8%" }
+        },
+        "hovered": {
+          "16": { "$value": "{primitives.colors.opacity.green.16}", "type": "color", "token": "opacity-feedback-success-hovered-16", "usage": "Success feedback - hovered state 16%" }
+        },
+        "pressed": {
+          "24": { "$value": "{primitives.colors.opacity.green.24}", "type": "color", "token": "opacity-feedback-success-pressed-24", "usage": "Success feedback - pressed state 24%" }
+        }
+      },
+      "info": {
+        "enabled": {
+          "8": { "$value": "{primitives.colors.opacity.cyan.8}", "type": "color", "token": "opacity-feedback-info-enabled-8", "usage": "Info feedback - enabled state 8%" }
+        },
+        "hovered": {
+          "16": { "$value": "{primitives.colors.opacity.cyan.16}", "type": "color", "token": "opacity-feedback-info-hovered-16", "usage": "Info feedback - hovered state 16%" }
+        },
+        "pressed": {
+          "24": { "$value": "{primitives.colors.opacity.cyan.24}", "type": "color", "token": "opacity-feedback-info-pressed-24", "usage": "Info feedback - pressed state 24%" }
+        }
+      },
+      "alert": {
+        "enabled": {
+          "8": { "$value": "{primitives.colors.opacity.orange.8}", "type": "color", "token": "opacity-feedback-alert-enabled-8", "usage": "Alert feedback - enabled state 8%" }
+        },
+        "hovered": {
+          "16": { "$value": "{primitives.colors.opacity.orange.16}", "type": "color", "token": "opacity-feedback-alert-hovered-16", "usage": "Alert feedback - hovered state 16%" }
+        },
+        "pressed": {
+          "24": { "$value": "{primitives.colors.opacity.orange.24}", "type": "color", "token": "opacity-feedback-alert-pressed-24", "usage": "Alert feedback - pressed state 24%" }
+        }
+      },
+      "error": {
+        "enabled": {
+          "8": { "$value": "{primitives.colors.opacity.red.8}", "type": "color", "token": "opacity-feedback-error-enabled-8", "usage": "Error feedback - enabled state 8%" }
+        },
+        "hovered": {
+          "16": { "$value": "{primitives.colors.opacity.red.16}", "type": "color", "token": "opacity-feedback-error-hovered-16", "usage": "Error feedback - hovered state 16%" }
+        },
+        "pressed": {
+          "24": { "$value": "{primitives.colors.opacity.red.24}", "type": "color", "token": "opacity-feedback-error-pressed-24", "usage": "Error feedback - pressed state 24%" }
+        }
+      }
+    }
+  }
+}
+

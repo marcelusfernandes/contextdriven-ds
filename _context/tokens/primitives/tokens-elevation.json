@@ -1,0 +1,208 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "version": "1.0.0",
+  "description": "Design tokens for elevation levels used to create visual hierarchy and depth in the UI. Values range from -8 (deepest/background) to 8 (highest/foreground).",
+  "elevation": {
+    "-8": {
+      "value": "-8",
+      "type": "number",
+      "description": "Deepest level - Used for backgrounds or elements that should appear behind everything"
+    },
+    "-7": {
+      "value": "-7",
+      "type": "number",
+      "description": "Very deep level"
+    },
+    "-6": {
+      "value": "-6",
+      "type": "number",
+      "description": "Deep level"
+    },
+    "-5": {
+      "value": "-5",
+      "type": "number",
+      "description": "Below surface level"
+    },
+    "-4": {
+      "value": "-4",
+      "type": "number",
+      "description": "Below surface level"
+    },
+    "-3": {
+      "value": "-3",
+      "type": "number",
+      "description": "Below surface level"
+    },
+    "-2": {
+      "value": "-2",
+      "type": "number",
+      "description": "Below surface level"
+    },
+    "-1": {
+      "value": "-1",
+      "type": "number",
+      "description": "Just below surface"
+    },
+    "none": {
+      "value": "0",
+      "type": "number",
+      "description": "Base/Surface level - Default elevation for most content"
+    },
+    "1": {
+      "value": "1",
+      "type": "number",
+      "description": "Slight elevation - Cards, panels"
+    },
+    "2": {
+      "value": "2",
+      "type": "number",
+      "description": "Low elevation - Raised cards, buttons"
+    },
+    "3": {
+      "value": "3",
+      "type": "number",
+      "description": "Medium elevation - Floating action buttons, dropdowns"
+    },
+    "4": {
+      "value": "4",
+      "type": "number",
+      "description": "High elevation - App bars, navigation drawers"
+    },
+    "5": {
+      "value": "5",
+      "type": "number",
+      "description": "Higher elevation - Bottom sheets, menus"
+    },
+    "6": {
+      "value": "6",
+      "type": "number",
+      "description": "Very high elevation - Modal dialogs"
+    },
+    "7": {
+      "value": "7",
+      "type": "number",
+      "description": "Extreme elevation - Tooltips, snackbars"
+    },
+    "8": {
+      "value": "8",
+      "type": "number",
+      "description": "Highest level - Used for elements that must appear above everything (notifications, alerts)"
+    }
+  },
+  "elevationShadows": {
+    "none": {
+      "value": "none",
+      "type": "shadow",
+      "description": "No shadow"
+    },
+    "1": {
+      "value": "0px 1px 2px rgba(0, 0, 0, 0.12)",
+      "type": "shadow",
+      "description": "Subtle shadow for elevation 1"
+    },
+    "2": {
+      "value": "0px 2px 4px rgba(0, 0, 0, 0.16)",
+      "type": "shadow",
+      "description": "Light shadow for elevation 2"
+    },
+    "3": {
+      "value": "0px 4px 8px rgba(0, 0, 0, 0.16)",
+      "type": "shadow",
+      "description": "Medium shadow for elevation 3"
+    },
+    "4": {
+      "value": "0px 6px 12px rgba(0, 0, 0, 0.16)",
+      "type": "shadow",
+      "description": "Strong shadow for elevation 4"
+    },
+    "5": {
+      "value": "0px 8px 16px rgba(0, 0, 0, 0.16)",
+      "type": "shadow",
+      "description": "Stronger shadow for elevation 5"
+    },
+    "6": {
+      "value": "0px 12px 24px rgba(0, 0, 0, 0.20)",
+      "type": "shadow",
+      "description": "Very strong shadow for elevation 6"
+    },
+    "7": {
+      "value": "0px 16px 32px rgba(0, 0, 0, 0.20)",
+      "type": "shadow",
+      "description": "Extreme shadow for elevation 7"
+    },
+    "8": {
+      "value": "0px 24px 48px rgba(0, 0, 0, 0.24)",
+      "type": "shadow",
+      "description": "Maximum shadow for elevation 8"
+    }
+  },
+  "zIndex": {
+    "background": {
+      "value": "-1",
+      "type": "number",
+      "description": "Background elements (elevation -1 to -8)"
+    },
+    "base": {
+      "value": "0",
+      "type": "number",
+      "description": "Base content level"
+    },
+    "raised": {
+      "value": "1",
+      "type": "number",
+      "description": "Raised elements like cards"
+    },
+    "dropdown": {
+      "value": "1000",
+      "type": "number",
+      "description": "Dropdowns and menus"
+    },
+    "sticky": {
+      "value": "1020",
+      "type": "number",
+      "description": "Sticky headers and navigation"
+    },
+    "fixed": {
+      "value": "1030",
+      "type": "number",
+      "description": "Fixed positioned elements"
+    },
+    "modalBackdrop": {
+      "value": "1040",
+      "type": "number",
+      "description": "Modal backdrop/overlay"
+    },
+    "modal": {
+      "value": "1050",
+      "type": "number",
+      "description": "Modal dialogs"
+    },
+    "popover": {
+      "value": "1060",
+      "type": "number",
+     "description": "Popovers and tooltips"
+    },
+    "toast": {
+      "value": "1070",
+      "type": "number",
+      "description": "Toast notifications and snackbars"
+    }
+  },
+  "usageGuidelines": {
+    "negative": "Use negative elevation values (-8 to -1) for elements that should appear behind the main content, such as background patterns, decorative elements, or layered backgrounds.",
+    "zero": "Use elevation 0 (none) for the base surface level where most content sits.",
+    "positive": "Use positive elevation values (1 to 8) to lift elements above the surface, creating hierarchy. Higher numbers indicate elements that are more important or interactive.",
+    "consistency": "Maintain consistent elevation usage across similar components. For example, all cards should use the same elevation level.",
+    "interaction": "Consider increasing elevation on hover or focus states to provide visual feedback.",
+    "accessibility": "Don't rely solely on elevation/shadows for critical information - ensure sufficient color contrast as well."
+  },
+  "metadata": {
+    "source": "Figma - Zé Delivery Primitives - Elevation Variables",
+    "figmaFileUrl": "https://www.figma.com/design/gX0iN6b6iCise7aUc2KJFe/",
+    "extractedAt": "2025-10-21",
+    "totalLevels": 17,
+    "range": "-8 to 8",
+    "description": "Elevation tokens extracted from Figma. These values are used to control z-index, layer ordering, and shadow depth to create visual hierarchy and depth perception in the interface."
+  }
+}
+
