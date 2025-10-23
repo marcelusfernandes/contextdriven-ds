@@ -19,7 +19,6 @@ figma.connect(
   Button,
   'https://www.figma.com/design/tmTpuPqySUPu53Eqc16A76/branch/v5ngRFj2kaDlGD7wQDHvvK/Z%C3%A9-Delivery---App-Components?node-id=3840-18250&component-browser=1&component-key=466be9204474cb987366d50653126e0ca09a6448&component-browser-scope=page_or_selection&m=dev',
   {
-    source: 'https://github.com/marcelusfernandes/contextdriven-ds/blob/main/components/Button/Button.tsx',
     props: {
       /**
        * Mapeia a propriedade "Hierarchy" do Figma para a prop "variant" do código

@@ -13,8 +13,12 @@
       "**/*.stories.tsx"
     ],
     "label": "React",
+    "git": {
+      "url": "https://github.com/marcelusfernandes/contextdriven-ds",
+      "branch": "main"
+    },
     "documentUrlSubstitutions": {
-      "^.*/contextdriven-ds/(.*)": "https://github.com/marcelusfernandes/contextdriven-ds/blob/main/$1"
+      "^.*/contextdriven-ds/(.*)$": "https://github.com/marcelusfernandes/contextdriven-ds/blob/main/$1"
     },
     "links": [
       {
