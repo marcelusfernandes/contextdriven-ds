@@ -20,7 +20,8 @@ Este arquivo serve como índice rápido das regras aplicáveis ao Design System.
 | **011-ds-component-structure.mdc** ⭐ | Como estruturar componentes React | Implementar componente |
 | **012-ds-tamagui-patterns.mdc** ⭐ | Padrões de uso do Tamagui | Usar Tamagui styled() |
 | **013-ds-storybook.mdc** ⭐ | Como criar stories no Storybook | Criar stories |
-| **014-ds-tokens.mdc** ⭐ | Como trabalhar com design tokens | Usar/adicionar tokens |
+| **015-ds-tokens-architecture.mdc** ⭐⭐ | **Arquitetura de 3 camadas de tokens** | **LEIA ANTES de trabalhar com tokens** |
+| **014-ds-tokens.mdc** ⭐ | Uso prático de design tokens | Usar tokens em componentes |
 
 ### 🔤 TypeScript Core (Base)
 
@@ -38,16 +39,18 @@ Este arquivo serve como índice rápido das regras aplicáveis ao Design System.
 
 1. **main.mdc** - Entenda o workflow completo
 2. **010-ds-architecture.mdc** - Estrutura de diretórios
-3. **014-ds-tokens.mdc** - Adicionar tokens
-4. **011-ds-component-structure.mdc** - Implementar componente
-5. **012-ds-tamagui-patterns.mdc** - Usar Tamagui
-6. **013-ds-storybook.mdc** - Criar stories
+3. **015-ds-tokens-architecture.mdc** - **Arquitetura de tokens (LEIA PRIMEIRO!)**
+4. **014-ds-tokens.mdc** - Adicionar tokens ao component
+5. **011-ds-component-structure.mdc** - Implementar componente
+6. **012-ds-tamagui-patterns.mdc** - Usar Tamagui
+7. **013-ds-storybook.mdc** - Criar stories
 
 ### Trabalhar com Tokens
 
-1. **014-ds-tokens.mdc** - Como usar tokens
-2. **012-ds-tamagui-patterns.mdc** - Aplicar no Tamagui
-3. **main.mdc** - Reutilização de tokens
+1. **015-ds-tokens-architecture.mdc** - **Arquitetura de 3 camadas (LEIA PRIMEIRO!)**
+2. **014-ds-tokens.mdc** - Uso prático em componentes
+3. **012-ds-tamagui-patterns.mdc** - Aplicar no Tamagui
+4. **main.mdc** - Checklist e reutilização
 
 ### Criar Stories
 
@@ -105,7 +108,10 @@ _context/
 ## 💡 Dicas Rápidas
 
 - **Sempre comece com main.mdc** - Ele tem o overview completo
+- **Arquitetura de tokens é obrigatória** - Ver 015-ds-tokens-architecture.mdc **PRIMEIRO**
 - **Use tokens, nunca hardcode** - Ver 014-ds-tokens.mdc
+- **Respeite as 3 camadas** - Primitive → Semantic → Component
+- **NÃO exponha primitivos** - Apenas semantic e component no export
 - **Reutilize tokens quando possível** - Ver main.mdc
 - **Todas as variantes nas stories** - Ver 013-ds-storybook.mdc
 - **ARIA completo** - Ver 011-ds-component-structure.mdc
@@ -115,6 +121,7 @@ _context/
 
 ## 🔄 Última Atualização
 
-**Data:** 22/10/2025  
-**Versão:** 1.1
+**Data:** 23/10/2025  
+**Versão:** 1.2  
+**Mudanças:** Adicionada regra 015-ds-tokens-architecture.mdc (arquitetura de 3 camadas)
 

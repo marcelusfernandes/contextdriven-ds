@@ -1,0 +1,838 @@
+---
+description: Design System Tokens Architecture - 3-Layer Token System for maintainable and scalable design tokens
+alwaysApply: true
+---
+# Design System Tokens - Arquitetura de 3 Camadas
+
+Este documento define a arquitetura obrigatória para o sistema de tokens do Design System.
+
+## 🎯 Visão Geral
+
+**Arquitetura:** 3 Camadas (Primitive → Semantic → Component)
+
+```
+PRIMITIVE (valores raw)
+    ↓ referenciado por
+SEMANTIC (intenção e contexto)
+    ↓ referenciado por
+COMPONENT (aplicação específica)
+    ↓
+TAMAGUI (consumo final)
+```
+
+**Benefícios:**
+- ✅ **Fonte única de verdade** (zero duplicação)
+- ✅ **Manutenção centralizada** (mudar em 1 lugar)
+- ✅ **Rastreabilidade clara** (sempre sabe a origem)
+- ✅ **Flexibilidade de temas** (light/dark modes)
+- ✅ **Type-safe** (TypeScript valida tudo)
+
+---
+
+## 📐 CAMADA 1: PRIMITIVE TOKENS
+
+### O que são
+
+**Valores brutos (raw)** - a fonte única de verdade. Definidos UMA ÚNICA VEZ.
+
+### Características
+
+- ✅ Valores literais (hex, pixels, strings)
+- ✅ Nomes descritivos (zeYellow, gray800, successGreen)
+- ✅ Definidos uma única vez
+- ✅ Nunca modificados
+- ❌ **NUNCA usar diretamente em componentes**
+- ❌ **NUNCA expor no export público**
+
+### Estrutura
+
+```typescript
+const primitive = {
+  /**
+   * CORES PRIMITIVAS
+   */
+  color: {
+    // Brand - Amarelo Zé
+    zeYellow: '#ffcc00',
+    zeYellowDark: '#cca300',
+    zeYellowLight: '#ffe680',
+    
+    // Neutral Colors
+    black: '#000000',
+    white: '#ffffff',
+    
+    // Gray Scale
+    gray900: '#1c1c1f',
+    gray800: '#333333',
+    gray700: '#19191b',
+    gray500: '#888888',
+    gray300: '#bbbbbb',
+    gray200: '#eeeeee',
+    gray100: '#f7f7f7',
+    
+    // Error - Red
+    red: '#e91935',
+    redDark: '#bc1229',
+    redLight: '#f48c9a',
+    redLightest: '#fde8eb',
+    
+    // Success - Green
+    successGreen: '#2c855f',
+    successGreenDark: '#1f5d42',
+    successGreenLight: '#e6f7f0',
+    
+    // Transparency - Black Alpha
+    transparent: '#00000000',
+    blackAlpha10: '#0000001a',
+    blackAlpha20: '#00000033',
+    blackAlpha50: '#00000080',
+    blackAlpha80: '#000000cc',
+  },
+  
+  /**
+   * ESPAÇAMENTOS PRIMITIVOS
+   */
+  space: {
+    0: 0,
+    2: 2,
+    4: 4,
+    8: 8,
+    12: 12,
+    16: 16,
+    20: 20,
+    24: 24,
+    32: 32,
+    40: 40,
+    48: 48,
+    64: 64,
+  },
+  
+  /**
+   * TAMANHOS PRIMITIVOS
+   */
+  size: {
+    0: 0,
+    4: 4,
+    8: 8,
+    12: 12,
+    16: 16,
+    20: 20,
+    24: 24,
+    28: 28,
+    32: 32,
+    40: 40,
+    44: 44,
+    48: 48,
+    64: 64,
+  },
+  
+  /**
+   * BORDER RADIUS PRIMITIVOS
+   */
+  radius: {
+    0: 0,
+    4: 4,
+    8: 8,
+    12: 12,
+    16: 16,
+    20: 20,
+    24: 24,
+    round: 1000,
+  },
+  
+  /**
+   * TIPOGRAFIA PRIMITIVA
+   */
+  typography: {
+    fontFamily: {
+      display: 'Gelada RC3, Roboto Flex, Roboto, system-ui, -apple-system, sans-serif',
+      main: 'Roboto Flex, Roboto, system-ui, -apple-system, sans-serif',
+      body: 'Roboto Flex, Roboto, system-ui, -apple-system, sans-serif',
+    },
+    fontSize: {
+      extraSmall: 12,
+      small: 14,
+      medium: 16,
+      large: 20,
+      extraLarge: 24,
+    },
+    fontWeight: {
+      regular: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      black: 900,
+    },
+    lineHeight: {
+      tight: 16,
+      regular: 20,
+      comfortable: 24,
+    },
+  },
+} as const
+```
+
+### Regras de Nomenclatura
+
+```typescript
+// ✅ DO - Nomes descritivos que indicam o valor
+zeYellow          // Nome da marca + cor
+gray800           // Família + peso/escala
+successGreen      // Propósito + cor
+blackAlpha50      // Cor + tipo + opacidade
+
+// ❌ DON'T - Nomes genéricos ou semânticos
+primary           // Isso é semantic!
+buttonColor       // Isso é component!
+mainBackground    // Isso é semantic!
+```
+
+---
+
+## 🎨 CAMADA 2: SEMANTIC TOKENS
+
+### O que são
+
+**Tokens semânticos** - definem INTENÇÃO e CONTEXTO de uso.
+
+### Características
+
+- ✅ Nomes por propósito (brand.primary, text.secondary, surface.primary)
+- ✅ Referencia APENAS primitive tokens
+- ✅ Usa helper `ref()` para rastreabilidade
+- ✅ Facilita mudanças de tema
+- ❌ **NUNCA valores hardcoded**
+- ❌ **NUNCA referencia component tokens**
+
+### Estrutura
+
+```typescript
+const semantic = {
+  /**
+   * CORES SEMÂNTICAS - Por Intenção de Uso
+   */
+  color: {
+    // Brand Identity
+    brand: {
+      primary: ref(primitive.color.zeYellow),
+      primaryHover: ref(primitive.color.zeYellowDark),
+      primaryActive: ref(primitive.color.zeYellowLight),
+      primaryDisabled: ref(primitive.color.gray200),
+      
+      secondary: ref(primitive.color.zeCompensaPurple),
+      secondaryLight: ref(primitive.color.zeCompensaPurpleLight),
+    },
+    
+    // Feedback/Status Colors
+    feedback: {
+      // Error
+      error: ref(primitive.color.red),
+      errorStrong: ref(primitive.color.redDark),
+      errorSoft: ref(primitive.color.redLight),
+      errorBg: ref(primitive.color.redLightest),
+      
+      // Success
+      success: ref(primitive.color.successGreen),
+      successStrong: ref(primitive.color.successGreenDark),
+      successBg: ref(primitive.color.successGreenLight),
+    },
+    
+    // Text Hierarchy
+    text: {
+      primary: ref(primitive.color.gray800),
+      secondary: ref(primitive.color.gray500),
+      tertiary: ref(primitive.color.gray400),
+      disabled: ref(primitive.color.gray500),
+      inverse: ref(primitive.color.white),
+      onBrand: ref(primitive.color.black),
+    },
+    
+    // Surface/Background
+    surface: {
+      primary: ref(primitive.color.white),
+      secondary: ref(primitive.color.gray100),
+      tertiary: ref(primitive.color.gray200),
+      overlay: ref(primitive.color.blackAlpha50),
+      overlayStrong: ref(primitive.color.blackAlpha80),
+      transparent: ref(primitive.color.transparent),
+    },
+    
+    // Border
+    border: {
+      default: ref(primitive.color.gray300),
+      strong: ref(primitive.color.gray500),
+      subtle: ref(primitive.color.gray200),
+    },
+    
+    // Interactive States (genéricos)
+    interactive: {
+      default: ref(primitive.color.gray800),
+      hover: ref(primitive.color.gray700),
+      active: ref(primitive.color.gray400),
+      disabled: ref(primitive.color.gray500),
+      
+      // Backgrounds para interactive
+      bgHover: ref(primitive.color.gray100),
+      bgActive: ref(primitive.color.gray200),
+      
+      // Alphas para overlays
+      alphaHover: ref(primitive.color.gray800Alpha20),
+      alphaActive: ref(primitive.color.gray800Alpha20),
+    },
+  },
+  
+  /**
+   * ESPAÇAMENTOS SEMÂNTICOS
+   */
+  spacing: {
+    // Component spacing
+    component: {
+      gapSmall: ref(primitive.space[8]),
+      gapMedium: ref(primitive.space[12]),
+      gapLarge: ref(primitive.space[16]),
+      
+      paddingSmall: ref(primitive.space[8]),
+      paddingMedium: ref(primitive.space[12]),
+      paddingLarge: ref(primitive.space[16]),
+    },
+    
+    // Layout spacing
+    layout: {
+      sectionGap: ref(primitive.space[24]),
+      containerPadding: ref(primitive.space[16]),
+    },
+  },
+  
+  /**
+   * TAMANHOS SEMÂNTICOS
+   */
+  sizing: {
+    // Interactive elements (acessibilidade - WCAG)
+    interactive: {
+      minHeight: ref(primitive.size[44]),
+      minWidth: ref(primitive.size[44]),
+    },
+    
+    // Icon sizes
+    icon: {
+      small: ref(primitive.size[20]),
+      medium: ref(primitive.size[24]),
+      large: ref(primitive.size[28]),
+    },
+  },
+  
+  /**
+   * BORDER RADIUS SEMÂNTICOS
+   */
+  radius: {
+    component: {
+      small: ref(primitive.radius[8]),
+      smallMedium: ref(primitive.radius[12]),
+      medium: ref(primitive.radius[16]),
+      large: ref(primitive.radius[20]),
+      circular: ref(primitive.radius.round),
+    },
+  },
+} as const
+```
+
+### Regras de Nomenclatura
+
+```typescript
+// ✅ DO - Nomes por intenção/contexto
+semantic.color.brand.primary        // Identidade da marca
+semantic.color.text.secondary       // Hierarquia de texto
+semantic.color.feedback.error       // Status/feedback
+semantic.color.surface.overlay      // Tipo de superfície
+semantic.spacing.component.gap      // Propósito do espaçamento
+
+// ❌ DON'T - Nomes baseados em valores
+semantic.color.yellow500            // Isso é primitive!
+semantic.color.big                  // Vago, sem contexto
+semantic.spacing.pixels16           // Baseado em implementação
+```
+
+---
+
+## 🧩 CAMADA 3: COMPONENT TOKENS
+
+### O que são
+
+**Tokens de componentes** - aplicação específica por componente.
+
+### Características
+
+- ✅ Organizado por: component → property → variant → state
+- ✅ Referencia APENAS semantic tokens
+- ✅ Usa helper `ref()` para rastreabilidade
+- ✅ Define como cada componente usa os tokens
+- ❌ **NUNCA referencia primitive diretamente**
+- ❌ **NUNCA valores hardcoded**
+
+### Estrutura
+
+```typescript
+export const tokens = {
+  /**
+   * ⚠️ NÃO EXPOR PRIMITIVOS!
+   */
+  // ❌ color: primitive.color,  // NUNCA FAZER ISSO!
+  // ❌ space: primitive.space,
+  
+  /**
+   * ✅ Expor semantic para casos avançados
+   */
+  semantic: semantic,
+  
+  /**
+   * BUTTON
+   */
+  button: {
+    size: {
+      small: {
+        height: 36,
+        paddingVertical: ref(semantic.spacing.component.paddingSmall),
+        paddingHorizontal: ref(semantic.spacing.component.paddingLarge),
+        borderRadius: ref(semantic.radius.component.smallMedium),
+        fontSize: ref(primitive.typography.fontSize.small),
+        lineHeight: ref(primitive.typography.lineHeight.regular),
+        iconSize: ref(semantic.sizing.icon.small),
+        gap: ref(semantic.spacing.component.gapSmall),
+        minWidth: ref(semantic.sizing.interactive.minWidth),
+      },
+      medium: {
+        height: 48,
+        paddingVertical: ref(semantic.spacing.component.paddingMedium),
+        paddingHorizontal: ref(semantic.spacing.component.paddingLarge),
+        borderRadius: ref(semantic.radius.component.medium),
+        fontSize: ref(primitive.typography.fontSize.medium),
+        lineHeight: ref(primitive.typography.lineHeight.comfortable),
+        iconSize: ref(semantic.sizing.icon.medium),
+        gap: ref(semantic.spacing.component.gapSmall),
+        minWidth: ref(semantic.sizing.interactive.minWidth),
+      },
+    },
+    
+    variant: {
+      primary: {
+        normal: {
+          bg: ref(semantic.color.brand.primary),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primary),
+          borderWidth: 0,
+          iconColor: ref(semantic.color.text.onBrand),
+        },
+        hover: {
+          bg: ref(semantic.color.brand.primaryHover),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primaryHover),
+          borderWidth: 0,
+          iconColor: ref(semantic.color.text.onBrand),
+        },
+        focus: {
+          bg: ref(semantic.color.brand.primaryHover),
+          color: ref(semantic.color.text.onBrand),
+          borderColor: ref(semantic.color.brand.primaryHover),
+          borderWidth: 2,
+          iconColor: ref(semantic.color.text.onBrand),
+        },
+        disabled: {
+          bg: ref(semantic.color.brand.primaryDisabled),
+          color: ref(semantic.color.text.disabled),
+          borderColor: ref(semantic.color.brand.primaryDisabled),
+          borderWidth: 0,
+          iconColor: ref(semantic.color.text.disabled),
+        },
+      },
+      
+      secondary: {
+        normal: {
+          bg: ref(semantic.color.surface.transparent),
+          color: ref(semantic.color.text.primary),
+          borderColor: ref(semantic.color.border.default),
+          borderWidth: 1,
+          iconColor: ref(semantic.color.text.primary),
+        },
+        // ... outros estados
+      },
+    },
+  },
+  
+  /**
+   * ICON
+   */
+  icon: {
+    size: {
+      small: ref(semantic.sizing.icon.small),
+      medium: ref(semantic.sizing.icon.medium),
+      large: ref(semantic.sizing.icon.large),
+    },
+    color: {
+      normal: ref(semantic.color.text.primary),
+    },
+  },
+  
+  /**
+   * CHECKBOX
+   */
+  checkbox: {
+    size: {
+      small: {
+        iconPlateSize: ref(semantic.sizing.icon.small),
+        iconPlateBorderRadius: ref(semantic.radius.component.small),
+        gap: ref(semantic.spacing.component.gapSmall),
+      },
+      medium: {
+        iconPlateSize: ref(semantic.sizing.icon.medium),
+        iconPlateBorderRadius: ref(semantic.radius.component.smallMedium),
+        gap: ref(semantic.spacing.component.gapSmall),
+      },
+    },
+    
+    state: {
+      normal: {
+        enabled: {
+          iconPlateIconColor: ref(semantic.color.text.primary),
+          textColor: ref(semantic.color.text.primary),
+          bgColor: ref(semantic.color.surface.transparent),
+        },
+        hover: {
+          iconPlateIconColor: ref(semantic.color.text.primary),
+          textColor: ref(semantic.color.text.primary),
+          bgColor: ref(semantic.color.interactive.bgHover),
+        },
+        // ... outros estados
+      },
+      error: {
+        // ... estados de erro
+      },
+    },
+  },
+  
+  // ... outros componentes
+} as const
+```
+
+### Regras de Nomenclatura
+
+```typescript
+// ✅ DO - Hierarquia clara: component → property → variant → state
+tokens.button.size.small.height
+tokens.button.variant.primary.normal.bg
+tokens.checkbox.state.error.hover.textColor
+
+// ❌ DON'T - Estrutura flat ou inconsistente
+tokens.buttonSmallHeight           // Sem hierarquia
+tokens.primaryButtonBg             // Ordem errada
+tokens.button.normalPrimaryBg      // Hierarquia invertida
+```
+
+---
+
+## 🔧 HELPER FUNCTION: `ref()`
+
+### Definição
+
+```typescript
+/**
+ * Helper que resolve referências mantendo rastreabilidade
+ * Tamagui recebe o valor final, mas o código mantém a referência clara
+ */
+const ref = <T>(value: T): T => value
+```
+
+### Propósito
+
+1. **Rastreabilidade Visual:**
+   ```typescript
+   bg: ref(semantic.color.brand.primary)  // ✅ Clara origem do valor
+   ```
+
+2. **Zero Overhead:**
+   ```typescript
+   // É identity function - compilador inline ela
+   ref('#ffcc00')  // → '#ffcc00' (nenhum custo runtime)
+   ```
+
+3. **Documentação Inline:**
+   ```typescript
+   // Desenvolvedor vê: ref(semantic.color.brand.primary)
+   // Tamagui recebe: '#ffcc00'
+   // Melhor de ambos os mundos!
+   ```
+
+### Uso Obrigatório
+
+```typescript
+// ✅ DO - Sempre usar ref()
+bg: ref(semantic.color.brand.primary),
+padding: ref(semantic.spacing.component.paddingMedium),
+borderRadius: ref(semantic.radius.component.medium),
+
+// ❌ DON'T - Valores diretos
+bg: semantic.color.brand.primary,        // Perde rastreabilidade
+padding: 12,                              // Hardcode!
+borderRadius: primitive.radius[16],      // Quebrando camada!
+```
+
+---
+
+## 📤 EXPORT E CONSUMO
+
+### O que Exportar
+
+```typescript
+// tokens.ts
+
+// ✅ Export principal (component layer)
+export const tokens = {
+  semantic: semantic,  // ✅ Para casos avançados
+  
+  button: {...},       // ✅ Component tokens
+  icon: {...},
+  checkbox: {...},
+  // ...
+} as const
+
+// ✅ Export de tipos
+export type Tokens = typeof tokens
+export type PrimitiveTokens = typeof primitive
+export type SemanticTokens = typeof semantic
+
+// ⚠️ Export de primitivos (APENAS para casos avançados)
+export { primitive }  // Não incluir no export padrão!
+
+// ✅ Export de semantic
+export { semantic }
+
+// ✅ Export do helper
+export { ref }
+```
+
+### Como Consumir
+
+#### Em Componentes
+
+```typescript
+import { tokens } from '@/tokens'
+
+// ✅ DO - Usar tokens de componentes
+export const Button = styled(Stack, {
+  backgroundColor: tokens.button.variant.primary.normal.bg,
+  padding: tokens.button.size.medium.paddingHorizontal,
+})
+
+// ⚠️ CAREFUL - Usar semantic (casos específicos)
+export const CustomComponent = styled(Stack, {
+  backgroundColor: tokens.semantic.color.brand.primary,
+})
+
+// ❌ DON'T - Tentar usar primitivos (não estão expostos!)
+// backgroundColor: tokens.color.zeYellow,  // ❌ ERRO! Não existe!
+```
+
+#### Em tamagui.config.ts
+
+```typescript
+import { tokens } from './tokens'
+import { createTamagui, createTokens } from '@tamagui/core'
+
+// Mapear tokens do DS para formato do Tamagui
+const tamaguiTokens = createTokens({
+  // ✅ Usar semantic, não primitivos
+  color: {
+    primary: tokens.semantic.color.brand.primary,
+    secondary: tokens.semantic.color.brand.secondary,
+    background: tokens.semantic.color.surface.primary,
+    // ...
+  },
+  space: {
+    // Criar escala a partir de semantic
+    1: tokens.semantic.spacing.component.gapSmall,
+    2: tokens.semantic.spacing.component.gapMedium,
+    3: tokens.semantic.spacing.component.gapLarge,
+    // ...
+  },
+})
+
+export default createTamagui({
+  tokens: tamaguiTokens,
+  themes: {
+    light: {
+      background: tokens.semantic.color.surface.primary,
+      text: tokens.semantic.color.text.primary,
+      // ...
+    },
+    dark: {
+      background: tokens.semantic.color.surface.tertiary,
+      text: tokens.semantic.color.text.inverse,
+      // ...
+    },
+  },
+})
+```
+
+---
+
+## ✅ ENFORCEMENT (Code Review Checklist)
+
+### Camada Primitive
+
+- [ ] Valores são literais (hex, números, strings)
+- [ ] Nomes descritivos (zeYellow, gray800)
+- [ ] Definidos uma única vez
+- [ ] `as const` no final
+- [ ] ❌ NUNCA exposto no export principal
+
+### Camada Semantic
+
+- [ ] Referencia APENAS primitive
+- [ ] Usa `ref()` em todas as referências
+- [ ] Nomes semânticos (brand, text, feedback)
+- [ ] Organizado por propósito/contexto
+- [ ] ❌ Zero valores hardcoded
+- [ ] ❌ Não referencia component tokens
+
+### Camada Component
+
+- [ ] Referencia APENAS semantic (nunca primitive)
+- [ ] Usa `ref()` em todas as referências
+- [ ] Organizado: component → property → variant → state
+- [ ] Expõe semantic para casos avançados
+- [ ] ❌ Primitivos NÃO estão expostos
+- [ ] ❌ Zero valores hardcoded
+
+### Geral
+
+- [ ] `ref()` usado em todas as referências
+- [ ] Zero duplicação de valores
+- [ ] TypeScript types exportados
+- [ ] Documentação inline clara
+- [ ] Sem erros de tipo
+
+---
+
+## 🚫 ANTI-PATTERNS (O que NÃO fazer)
+
+### ❌ Expor Primitivos no Export
+
+```typescript
+// ❌ NUNCA fazer isso!
+export const tokens = {
+  color: primitive.color,  // ❌ EXPÕE PRIMITIVOS!
+  space: primitive.space,
+  
+  button: {...},
+}
+
+// ✅ CORRETO
+export const tokens = {
+  semantic: semantic,      // ✅ Semantic para casos avançados
+  
+  button: {...},           // ✅ Component tokens
+}
+```
+
+### ❌ Component Referencia Primitive Direto
+
+```typescript
+// ❌ NUNCA fazer isso!
+button: {
+  size: {
+    small: {
+      fontSize: ref(primitive.typography.fontSize.small),  // ❌ Pula semantic!
+    }
+  }
+}
+
+// ✅ CORRETO
+button: {
+  size: {
+    small: {
+      fontSize: ref(semantic.typography.body.small.fontSize),  // ✅ Usa semantic!
+    }
+  }
+}
+```
+
+### ❌ Valores Hardcoded
+
+```typescript
+// ❌ NUNCA fazer isso!
+button: {
+  variant: {
+    primary: {
+      normal: {
+        bg: '#ffcc00',  // ❌ Hardcode!
+        padding: 12,    // ❌ Magic number!
+      }
+    }
+  }
+}
+
+// ✅ CORRETO
+button: {
+  variant: {
+    primary: {
+      normal: {
+        bg: ref(semantic.color.brand.primary),
+        padding: ref(semantic.spacing.component.paddingMedium),
+      }
+    }
+  }
+}
+```
+
+### ❌ Não Usar `ref()`
+
+```typescript
+// ❌ Perde rastreabilidade
+bg: semantic.color.brand.primary,
+
+// ✅ CORRETO - Clara origem
+bg: ref(semantic.color.brand.primary),
+```
+
+### ❌ Mixing de Camadas
+
+```typescript
+// ❌ Inconsistente
+button: {
+  size: {
+    small: {
+      fontSize: ref(primitive.typography.fontSize.small),  // ❌ Primitive
+      padding: ref(semantic.spacing.component.paddingSmall),  // ✅ Semantic
+    }
+  }
+}
+
+// ✅ CORRETO - Sempre semantic
+button: {
+  size: {
+    small: {
+      fontSize: ref(semantic.typography.body.small.fontSize),  // ✅ Semantic
+      padding: ref(semantic.spacing.component.paddingSmall),  // ✅ Semantic
+    }
+  }
+}
+```
+
+---
+
+## 🎓 Exemplo Completo
+
+Ver `tokens.ts` para implementação de referência completa seguindo esta arquitetura.
+
+---
+
+## 📚 Referências
+
+- `014-ds-tokens.mdc` → Uso prático de tokens em componentes
+- `012-ds-tamagui-patterns.mdc` → Integração com Tamagui
+- `tokens.ts` → Implementação de referência
+
+---
+
+**Última atualização:** 23/10/2025  
+**Versão:** 1.0  
+**Autor:** Design System Team - Zé Delivery

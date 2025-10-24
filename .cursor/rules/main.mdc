@@ -26,7 +26,8 @@ Para **especificações detalhadas**, consulte:
 - `011-ds-component-structure.mdc` → Como estruturar componentes
 - `012-ds-tamagui-patterns.mdc` → Como usar Tamagui
 - `013-ds-storybook.mdc` → Como criar stories
-- `014-ds-tokens.mdc` → Como trabalhar com tokens
+- `015-ds-tokens-architecture.mdc` → **Arquitetura de 3 camadas de tokens** ⭐
+- `014-ds-tokens.mdc` → Uso prático de tokens em componentes
 
 ## 🎯 Filosofia Central
 
@@ -74,10 +75,12 @@ Estamos construindo um **Design System completo** extraído do Figma, onde cada 
 #### 2. Adicionar Tokens
 
 - **Arquivo:** `/tokens.ts`
-- **Como fazer:** Ver estrutura detalhada em `014-ds-tokens.mdc`
+- **Como fazer:** Ver estrutura completa em `015-ds-tokens-architecture.mdc`
+- **Arquitetura:** 3 camadas obrigatórias (Primitive → Semantic → Component)
 - **Regra especial deste projeto:** SEMPRE verificar se pode reutilizar tokens existentes
   - Ex: RadioButton reutiliza 100% das cores do Checkbox
   - Ver seção "Princípios de Tokens" abaixo
+- **IMPORTANTE:** Sempre use `ref()` e respeite a hierarquia de camadas
 
 #### 3. Implementar Componente
 
@@ -185,23 +188,45 @@ Se criar em `_context/support-docs/`:
 
 ## 🎨 Princípios de Tokens
 
-**Ver detalhes em:** `014-ds-tokens.mdc`
+**Ver arquitetura completa em:** `015-ds-tokens-architecture.mdc`  
+**Ver uso prático em:** `014-ds-tokens.mdc`
+
+### Arquitetura de 3 Camadas (OBRIGATÓRIA)
+
+```
+PRIMITIVE (valores raw)
+    ↓ ref()
+SEMANTIC (intenção e contexto)
+    ↓ ref()
+COMPONENT (aplicação específica)
+```
 
 ### Regras Fundamentais
 
 1. **NUNCA hardcode valores** - Sempre use tokens
 2. **SEMPRE reutilize** - Antes de criar, verifique se já existe
-3. **Use ref() para rastreabilidade** - Mantém conexão com primitivos
+3. **Use ref() SEMPRE** - Mantém rastreabilidade entre camadas
+4. **Respeite a hierarquia** - Component → Semantic → Primitive
+5. **NÃO exponha primitivos** - Apenas semantic e component no export
 
 ### Checklist de Tokens
 
-Antes de adicionar novos tokens, pergunte:
+Antes de adicionar novos tokens:
+
+**Reutilização:**
 - [ ] Essas cores já existem em outro componente?
 - [ ] Esses tamanhos já existem em outro componente?
 - [ ] Esses estados já existem em outro componente?
-- [ ] Posso reutilizar tokens primitivos?
+- [ ] Posso reutilizar semantic tokens?
 
-**Exemplo:** RadioButton reutiliza 100% das cores do Checkbox por serem idênticas.
+**Arquitetura:**
+- [ ] Primitive tem valores raw?
+- [ ] Semantic referencia APENAS primitive com ref()?
+- [ ] Component referencia APENAS semantic com ref()?
+- [ ] Primitivos NÃO estão expostos no export?
+- [ ] Usei `as const` em todas as camadas?
+
+**Exemplo:** RadioButton reutiliza 100% das cores do Checkbox (semantic.color.*).
 
 ## 🎯 Checklist de Implementação
 
@@ -244,7 +269,8 @@ Use este guia para saber qual regra consultar em cada etapa:
 - **main.mdc** (este arquivo) → Overview do workflow
 
 ### Adicionando Tokens
-- **014-ds-tokens.mdc** → Como estruturar, nomear e usar tokens
+- **015-ds-tokens-architecture.mdc** → Arquitetura de 3 camadas (LEIA PRIMEIRO!)
+- **014-ds-tokens.mdc** → Uso prático de tokens em componentes
 
 ### Implementando Componente
 1. **010-ds-architecture.mdc** → Onde criar arquivos
